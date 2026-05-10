@@ -269,6 +269,95 @@
     .plan-grid { grid-template-columns:1fr 1fr; }
   }
 
+  /* Coach tab highlight */
+  .coach-tab-btn { background: linear-gradient(135deg,#1E3A5F,#2E86AB) !important;
+    color:#fff !important; font-weight:700 !important; }
+  .coach-tab-btn.active { background: linear-gradient(135deg,#2E86AB,#27AE60) !important; }
+
+  /* Profile grid */
+  .profile-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
+    gap:12px; margin-bottom:16px; }
+  .profile-field { display:flex; flex-direction:column; gap:5px; }
+  .profile-field label { font-size:.72rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:.5px; color:var(--muted); }
+  .profile-field input, .profile-field select {
+    padding:8px 10px; border:1.5px solid var(--border); border-radius:8px;
+    background:var(--input-bg); color:var(--text); font-size:.9rem; }
+
+  /* TDEE display */
+  .tdee-banner { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;
+    padding:14px; background:var(--bg); border-radius:10px; border:1.5px solid var(--border); }
+  .tdee-stat { flex:1; min-width:110px; text-align:center; }
+  .tdee-val { font-size:1.5rem; font-weight:800; color:var(--blue); }
+  .tdee-lbl { font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-top:2px; }
+  .tdee-macro { font-size:.8rem; font-weight:600; }
+  .goal-badge { display:inline-block; padding:3px 12px; border-radius:99px;
+    font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px;
+    background:var(--blue); color:#fff; margin-bottom:10px; }
+
+  /* Coaching insight cards */
+  .insight-card { display:flex; gap:14px; padding:14px 16px; border-radius:12px;
+    margin-bottom:10px; border-left:4px solid; }
+  .insight-card.success { background:#f0fdf4; border-color:#27AE60; }
+  .insight-card.warning { background:#fffbeb; border-color:#F39C12; }
+  .insight-card.alert   { background:#fef2f2; border-color:#E74C3C; }
+  .insight-card.info    { background:#eff6ff; border-color:#2E86AB; }
+  [data-theme="dark"] .insight-card.success { background:#0d2a1a; }
+  [data-theme="dark"] .insight-card.warning { background:#2a1f00; }
+  [data-theme="dark"] .insight-card.alert   { background:#2a0a0a; }
+  [data-theme="dark"] .insight-card.info    { background:#0a1a2a; }
+  .insight-icon { font-size:1.6rem; flex-shrink:0; }
+  .insight-title { font-weight:700; font-size:.9rem; margin-bottom:4px; }
+  .insight-msg   { font-size:.82rem; color:var(--muted); line-height:1.5; }
+  .insight-action { font-size:.8rem; margin-top:6px; font-weight:600;
+    color:var(--blue); font-style:italic; }
+
+  /* Fitness score ring */
+  .score-wrap { display:flex; align-items:center; gap:24px; flex-wrap:wrap; margin-bottom:16px; }
+  .score-ring { position:relative; width:110px; height:110px; flex-shrink:0; }
+  .score-ring svg { transform:rotate(-90deg); }
+  .score-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    text-align:center; }
+  .score-num { font-size:1.6rem; font-weight:900; }
+  .score-label { font-size:.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+  .score-stats { display:flex; flex-direction:column; gap:8px; }
+  .score-stat { display:flex; align-items:center; gap:8px; font-size:.82rem; }
+  .score-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  /* Weight log */
+  .weight-chart-wrap { height:160px; margin-top:12px; }
+  .weight-history { display:flex; flex-direction:column; gap:6px; margin-top:12px;
+    max-height:200px; overflow-y:auto; }
+  .weight-row { display:flex; justify-content:space-between; align-items:center;
+    padding:6px 10px; background:var(--bg); border-radius:7px; font-size:.82rem; }
+  .weight-val { font-weight:700; color:var(--blue); }
+
+  /* Plans library */
+  .plans-list { display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+  .plan-card { padding:14px 16px; border-radius:12px; border:2px solid var(--border);
+    background:var(--card); position:relative; cursor:default; transition:border-color .2s; }
+  .plan-card.active-plan { border-color:var(--green); background:linear-gradient(135deg,#f0fdf4,#fff); }
+  [data-theme="dark"] .plan-card.active-plan { background:linear-gradient(135deg,#0d2a1a,#1a1a2e); }
+  .plan-card-header { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .plan-card-name { font-weight:700; font-size:.95rem; }
+  .plan-card-month { font-size:.75rem; color:var(--muted); }
+  .plan-card-macros { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .plan-chip { font-size:.72rem; padding:2px 9px; border-radius:99px; font-weight:600;
+    background:var(--bg); color:var(--muted); border:1px solid var(--border); }
+  .active-badge { background:var(--green); color:#fff; font-size:.68rem; font-weight:700;
+    padding:2px 9px; border-radius:99px; }
+  .plan-actions { display:flex; gap:6px; margin-top:10px; }
+
+  /* Monthly review */
+  .review-stats { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+    gap:10px; margin-bottom:14px; }
+  .review-stat { text-align:center; padding:12px; background:var(--bg);
+    border-radius:10px; border:1px solid var(--border); }
+  .review-stat-val { font-size:1.3rem; font-weight:800; color:var(--blue); }
+  .review-stat-lbl { font-size:.7rem; color:var(--muted); margin-top:2px; }
+  .reason-item { padding:8px 12px; background:var(--bg); border-radius:8px;
+    font-size:.82rem; margin-bottom:6px; border-left:3px solid var(--blue); }
+
   /* Empty state */
   .empty { text-align: center; padding: 32px; color: var(--muted); }
   .empty-icon { font-size: 2.5rem; margin-bottom: 8px; }
@@ -584,9 +673,10 @@
     <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
     <button class="tab-btn" onclick="switchTab('tasks')">✅ Tasks</button>
     <button class="tab-btn" onclick="switchTab('habits')">💪 Habits</button>
-    <button class="tab-btn" onclick="switchTab('work')">⏱ Work Hours</button>
+    <button class="tab-btn" onclick="switchTab('work')">⏱ Work</button>
     <button class="tab-btn" onclick="switchTab('goals')">🎯 Goals</button>
     <button class="tab-btn" onclick="switchTab('diet')">🥗 Diet</button>
+    <button class="tab-btn coach-tab-btn" onclick="switchTab('coach')">🏋️ Coach</button>
     <button class="tab-btn" onclick="switchTab('journal')">📓 Journal</button>
     <button class="tab-btn" onclick="switchTab('weekly')">📅 Weekly</button>
     <button class="tab-btn" onclick="switchTab('monthly')">📆 Monthly</button>
@@ -765,6 +855,143 @@
     </div>
   </div>
 
+  <!-- COACH -->
+  <div class="tab-panel" id="panel-coach">
+
+    <!-- Body Profile -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="card-title" style="margin:0">👤 My Body Profile</div>
+        <span id="profileGoalBadge" class="goal-badge">—</span>
+      </div>
+      <div class="profile-grid">
+        <div class="profile-field"><label>Name</label>
+          <input id="profileName" type="text" placeholder="Your name"></div>
+        <div class="profile-field"><label>Age</label>
+          <input id="profileAge" type="number" min="10" max="100" placeholder="25"></div>
+        <div class="profile-field"><label>Gender</label>
+          <select id="profileGender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select></div>
+        <div class="profile-field"><label>Height (cm)</label>
+          <input id="profileHeight" type="number" min="100" max="250" placeholder="175"></div>
+        <div class="profile-field"><label>Current Weight (kg)</label>
+          <input id="profileWeight" type="number" min="30" max="300" step="0.1" placeholder="70"></div>
+        <div class="profile-field"><label>Activity Level</label>
+          <select id="profileActivity">
+            <option value="sedentary">🪑 Sedentary (desk job)</option>
+            <option value="light">🚶 Lightly Active (1–3×/wk)</option>
+            <option value="moderate" selected>🏃 Moderately Active (3–5×/wk)</option>
+            <option value="active">🏋️ Very Active (6–7×/wk)</option>
+            <option value="extra">⚡ Athlete / Physical Job</option>
+          </select></div>
+        <div class="profile-field"><label>Goal</label>
+          <select id="profileGoal" onchange="updateGoalBadge()">
+            <option value="lose_weight">🔥 Lose Weight</option>
+            <option value="maintain">⚖️ Maintain Weight</option>
+            <option value="gain_muscle">💪 Gain Muscle</option>
+            <option value="athletic">🏆 Athletic Performance</option>
+          </select></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="saveProfile()">💾 Save Profile</button>
+        <button class="btn" onclick="applyMacrosToActivePlan()"
+          style="background:var(--green);color:#fff">🎯 Auto-Set Macros from TDEE</button>
+      </div>
+      <div id="tdeeDisplay"></div>
+    </div>
+
+    <!-- Weight Log -->
+    <div class="card">
+      <div class="card-title">⚖️ Weight Log</div>
+      <div class="form-row" style="align-items:flex-end;gap:10px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:.75rem;font-weight:700;color:var(--muted)">Weight (kg)</label>
+          <input type="number" id="weightVal" step="0.1" min="20" max="300" placeholder="e.g. 72.5">
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:.75rem;font-weight:700;color:var(--muted)">Date</label>
+          <input type="date" id="weightDate">
+        </div>
+        <button class="btn btn-green" onclick="logWeight()">Log</button>
+      </div>
+      <div class="weight-chart-wrap"><canvas id="chartWeight"></canvas></div>
+      <div class="weight-history" id="weightHistory"></div>
+    </div>
+
+    <!-- Coaching Score + Insights -->
+    <div class="card">
+      <div class="card-title">🏋️ Coach's Playbook</div>
+      <div id="coachScore"></div>
+      <div id="coachInsights"></div>
+    </div>
+
+    <!-- Diet Plans Library -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="card-title" style="margin:0">📋 Diet Plans Library</div>
+        <button class="btn btn-primary" onclick="showNewPlanForm()"
+          style="font-size:.8rem;padding:5px 14px">+ New Plan</button>
+      </div>
+
+      <!-- New plan form (hidden by default) -->
+      <div id="newPlanForm" class="plan-editor" style="margin-bottom:14px">
+        <div class="plan-grid">
+          <div class="plan-field"><label>Plan Name</label>
+            <input id="npName" placeholder="e.g. June Cut Phase"></div>
+          <div class="plan-field"><label>Month</label>
+            <input id="npMonth" type="month"></div>
+          <div class="plan-field"><label>Goal</label>
+            <select id="npGoal">
+              <option value="lose_weight">🔥 Lose Weight</option>
+              <option value="maintain">⚖️ Maintain</option>
+              <option value="gain_muscle">💪 Gain Muscle</option>
+              <option value="athletic">🏆 Athletic</option>
+            </select></div>
+          <div class="plan-field"><label>Calories</label>
+            <input id="npCal" type="number" placeholder="2000"></div>
+          <div class="plan-field"><label>Protein (g)</label>
+            <input id="npProtein" type="number" placeholder="150"></div>
+          <div class="plan-field"><label>Carbs (g)</label>
+            <input id="npCarbs" type="number" placeholder="250"></div>
+          <div class="plan-field"><label>Fat (g)</label>
+            <input id="npFat" type="number" placeholder="65"></div>
+          <div class="plan-field"><label>Fiber (g)</label>
+            <input id="npFiber" type="number" placeholder="30"></div>
+          <div class="plan-field"><label>Sugar limit (g)</label>
+            <input id="npSugar" type="number" placeholder="50"></div>
+          <div class="plan-field"><label>Sodium limit (mg)</label>
+            <input id="npSodium" type="number" placeholder="2300"></div>
+          <div class="plan-field"><label>Notes</label>
+            <input id="npNotes" placeholder="Optional notes"></div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="createPlan()">💾 Save Plan</button>
+          <button class="btn" onclick="hidePlanForm()"
+            style="background:var(--bg);border:1.5px solid var(--border);color:var(--text)">Cancel</button>
+          <button class="btn" onclick="fillPlanFromTDEE()"
+            style="background:var(--teal);color:#fff">🎯 Fill from TDEE</button>
+        </div>
+      </div>
+
+      <div class="plans-list" id="plansList"></div>
+    </div>
+
+    <!-- Monthly Review & Plan Suggestion -->
+    <div class="card">
+      <div class="card-title">📈 Monthly Review & AI Plan Suggestion</div>
+      <p style="font-size:.84rem;color:var(--muted);margin-bottom:14px">
+        Based on your last 30 days of tracking, the coach analyses your adherence and weight trend
+        to suggest an optimised plan for next month.
+      </p>
+      <button class="btn btn-purple" onclick="loadMonthlyReview()"
+        style="margin-bottom:16px">🤖 Analyse & Suggest Next Month Plan</button>
+      <div id="monthlyReview"></div>
+    </div>
+
+  </div>
+
   <!-- JOURNAL -->
   <div class="tab-panel" id="panel-journal">
 
@@ -907,13 +1134,14 @@
     setTimeout(() => t.classList.remove('show'), dur);
   }
 
-  const TAB_NAMES = ['dashboard','tasks','habits','work','goals','diet','journal','weekly','monthly'];
+  const TAB_NAMES = ['dashboard','tasks','habits','work','goals','diet','coach','journal','weekly','monthly'];
   function switchTab(name) {
     document.querySelectorAll('.tab-btn').forEach((b,i) =>
       b.classList.toggle('active', TAB_NAMES[i] === name));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel-'+name).classList.add('active');
     if (name === 'dashboard') Object.values(charts).forEach(c => c && c.resize());
+    if (name === 'coach')    loadCoach();
     if (name === 'journal')  loadNotes();
     if (name === 'weekly')   loadWeek();
     if (name === 'monthly')  loadMonth();
@@ -1358,6 +1586,338 @@
     await fetch(`/api/diet/${id}?date=${currentDate}`,{method:'DELETE'});
     await loadDiet();
     toast('🗑️ Entry removed');
+  }
+
+  // ── Coach ─────────────────────────────────────────────────────────────
+  let coachProfile = {}, weightLog = [], dietPlans = [], weightChart = null;
+
+  async function loadCoach() {
+    [coachProfile, weightLog, dietPlans] = await Promise.all([
+      fetch('/api/profile').then(r=>r.json()),
+      fetch('/api/weight?days=60').then(r=>r.json()),
+      fetch('/api/diet/plans').then(r=>r.json()),
+    ]);
+    populateProfileForm();
+    renderWeightChart();
+    renderWeightHistory();
+    renderPlans();
+    loadCoachingInsights();
+  }
+
+  function updateGoalBadge() {
+    const map = {lose_weight:'🔥 Lose Weight',maintain:'⚖️ Maintain',gain_muscle:'💪 Gain Muscle',athletic:'🏆 Athletic'};
+    const g = document.getElementById('profileGoal').value;
+    document.getElementById('profileGoalBadge').textContent = map[g] || g;
+  }
+
+  function populateProfileForm() {
+    const p = coachProfile;
+    document.getElementById('profileName').value     = p.name    || '';
+    document.getElementById('profileAge').value      = p.age     || '';
+    document.getElementById('profileGender').value   = p.gender  || 'male';
+    document.getElementById('profileHeight').value   = p.height  || '';
+    document.getElementById('profileWeight').value   = p.weight  || '';
+    document.getElementById('profileActivity').value = p.activity|| 'moderate';
+    document.getElementById('profileGoal').value     = p.goal    || 'maintain';
+    updateGoalBadge();
+    document.getElementById('weightDate').value = todayStr();
+    if (p.age) renderTDEEDisplay(p);
+  }
+
+  async function saveProfile() {
+    const p = {
+      name:     document.getElementById('profileName').value.trim(),
+      age:      parseInt(document.getElementById('profileAge').value)||0,
+      gender:   document.getElementById('profileGender').value,
+      height:   parseFloat(document.getElementById('profileHeight').value)||0,
+      weight:   parseFloat(document.getElementById('profileWeight').value)||0,
+      activity: document.getElementById('profileActivity').value,
+      goal:     document.getElementById('profileGoal').value,
+    };
+    if (!p.age || !p.height || !p.weight) return toast('⚠️ Fill in age, height and weight');
+    const res = await fetch('/api/profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});
+    coachProfile = await res.json();
+    updateGoalBadge();
+    renderTDEEDisplay(coachProfile);
+    toast('✅ Profile saved!');
+  }
+
+  function renderTDEEDisplay(p) {
+    const tdee = p.tdee, m = p.macros;
+    if (!tdee) return;
+    document.getElementById('tdeeDisplay').innerHTML = `
+      <div class="tdee-banner">
+        <div class="tdee-stat">
+          <div class="tdee-val">${tdee}</div>
+          <div class="tdee-lbl">TDEE (kcal/day)</div>
+        </div>
+        <div class="tdee-stat">
+          <div class="tdee-val" style="color:var(--green)">${m.calories}</div>
+          <div class="tdee-lbl">Target Calories</div>
+        </div>
+        <div class="tdee-stat">
+          <div class="tdee-macro" style="color:#E74C3C">💪 ${m.protein}g protein</div>
+          <div class="tdee-macro" style="color:var(--blue)">🌾 ${m.carbs}g carbs</div>
+          <div class="tdee-macro" style="color:var(--orange)">🥑 ${m.fat}g fat</div>
+        </div>
+      </div>`;
+  }
+
+  async function applyMacrosToActivePlan() {
+    if (!coachProfile.macros) return toast('⚠️ Save your profile first');
+    const m = coachProfile.macros;
+    await fetch('/api/diet/plan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(m)});
+    dietPlan = m;
+    renderPlanSummary(); renderProgress();
+    toast('✅ Macros applied to active plan!');
+  }
+
+  // Weight log
+  async function logWeight() {
+    const val = parseFloat(document.getElementById('weightVal').value);
+    const dt  = document.getElementById('weightDate').value || todayStr();
+    if (!val) return toast('⚠️ Enter a weight value');
+    await fetch('/api/weight',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({weight:val,date:dt})});
+    weightLog = await fetch('/api/weight?days=60').then(r=>r.json());
+    document.getElementById('weightVal').value = '';
+    renderWeightChart(); renderWeightHistory();
+    toast('✅ Weight logged!');
+  }
+
+  async function deleteWeight(d) {
+    await fetch(`/api/weight/${d}`,{method:'DELETE'});
+    weightLog = await fetch('/api/weight?days=60').then(r=>r.json());
+    renderWeightChart(); renderWeightHistory();
+    toast('🗑️ Entry removed');
+  }
+
+  function renderWeightChart() {
+    const ctx = document.getElementById('chartWeight');
+    if (!ctx) return;
+    if (weightChart) { weightChart.destroy(); weightChart = null; }
+    if (!weightLog.length) { ctx.parentElement.style.display='none'; return; }
+    ctx.parentElement.style.display='block';
+    const th = chartTheme();
+    weightChart = new Chart(ctx, {
+      type:'line',
+      data:{
+        labels: weightLog.map(e=>e.date.slice(5)),
+        datasets:[{label:'Weight (kg)', data:weightLog.map(e=>e.weight),
+          borderColor:'#2E86AB', backgroundColor:'rgba(46,134,171,.15)',
+          tension:.4, fill:true, pointRadius:4, pointHoverRadius:6}]
+      },
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{x:{ticks:{color:th.muted,maxTicksLimit:8}},
+                y:{ticks:{color:th.muted},grid:{color:th.grid}}}}
+    });
+  }
+
+  function renderWeightHistory() {
+    const el = document.getElementById('weightHistory');
+    if (!weightLog.length) { el.innerHTML='<div class="empty" style="padding:12px">No weight entries yet.</div>'; return; }
+    const sorted = [...weightLog].reverse().slice(0,14);
+    let trend = '';
+    if (sorted.length >= 2) {
+      const diff = sorted[0].weight - sorted[sorted.length-1].weight;
+      trend = diff < -0.1 ? `<span style="color:var(--green)">▼ ${Math.abs(diff).toFixed(1)} kg</span>` :
+              diff > 0.1  ? `<span style="color:var(--red)">▲ ${diff.toFixed(1)} kg</span>` :
+              `<span style="color:var(--muted)">→ stable</span>`;
+    }
+    el.innerHTML = (trend ? `<div style="text-align:right;font-size:.78rem;margin-bottom:6px">30-day trend: ${trend}</div>` : '') +
+      sorted.map(e=>`<div class="weight-row">
+        <span>${e.date}</span>
+        <span class="weight-val">${e.weight} kg</span>
+        <button class="btn btn-danger btn-sm" onclick="deleteWeight('${e.date}')">✕</button>
+      </div>`).join('');
+  }
+
+  // Coaching insights
+  async function loadCoachingInsights() {
+    const data = await fetch('/api/coaching').then(r=>r.json());
+    const scoreEl   = document.getElementById('coachScore');
+    const insightEl = document.getElementById('coachInsights');
+    const s = data.score;
+    const col = s >= 80 ? '#27AE60' : s >= 55 ? '#F39C12' : '#E74C3C';
+    const dash = s, gap = 100 - s;
+    scoreEl.innerHTML = `
+      <div class="score-wrap">
+        <div class="score-ring">
+          <svg width="110" height="110" viewBox="0 0 36 36">
+            <circle fill="none" stroke="var(--border)" stroke-width="3.5" cx="18" cy="18" r="15.9"/>
+            <circle fill="none" stroke="${col}" stroke-width="3.5" stroke-linecap="round"
+              cx="18" cy="18" r="15.9" stroke-dasharray="${dash} ${gap}"/>
+          </svg>
+          <div class="score-center">
+            <div class="score-num" style="color:${col}">${s}</div>
+            <div class="score-label">Score</div>
+          </div>
+        </div>
+        <div class="score-stats">
+          <div style="font-size:.95rem;font-weight:700;margin-bottom:6px">Weekly Nutrition Score</div>
+          <div class="score-stat"><div class="score-dot" style="background:#2E86AB"></div>
+            ${data.days_logged}/7 days tracked this week</div>
+          <div class="score-stat"><div class="score-dot" style="background:${col}"></div>
+            ${s >= 80 ? 'Excellent' : s >= 55 ? 'Good — room to improve' : 'Needs attention'}</div>
+          <div class="score-stat"><div class="score-dot" style="background:#F39C12"></div>
+            🔥 ${data.streak} day streak</div>
+        </div>
+      </div>`;
+    if (!data.insights.length) {
+      insightEl.innerHTML = '<div class="empty"><div class="empty-icon">🏋️</div>Log meals for at least 3 days to unlock personalised coaching.</div>';
+      return;
+    }
+    insightEl.innerHTML = data.insights.map(i=>`
+      <div class="insight-card ${i.type}">
+        <div class="insight-icon">${i.icon}</div>
+        <div>
+          <div class="insight-title">${i.title}</div>
+          <div class="insight-msg">${i.message}</div>
+          ${i.action ? `<div class="insight-action">→ ${i.action}</div>` : ''}
+        </div>
+      </div>`).join('');
+  }
+
+  // Diet plans library
+  function renderPlans() {
+    const el = document.getElementById('plansList');
+    if (!dietPlans.length) {
+      el.innerHTML = '<div class="empty" style="padding:16px">No plans yet. Create your first plan above.</div>';
+      return;
+    }
+    const GOAL_LABELS = {lose_weight:'🔥 Lose Weight',maintain:'⚖️ Maintain',gain_muscle:'💪 Gain Muscle',athletic:'🏆 Athletic'};
+    el.innerHTML = dietPlans.map(p=>`
+      <div class="plan-card ${p.active?'active-plan':''}">
+        <div class="plan-card-header">
+          <div>
+            <div class="plan-card-name">${escHtml(p.name)}
+              ${p.active ? '<span class="active-badge">✅ ACTIVE</span>' : ''}
+            </div>
+            <div class="plan-card-month">${GOAL_LABELS[p.goal]||p.goal} &nbsp;·&nbsp; ${p.month}</div>
+          </div>
+        </div>
+        <div class="plan-card-macros">
+          <span class="plan-chip">🔥 ${p.calories} kcal</span>
+          <span class="plan-chip">💪 P: ${p.protein}g</span>
+          <span class="plan-chip">🌾 C: ${p.carbs}g</span>
+          <span class="plan-chip">🥑 F: ${p.fat}g</span>
+          <span class="plan-chip">🌿 Fiber: ${p.fiber}g</span>
+          <span class="plan-chip">🍬 Sugar &lt;${p.sugar}g</span>
+          <span class="plan-chip">🧂 Na &lt;${p.sodium}mg</span>
+        </div>
+        ${p.notes ? `<div style="font-size:.78rem;color:var(--muted);margin-top:6px;font-style:italic">${escHtml(p.notes)}</div>` : ''}
+        <div class="plan-actions">
+          ${!p.active ? `<button class="btn btn-green btn-sm" onclick="activatePlan(${p.id})" style="font-size:.78rem">✅ Set Active</button>` : ''}
+          <button class="btn btn-danger btn-sm" onclick="deletePlan(${p.id})" style="font-size:.78rem">🗑️ Delete</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function showNewPlanForm() {
+    document.getElementById('newPlanForm').classList.add('open');
+    const now = new Date();
+    document.getElementById('npMonth').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  }
+  function hidePlanForm() { document.getElementById('newPlanForm').classList.remove('open'); }
+
+  function fillPlanFromTDEE() {
+    const m = coachProfile.macros;
+    if (!m) return toast('⚠️ Save your profile first to calculate TDEE');
+    document.getElementById('npCal').value     = m.calories;
+    document.getElementById('npProtein').value = m.protein;
+    document.getElementById('npCarbs').value   = m.carbs;
+    document.getElementById('npFat').value     = m.fat;
+    document.getElementById('npFiber').value   = m.fiber;
+    document.getElementById('npSugar').value   = m.sugar;
+    document.getElementById('npSodium').value  = m.sodium;
+    document.getElementById('npGoal').value    = coachProfile.goal || 'maintain';
+    toast('✅ Macros filled from your TDEE');
+  }
+
+  async function createPlan() {
+    const name = document.getElementById('npName').value.trim();
+    if (!name) return toast('⚠️ Enter a plan name');
+    await fetch('/api/diet/plans',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name, goal:document.getElementById('npGoal').value,
+        month:document.getElementById('npMonth').value,
+        calories:parseInt(document.getElementById('npCal').value)||2000,
+        protein:parseFloat(document.getElementById('npProtein').value)||150,
+        carbs:parseFloat(document.getElementById('npCarbs').value)||250,
+        fat:parseFloat(document.getElementById('npFat').value)||65,
+        fiber:parseFloat(document.getElementById('npFiber').value)||30,
+        sugar:parseFloat(document.getElementById('npSugar').value)||50,
+        sodium:parseFloat(document.getElementById('npSodium').value)||2300,
+        notes:document.getElementById('npNotes').value.trim(),
+      })});
+    dietPlans = await fetch('/api/diet/plans').then(r=>r.json());
+    hidePlanForm();
+    renderPlans();
+    await loadDiet();
+    toast('✅ Plan created!');
+  }
+
+  async function activatePlan(id) {
+    await fetch(`/api/diet/plans/${id}/activate`,{method:'POST'});
+    dietPlans = await fetch('/api/diet/plans').then(r=>r.json());
+    renderPlans();
+    await loadDiet();
+    toast('✅ Plan activated — diet targets updated!');
+  }
+
+  async function deletePlan(id) {
+    await fetch(`/api/diet/plans/${id}`,{method:'DELETE'});
+    dietPlans = await fetch('/api/diet/plans').then(r=>r.json());
+    renderPlans();
+    toast('🗑️ Plan deleted');
+  }
+
+  // Monthly review + plan suggestion
+  async function loadMonthlyReview() {
+    const el = document.getElementById('monthlyReview');
+    el.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:8px">Analysing your last 30 days…</div>';
+    const data = await fetch('/api/coaching/suggest-plan').then(r=>r.json());
+    if (!data.suggestion) {
+      el.innerHTML = `<div class="insight-card info"><div class="insight-icon">📊</div><div><div class="insight-title">Not Enough Data</div><div class="insight-msg">${data.reason}</div></div></div>`;
+      return;
+    }
+    const s = data.stats, sg = data.suggestion;
+    const GOAL_MAP = {lose_weight:'🔥 Lose Weight',maintain:'⚖️ Maintain',gain_muscle:'💪 Gain Muscle',athletic:'🏆 Athletic'};
+    el.innerHTML = `
+      <div style="font-weight:700;margin-bottom:10px">📊 Last 30-Day Performance</div>
+      <div class="review-stats">
+        <div class="review-stat"><div class="review-stat-val">${s.days_logged}</div><div class="review-stat-lbl">Days Logged</div></div>
+        <div class="review-stat"><div class="review-stat-val">${s.avg_cal}</div><div class="review-stat-lbl">Avg Calories</div></div>
+        <div class="review-stat"><div class="review-stat-val">${s.avg_protein}g</div><div class="review-stat-lbl">Avg Protein</div></div>
+        <div class="review-stat"><div class="review-stat-val">${s.cal_adherence}%</div><div class="review-stat-lbl">Cal Adherence</div></div>
+        <div class="review-stat"><div class="review-stat-val">${s.pro_adherence}%</div><div class="review-stat-lbl">Protein Adherence</div></div>
+        ${s.weight_change !== null ? `<div class="review-stat"><div class="review-stat-val">${s.weight_change>0?'+':''}${s.weight_change} kg</div><div class="review-stat-lbl">Weight Change</div></div>` : ''}
+      </div>
+      <div style="font-weight:700;margin-bottom:8px">🤖 Coach Recommendations for ${data.next_month}</div>
+      ${data.reasons.map(r=>`<div class="reason-item">${r}</div>`).join('')}
+      <div style="margin-top:14px;padding:14px;background:var(--bg);border-radius:10px;border:2px solid var(--green)">
+        <div style="font-weight:700;margin-bottom:8px">📋 Suggested Plan for ${data.next_month}</div>
+        <div class="plan-card-macros" style="margin-bottom:10px">
+          <span class="plan-chip">🔥 ${sg.calories} kcal</span>
+          <span class="plan-chip">💪 P: ${sg.protein}g</span>
+          <span class="plan-chip">🌾 C: ${sg.carbs}g</span>
+          <span class="plan-chip">🥑 F: ${sg.fat}g</span>
+          <span class="plan-chip">🌿 Fiber: ${sg.fiber}g</span>
+          <span class="plan-chip">🍬 Sugar &lt;${sg.sugar}g</span>
+        </div>
+        <button class="btn btn-green" onclick="createSuggestedPlan(${JSON.stringify(sg).replace(/"/g,'&quot;')}, '${data.next_month}')">
+          ✅ Create This Plan for ${data.next_month}
+        </button>
+      </div>`;
+  }
+
+  async function createSuggestedPlan(sg, month) {
+    await fetch('/api/diet/plans',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({...sg, name:`Coach Plan — ${month}`, month, notes:'Auto-generated by coach'})});
+    dietPlans = await fetch('/api/diet/plans').then(r=>r.json());
+    renderPlans();
+    toast('✅ Suggested plan created! Go to Diet Plans to activate it.');
   }
 
   // ── Summary Cards ──────────────────────────────────────────────────────
@@ -2021,6 +2581,8 @@
     await Promise.all([loadTasks(), loadHabits(), loadWork(), loadGoals(), loadDiet()]);
     renderCharts();
   }
+
+  function todayStr() { return new Date().toISOString().split('T')[0]; }
 
   loadAll();
 </script>
