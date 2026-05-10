@@ -187,29 +187,87 @@
   .goal-title { font-weight: 600; font-size: 1rem; }
   .goal-meta { color: var(--muted); font-size: .82rem; }
 
-  /* Diet */
-  .meal-section { margin-bottom: 18px; }
-  .meal-label {
-    font-weight: 700; font-size: .85rem; text-transform: uppercase;
-    letter-spacing: .5px; color: var(--muted); margin-bottom: 8px;
-    padding-bottom: 4px; border-bottom: 2px solid var(--border);
-  }
-  .diet-item {
-    display: flex; align-items: center; gap: 10px; padding: 8px 10px;
-    background: var(--card); border-radius: 8px; margin-bottom: 6px;
-    border: 1px solid var(--border);
-  }
-  .macro-tile { border-radius: 10px; padding: 10px 18px; text-align: center; transition: background .25s; }
+  /* Diet – Fitness UI */
+  .diet-plan-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+  .diet-plan-label { font-size:.82rem; color:var(--text); font-weight:600; min-width:70px; }
+  .diet-plan-val { font-size:.78rem; color:var(--muted); min-width:90px; text-align:right; }
+  .plan-track { flex:1; height:8px; background:var(--border); border-radius:99px; margin:0 10px; overflow:hidden; }
+  .plan-fill { height:100%; border-radius:99px; transition:width .5s; }
+
+  /* Macro rings */
+  .macro-rings { display:flex; gap:12px; flex-wrap:wrap; justify-content:space-around; margin-bottom:20px; }
+  .macro-ring-wrap { display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .ring-svg { width:90px; height:90px; transform:rotate(-90deg); }
+  .ring-bg { fill:none; stroke:var(--border); stroke-width:3.5; }
+  .ring-fill { fill:none; stroke-width:3.5; stroke-linecap:round;
+    stroke-dashoffset:0; transition:stroke-dasharray .6s ease; }
+  .ring-label { font-size:.72rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+  .ring-val { font-size:.82rem; font-weight:700; color:var(--text); }
+  .ring-pct { font-size:.7rem; color:var(--muted); }
+  .ring-center { position:relative; }
+  .ring-center-text { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    text-align:center; pointer-events:none; }
+
+  /* Micro bars */
+  .micro-bars { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+  .micro-row { display:grid; grid-template-columns:80px 1fr 110px 60px; align-items:center; gap:8px; }
+  .micro-name { font-size:.82rem; font-weight:600; }
+  .micro-track { height:10px; background:var(--border); border-radius:99px; overflow:hidden; }
+  .micro-fill { height:100%; border-radius:99px; transition:width .5s; }
+  .micro-nums { font-size:.75rem; color:var(--muted); text-align:right; white-space:nowrap; }
+  .micro-badge { font-size:.68rem; font-weight:700; padding:2px 7px; border-radius:99px;
+    text-align:center; white-space:nowrap; }
+  .badge-ok  { background:#d4edda; color:#155724; }
+  .badge-warn{ background:#fff3cd; color:#856404; }
+  .badge-over{ background:#f8d7da; color:#721c24; }
+  [data-theme="dark"] .badge-ok  { background:#1a3a26; color:#6fcf97; }
+  [data-theme="dark"] .badge-warn{ background:#3a2f00; color:#f2c94c; }
+  [data-theme="dark"] .badge-over{ background:#3a1a1a; color:#eb5757; }
+
+  /* Plan editor */
+  .plan-editor { display:none; padding:16px; background:var(--bg); border-radius:10px;
+    margin-bottom:16px; border:1.5px solid var(--border); }
+  .plan-editor.open { display:block; }
+  .plan-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin-bottom:12px; }
+  .plan-field { display:flex; flex-direction:column; gap:4px; }
+  .plan-field label { font-size:.75rem; font-weight:700; color:var(--muted); text-transform:uppercase; }
+  .plan-field input { padding:7px 10px; border:1.5px solid var(--border); border-radius:7px;
+    background:var(--input-bg); color:var(--text); font-size:.9rem; width:100%; box-sizing:border-box; }
+
+  /* Meal sections */
+  .meal-section { margin-bottom:18px; }
+  .meal-header { display:flex; justify-content:space-between; align-items:center;
+    padding:8px 10px; background:var(--bg); border-radius:8px; margin-bottom:8px;
+    border-left:4px solid var(--teal); }
+  .meal-label { font-weight:700; font-size:.88rem; text-transform:uppercase;
+    letter-spacing:.5px; color:var(--text); }
+  .meal-subtotal { font-size:.78rem; color:var(--muted); }
+  .diet-item { display:flex; align-items:flex-start; gap:10px; padding:10px 12px;
+    background:var(--card); border-radius:8px; margin-bottom:6px;
+    border:1px solid var(--border); }
+  .diet-food-col { flex:1; }
+  .diet-food { font-size:.92rem; font-weight:500; }
+  .diet-micro-pills { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
+  .diet-cal { font-weight:700; color:var(--orange); font-size:.9rem; white-space:nowrap; }
+  .macro-pill { background:var(--bg); padding:2px 7px; border-radius:10px; font-size:.72rem; color:var(--muted); }
+  .macro-tile { border-radius: 10px; padding: 10px 18px; text-align: center; }
   .macro-tile-cal     { background: var(--tile-cal); }
   .macro-tile-protein { background: var(--tile-protein); }
   .macro-tile-carbs   { background: var(--tile-carbs); }
   .macro-tile-fat     { background: var(--tile-fat); }
   .goal-input { width:90px;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;
     background:var(--input-bg);color:var(--text);font-size:.9rem; }
-  .diet-food { flex: 1; font-size: .92rem; }
-  .diet-macros { display: flex; gap: 8px; font-size: .78rem; color: var(--muted); }
-  .diet-cal { font-weight: 700; color: var(--orange); font-size: .9rem; }
-  .macro-pill { background: var(--bg); padding: 2px 7px; border-radius: 10px; }
+
+  /* Log form extra row */
+  .diet-form-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:8px; margin-bottom:8px; }
+  .diet-form-grid input, .diet-form-grid select { width:100%; box-sizing:border-box; }
+
+  @media(max-width:600px){
+    .macro-rings { gap:8px; }
+    .ring-svg { width:72px; height:72px; }
+    .micro-row { grid-template-columns:68px 1fr 90px 50px; }
+    .plan-grid { grid-template-columns:1fr 1fr; }
+  }
 
   /* Empty state */
   .empty { text-align: center; padding: 32px; color: var(--muted); }
@@ -642,25 +700,67 @@
 
   <!-- DIET -->
   <div class="tab-panel" id="panel-diet">
+
+    <!-- Diet Plan Card -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="card-title" style="margin:0">🎯 Daily Nutrition Plan</div>
+        <button class="btn" id="planEditBtn" onclick="togglePlanEditor()"
+          style="background:var(--teal);color:#fff;font-size:.8rem;padding:5px 14px">✏️ Edit Plan</button>
+      </div>
+      <div class="plan-editor" id="planEditor">
+        <div class="plan-grid">
+          <div class="plan-field"><label>Calories (kcal)</label><input type="number" id="planCal" min="0"></div>
+          <div class="plan-field"><label>Protein (g)</label><input type="number" id="planProtein" min="0" step="0.1"></div>
+          <div class="plan-field"><label>Carbs (g)</label><input type="number" id="planCarbs" min="0" step="0.1"></div>
+          <div class="plan-field"><label>Fat (g)</label><input type="number" id="planFat" min="0" step="0.1"></div>
+          <div class="plan-field"><label>Fiber (g)</label><input type="number" id="planFiber" min="0" step="0.1"></div>
+          <div class="plan-field"><label>Sugar limit (g)</label><input type="number" id="planSugar" min="0" step="0.1"></div>
+          <div class="plan-field"><label>Sodium limit (mg)</label><input type="number" id="planSodium" min="0"></div>
+        </div>
+        <button class="btn btn-teal" onclick="savePlan()">💾 Save Plan</button>
+        <button class="btn" onclick="togglePlanEditor()"
+          style="background:var(--bg);border:1.5px solid var(--border);color:var(--text);margin-left:8px">Cancel</button>
+      </div>
+      <div id="planSummary"></div>
+    </div>
+
+    <!-- Progress -->
+    <div class="card">
+      <div class="card-title">📊 Today's Progress</div>
+      <div class="macro-rings" id="macroRings"></div>
+      <div class="micro-bars" id="microBars"></div>
+    </div>
+
+    <!-- Log Food -->
     <div class="card">
       <div class="card-title">➕ Log Food</div>
-      <div class="form-row">
+      <div class="diet-form-grid">
         <select id="dietMeal">
-          <option>Breakfast</option><option>Lunch</option>
-          <option>Dinner</option><option>Snack</option>
+          <option>Breakfast</option>
+          <option>Morning Snack</option>
+          <option>Lunch</option>
+          <option>Pre-Workout</option>
+          <option>Post-Workout</option>
+          <option>Dinner</option>
+          <option>Evening Snack</option>
         </select>
         <input type="text" id="dietFood" placeholder="Food item...">
-        <input type="number" id="dietCal" placeholder="Calories" min="0">
-        <input type="number" id="dietProtein" placeholder="Protein(g)" min="0" step="0.1">
-        <input type="number" id="dietCarbs" placeholder="Carbs(g)" min="0" step="0.1">
-        <input type="number" id="dietFat" placeholder="Fat(g)" min="0" step="0.1">
-        <input type="time" id="dietTime">
-        <button class="btn btn-teal" onclick="addDiet()">Log</button>
+        <input type="number" id="dietCal"     placeholder="Calories (kcal)" min="0">
+        <input type="number" id="dietProtein" placeholder="Protein (g)"     min="0" step="0.1">
+        <input type="number" id="dietCarbs"   placeholder="Carbs (g)"       min="0" step="0.1">
+        <input type="number" id="dietFat"     placeholder="Fat (g)"          min="0" step="0.1">
+        <input type="number" id="dietFiber"   placeholder="Fiber (g)"        min="0" step="0.1">
+        <input type="number" id="dietSugar"   placeholder="Sugar (g)"        min="0" step="0.1">
+        <input type="number" id="dietSodium"  placeholder="Sodium (mg)"      min="0">
+        <input type="time"   id="dietTime">
       </div>
+      <button class="btn btn-teal" onclick="addDiet()" style="width:100%;margin-top:4px">🍽️ Log Food</button>
     </div>
+
+    <!-- Meals List -->
     <div class="card">
-      <div class="card-title" id="dietTitle">🥗 Today's Diet</div>
-      <div id="dietSummary" style="margin-bottom:16px"></div>
+      <div class="card-title" id="dietTitle">🍽️ Today's Meals</div>
       <div id="dietList"></div>
     </div>
   </div>
@@ -1052,80 +1152,212 @@
   }
 
   // ── DIET ───────────────────────────────────────────────────────────────
+  // ── Diet & Nutrition ───────────────────────────────────────────────────
   let dietItems = [];
+  let dietPlan  = {calories:2000,protein:150,carbs:250,fat:65,fiber:30,sugar:50,sodium:2300};
+
   async function loadDiet() {
-    dietItems = await fetch(`/api/diet?date=${currentDate}`).then(r=>r.json());
-    renderDiet(); updateSummary();
+    [dietItems, dietPlan] = await Promise.all([
+      fetch(`/api/diet?date=${currentDate}`).then(r=>r.json()),
+      fetch('/api/diet/plan').then(r=>r.json())
+    ]);
+    renderPlanSummary();
+    renderProgress();
+    renderDiet();
+    updateSummary();
   }
-  function renderDiet() {
-    const totals = {calories:0,protein:0,carbs:0,fat:0};
-    dietItems.forEach(e => { totals.calories+=e.calories; totals.protein+=e.protein;
-      totals.carbs+=e.carbs; totals.fat+=e.fat; });
 
-    document.getElementById('dietTitle').textContent = `🥗 Today's Diet`;
-    document.getElementById('dietSummary').innerHTML = `
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px">
-        <div class="macro-tile macro-tile-cal">
-          <div style="font-size:1.4rem;font-weight:700;color:var(--orange)">${totals.calories}</div>
-          <div style="font-size:.75rem;color:var(--muted)">Calories</div>
-        </div>
-        <div class="macro-tile macro-tile-protein">
-          <div style="font-size:1.4rem;font-weight:700;color:var(--green)">${totals.protein.toFixed(1)}g</div>
-          <div style="font-size:.75rem;color:var(--muted)">Protein</div>
-        </div>
-        <div class="macro-tile macro-tile-carbs">
-          <div style="font-size:1.4rem;font-weight:700;color:var(--blue)">${totals.carbs.toFixed(1)}g</div>
-          <div style="font-size:.75rem;color:var(--muted)">Carbs</div>
-        </div>
-        <div class="macro-tile macro-tile-fat">
-          <div style="font-size:1.4rem;font-weight:700;color:var(--purple)">${totals.fat.toFixed(1)}g</div>
-          <div style="font-size:.75rem;color:var(--muted)">Fat</div>
-        </div>
+  function togglePlanEditor() {
+    const ed = document.getElementById('planEditor');
+    ed.classList.toggle('open');
+    if (ed.classList.contains('open')) {
+      document.getElementById('planCal').value    = dietPlan.calories;
+      document.getElementById('planProtein').value= dietPlan.protein;
+      document.getElementById('planCarbs').value  = dietPlan.carbs;
+      document.getElementById('planFat').value    = dietPlan.fat;
+      document.getElementById('planFiber').value  = dietPlan.fiber;
+      document.getElementById('planSugar').value  = dietPlan.sugar;
+      document.getElementById('planSodium').value = dietPlan.sodium;
+    }
+  }
+
+  async function savePlan() {
+    dietPlan = await api('/api/diet/plan','POST',{
+      calories: parseInt(document.getElementById('planCal').value)||2000,
+      protein:  parseFloat(document.getElementById('planProtein').value)||150,
+      carbs:    parseFloat(document.getElementById('planCarbs').value)||250,
+      fat:      parseFloat(document.getElementById('planFat').value)||65,
+      fiber:    parseFloat(document.getElementById('planFiber').value)||30,
+      sugar:    parseFloat(document.getElementById('planSugar').value)||50,
+      sodium:   parseFloat(document.getElementById('planSodium').value)||2300,
+    });
+    document.getElementById('planEditor').classList.remove('open');
+    renderPlanSummary();
+    renderProgress();
+    toast('✅ Diet plan saved!');
+  }
+
+  function renderPlanSummary() {
+    const p = dietPlan;
+    document.getElementById('planSummary').innerHTML = `
+      <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-top:8px">
+        <span>🔥 <b>${p.calories}</b> kcal</span>
+        <span>💪 Protein <b>${p.protein}g</b></span>
+        <span>🌾 Carbs <b>${p.carbs}g</b></span>
+        <span>🥑 Fat <b>${p.fat}g</b></span>
+        <span>🌿 Fiber <b>${p.fiber}g</b></span>
+        <span>🍬 Sugar &lt;<b>${p.sugar}g</b></span>
+        <span>🧂 Sodium &lt;<b>${p.sodium}mg</b></span>
       </div>`;
+  }
 
-    const meals = ['Breakfast','Lunch','Dinner','Snack'];
+  function macroColor(pct, isLimit=false) {
+    // For limits (sugar/sodium): red when exceeded; for targets: red only way over
+    if (isLimit) {
+      if (pct >= 110) return '#E74C3C';
+      if (pct >= 90)  return '#F39C12';
+      return '#27AE60';
+    }
+    if (pct >= 110) return '#E74C3C';
+    if (pct >= 90)  return '#27AE60';
+    if (pct >= 50)  return '#2E86AB';
+    return '#95a5a6';
+  }
+
+  function macroBadge(pct, isLimit=false) {
+    if (isLimit) {
+      if (pct > 100) return `<span class="micro-badge badge-over">❌ +${Math.round(pct-100)}% over</span>`;
+      if (pct >= 85) return `<span class="micro-badge badge-warn">⚠️ ${Math.round(pct)}%</span>`;
+      return `<span class="micro-badge badge-ok">✅ ${Math.round(pct)}%</span>`;
+    }
+    if (pct > 110) return `<span class="micro-badge badge-over">❌ Exceeded</span>`;
+    if (pct >= 90) return `<span class="micro-badge badge-ok">✅ Goal met</span>`;
+    if (pct >= 50) return `<span class="micro-badge badge-warn">⚡ ${Math.round(pct)}%</span>`;
+    return `<span class="micro-badge badge-warn">📉 ${Math.round(pct)}%</span>`;
+  }
+
+  function renderRing(id, label, val, target, unit, color) {
+    const pct = target > 0 ? Math.min(val / target * 100, 100) : 0;
+    const dash = pct.toFixed(1);
+    const gap  = (100 - pct).toFixed(1);
+    return `<div class="macro-ring-wrap">
+      <div class="ring-center" style="width:90px;height:90px">
+        <svg class="ring-svg" viewBox="0 0 36 36">
+          <circle class="ring-bg" cx="18" cy="18" r="15.9"/>
+          <circle class="ring-fill" cx="18" cy="18" r="15.9"
+            style="stroke:${color};stroke-dasharray:${dash} ${gap}"/>
+        </svg>
+        <div class="ring-center-text">
+          <div style="font-size:.78rem;font-weight:700;color:${color};line-height:1">${Math.round(pct)}%</div>
+          <div style="font-size:.62rem;color:var(--muted)">${label}</div>
+        </div>
+      </div>
+      <div class="ring-val">${unit==='kcal'?Math.round(val):val.toFixed(1)}${unit==='kcal'?'':unit}</div>
+      <div class="ring-pct" style="color:var(--muted)">/ ${target}${unit==='kcal'?' kcal':unit}</div>
+    </div>`;
+  }
+
+  function renderBar(label, val, target, unit, isLimit=false) {
+    const pct = target > 0 ? val / target * 100 : 0;
+    const clampedPct = Math.min(pct, 100);
+    const color = macroColor(pct, isLimit);
+    const badge = macroBadge(pct, isLimit);
+    return `<div class="micro-row">
+      <span class="micro-name">${label}</span>
+      <div class="micro-track">
+        <div class="micro-fill" style="width:${clampedPct}%;background:${color}"></div>
+      </div>
+      <span class="micro-nums">${val.toFixed(1)} / ${target}${unit}</span>
+      ${badge}
+    </div>`;
+  }
+
+  function renderProgress() {
+    const t = {calories:0,protein:0,carbs:0,fat:0,fiber:0,sugar:0,sodium:0};
+    dietItems.forEach(e => {
+      t.calories += e.calories||0; t.protein += e.protein||0;
+      t.carbs    += e.carbs||0;   t.fat     += e.fat||0;
+      t.fiber    += e.fiber||0;   t.sugar   += e.sugar||0;
+      t.sodium   += e.sodium||0;
+    });
+    const p = dietPlan;
+
+    document.getElementById('macroRings').innerHTML =
+      renderRing('cal',  'Calories', t.calories, p.calories, 'kcal', macroColor(t.calories/p.calories*100)) +
+      renderRing('pro',  'Protein',  t.protein,  p.protein,  'g',    macroColor(t.protein/p.protein*100)) +
+      renderRing('carb', 'Carbs',    t.carbs,    p.carbs,    'g',    macroColor(t.carbs/p.carbs*100)) +
+      renderRing('fat',  'Fat',      t.fat,      p.fat,      'g',    macroColor(t.fat/p.fat*100));
+
+    document.getElementById('microBars').innerHTML =
+      renderBar('🌿 Fiber',  t.fiber,  p.fiber,  'g',  false) +
+      renderBar('🍬 Sugar',  t.sugar,  p.sugar,  'g',  true)  +
+      renderBar('🧂 Sodium', t.sodium, p.sodium, 'mg', true);
+  }
+
+  function renderDiet() {
+    const MEALS = ['Breakfast','Morning Snack','Lunch','Pre-Workout','Post-Workout','Dinner','Evening Snack'];
     const el = document.getElementById('dietList');
     if (!dietItems.length) {
-      el.innerHTML = '<div class="empty"><div class="empty-icon">🥗</div>No food logged yet.</div>';
+      el.innerHTML = '<div class="empty"><div class="empty-icon">🥗</div>No food logged yet. Start adding meals above!</div>';
       return;
     }
-    el.innerHTML = meals.map(meal => {
+    el.innerHTML = MEALS.map(meal => {
       const items = dietItems.filter(e=>e.meal===meal);
       if (!items.length) return '';
+      const sub = items.reduce((s,e)=>({
+        cal:s.cal+(e.calories||0), pro:s.pro+(e.protein||0),
+        carb:s.carb+(e.carbs||0), fat:s.fat+(e.fat||0)
+      }), {cal:0,pro:0,carb:0,fat:0});
       return `<div class="meal-section">
-        <div class="meal-label">${meal}</div>
+        <div class="meal-header">
+          <span class="meal-label">${meal}</span>
+          <span class="meal-subtotal">${Math.round(sub.cal)} kcal &nbsp;|&nbsp; P:${sub.pro.toFixed(0)}g C:${sub.carb.toFixed(0)}g F:${sub.fat.toFixed(0)}g</span>
+        </div>
         ${items.map(e=>`
         <div class="diet-item">
-          <span class="diet-food">${escHtml(e.food)}</span>
-          <div class="diet-macros">
-            <span class="macro-pill">P: ${e.protein}g</span>
-            <span class="macro-pill">C: ${e.carbs}g</span>
-            <span class="macro-pill">F: ${e.fat}g</span>
+          <div class="diet-food-col">
+            <div class="diet-food">${escHtml(e.food)}${e.time?`<span style="color:var(--muted);font-size:.72rem;margin-left:8px">${e.time}</span>`:''}</div>
+            <div class="diet-micro-pills">
+              <span class="macro-pill">💪 P: ${e.protein||0}g</span>
+              <span class="macro-pill">🌾 C: ${e.carbs||0}g</span>
+              <span class="macro-pill">🥑 F: ${e.fat||0}g</span>
+              ${e.fiber  ? `<span class="macro-pill">🌿 Fiber: ${e.fiber}g</span>`:''}
+              ${e.sugar  ? `<span class="macro-pill">🍬 Sugar: ${e.sugar}g</span>`:''}
+              ${e.sodium ? `<span class="macro-pill">🧂 Na: ${e.sodium}mg</span>`:''}
+            </div>
           </div>
-          <span class="diet-cal">${e.calories} kcal</span>
+          <span class="diet-cal">${e.calories||0} kcal</span>
           <button class="btn btn-danger btn-sm" onclick="deleteDiet(${e.id})">✕</button>
         </div>`).join('')}
       </div>`;
     }).join('');
   }
+
   async function addDiet() {
     const food = document.getElementById('dietFood').value.trim();
     if (!food) return toast('⚠️ Enter food item');
     await api('/api/diet','POST',{
-      meal: document.getElementById('dietMeal').value,
+      meal:    document.getElementById('dietMeal').value,
       food,
       calories: parseInt(document.getElementById('dietCal').value)||0,
-      protein: parseFloat(document.getElementById('dietProtein').value)||0,
-      carbs: parseFloat(document.getElementById('dietCarbs').value)||0,
-      fat: parseFloat(document.getElementById('dietFat').value)||0,
-      time: document.getElementById('dietTime').value
+      protein:  parseFloat(document.getElementById('dietProtein').value)||0,
+      carbs:    parseFloat(document.getElementById('dietCarbs').value)||0,
+      fat:      parseFloat(document.getElementById('dietFat').value)||0,
+      fiber:    parseFloat(document.getElementById('dietFiber').value)||0,
+      sugar:    parseFloat(document.getElementById('dietSugar').value)||0,
+      sodium:   parseFloat(document.getElementById('dietSodium').value)||0,
+      time:     document.getElementById('dietTime').value
     });
-    ['dietFood','dietCal','dietProtein','dietCarbs','dietFat','dietTime'].forEach(id=>document.getElementById(id).value='');
-    await loadDiet(); toast('✅ Food logged!');
+    ['dietFood','dietCal','dietProtein','dietCarbs','dietFat','dietFiber','dietSugar','dietSodium','dietTime']
+      .forEach(id => document.getElementById(id).value='');
+    await loadDiet();
+    toast('✅ Food logged!');
   }
+
   async function deleteDiet(id) {
     await fetch(`/api/diet/${id}?date=${currentDate}`,{method:'DELETE'});
-    await loadDiet(); toast('🗑️ Entry removed');
+    await loadDiet();
+    toast('🗑️ Entry removed');
   }
 
   // ── Summary Cards ──────────────────────────────────────────────────────

@@ -228,13 +228,16 @@ def add_diet():
     diet = load_json("diet", {})
     entry = {
         "id": int(datetime.now().timestamp() * 1000),
-        "meal": request.json["meal"],
-        "food": request.json["food"],
+        "meal":     request.json["meal"],
+        "food":     request.json["food"],
         "calories": int(request.json.get("calories", 0)),
-        "protein": float(request.json.get("protein", 0)),
-        "carbs": float(request.json.get("carbs", 0)),
-        "fat": float(request.json.get("fat", 0)),
-        "time": request.json.get("time", "")
+        "protein":  float(request.json.get("protein", 0)),
+        "carbs":    float(request.json.get("carbs", 0)),
+        "fat":      float(request.json.get("fat", 0)),
+        "fiber":    float(request.json.get("fiber", 0)),
+        "sugar":    float(request.json.get("sugar", 0)),
+        "sodium":   float(request.json.get("sodium", 0)),
+        "time":     request.json.get("time", "")
     }
     diet.setdefault(d, []).append(entry)
     save_json("diet", diet)
@@ -247,6 +250,27 @@ def delete_diet(did):
     diet[d] = [x for x in diet.get(d, []) if x["id"] != did]
     save_json("diet", diet)
     return jsonify({"ok": True})
+
+@app.route("/api/diet/plan", methods=["GET"])
+def get_diet_plan():
+    return jsonify(load_json("diet_plan", {
+        "calories": 2000, "protein": 150, "carbs": 250,
+        "fat": 65, "fiber": 30, "sugar": 50, "sodium": 2300
+    }))
+
+@app.route("/api/diet/plan", methods=["POST"])
+def save_diet_plan():
+    plan = {
+        "calories": int(request.json.get("calories", 2000)),
+        "protein":  float(request.json.get("protein", 150)),
+        "carbs":    float(request.json.get("carbs", 250)),
+        "fat":      float(request.json.get("fat", 65)),
+        "fiber":    float(request.json.get("fiber", 30)),
+        "sugar":    float(request.json.get("sugar", 50)),
+        "sodium":   float(request.json.get("sodium", 2300)),
+    }
+    save_json("diet_plan", plan)
+    return jsonify(plan)
 
 # ── Week Summary ─────────────────────────────────────────────────────────────
 
