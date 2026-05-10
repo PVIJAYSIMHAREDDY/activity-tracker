@@ -1,0 +1,127 @@
+name: Build Installers
+
+# Trigger: push a git tag like v1.0.0  →  git tag v1.0.0 && git push origin v1.0.0
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:   # also allows manual trigger from GitHub UI
+
+jobs:
+  # ── Linux .deb ────────────────────────────────────────────────────────────
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev python3-flask python3-webview python3-openpyxl
+
+      - name: Build .deb package
+        run: bash build/build_linux.sh
+
+      - name: Upload .deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb
+          path: build/*.deb
+
+  # ── Windows .exe installer ────────────────────────────────────────────────
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install pyinstaller pywebview flask openpyxl pillow
+
+      - name: Convert icon to .ico
+        run: |
+          python -c "
+          from PIL import Image
+          img = Image.open('icon.png').resize((256,256))
+          img.save('icon.ico', format='ICO', sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])
+          "
+
+      - name: Build with PyInstaller
+        run: pyinstaller ActivityTracker.spec --clean --noconfirm
+
+      - name: Install Inno Setup
+        run: choco install innosetup --yes
+
+      - name: Build installer
+        run: '& "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" build\windows_installer.iss'
+        shell: pwsh
+
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: build/ActivityTracker_Setup.exe
+
+  # ── macOS .dmg ────────────────────────────────────────────────────────────
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip3 install pyinstaller pywebview flask openpyxl
+
+      - name: Install create-dmg
+        run: brew install create-dmg
+
+      - name: Build .app and .dmg
+        run: bash build/build_mac.sh
+
+      - name: Upload macOS DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg
+          path: build/*.dmg
+
+  # ── Create GitHub Release with all 3 installers ──────────────────────────
+  release:
+    needs: [build-linux, build-windows, build-macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-files
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Daily Activity Tracker ${{ github.ref_name }}"
+          body: |
+            ## Daily Activity Tracker ${{ github.ref_name }}
+
+            ### Downloads
+            | Platform | File |
+            |---|---|
+            | 🐧 Linux (Ubuntu/Debian) | `activity-tracker_*_all.deb` |
+            | 🪟 Windows | `ActivityTracker_Setup.exe` |
+            | 🍎 macOS | `ActivityTracker_macOS.dmg` |
+
+            ### Install instructions
+            - **Linux**: `sudo dpkg -i activity-tracker_*.deb && sudo apt-get install -f`
+            - **Windows**: Run `ActivityTracker_Setup.exe` and follow the wizard
+            - **macOS**: Open `ActivityTracker_macOS.dmg`, drag app to Applications
+          files: release-files/*
+          draft: false
+          prerelease: false
