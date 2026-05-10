@@ -52,15 +52,19 @@ def run_chromium(url):
     binary = next((b for b in candidates if shutil.which(b)), None)
     if not binary:
         return False
-    proc = subprocess.Popen([
+    args = [
         binary,
         f'--app={url}',
         '--window-size=1200,780',
+        '--user-data-dir=/tmp/activity-tracker-chrome',
         '--disable-background-mode',
         '--disable-extensions',
         '--no-first-run',
         '--disable-default-apps',
-    ])
+    ]
+    if os.geteuid() == 0:
+        args.append('--no-sandbox')
+    proc = subprocess.Popen(args)
     proc.wait()
     os.kill(os.getpid(), signal.SIGTERM)
     return True
