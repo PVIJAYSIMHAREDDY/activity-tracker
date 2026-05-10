@@ -11,18 +11,26 @@ from openpyxl.utils import get_column_letter
 from openpyxl.formatting.rule import DataBarRule, ColorScaleRule
 from openpyxl.worksheet.datavalidation import DataValidation
 
-# ── Path resolution: works from source AND from PyInstaller bundle ─────────
+# ── Path resolution: works from source AND from installed/PyInstaller bundle ─
 if getattr(sys, 'frozen', False):
-    # Packaged: templates/static are in the PyInstaller bundle (_MEIPASS),
-    # but user data must live in the home directory so it persists.
     _BUNDLE = sys._MEIPASS
-    DATA_DIR = os.path.join(os.path.expanduser('~'), '.activity-tracker', 'data')
     app = Flask(__name__,
                 template_folder=os.path.join(_BUNDLE, 'templates'),
                 static_folder=os.path.join(_BUNDLE, 'static'))
+    DATA_DIR = os.path.join(os.path.expanduser('~'), '.activity-tracker', 'data')
 else:
-    DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
     app = Flask(__name__)
+    _local_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+    # If the app is installed somewhere not writable by this user (e.g. /opt/),
+    # store data in the user's home directory instead.
+    try:
+        os.makedirs(_local_data, exist_ok=True)
+        test_f = os.path.join(_local_data, '.write_test')
+        open(test_f, 'w').close()
+        os.remove(test_f)
+        DATA_DIR = _local_data
+    except OSError:
+        DATA_DIR = os.path.join(os.path.expanduser('~'), '.activity-tracker', 'data')
 
 os.makedirs(DATA_DIR, exist_ok=True)
 
