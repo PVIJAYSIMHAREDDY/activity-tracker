@@ -1,6 +1,6 @@
 # Daily Activity Tracker
 
-A cross-platform desktop app to track your daily tasks, habits, work hours, goals, diet, and journal — with Excel export and rich dashboard charts.
+A cross-platform desktop app to track your daily tasks, habits, work hours, goals, diet, and journal — with an AI coaching system, smart nutrition planning, and Excel export.
 
 Built with **Flask + GTK/WebKit2** (native window, no browser needed) and packaged as a one-click installer for Linux, Windows, and macOS.
 
@@ -8,33 +8,80 @@ Built with **Flask + GTK/WebKit2** (native window, no browser needed) and packag
 
 ## Features
 
-- **Tasks** — add, complete, and delete daily to-dos with priority and category
-- **Habits** — define custom habits and log them daily with a calendar heatmap
-- **Work Hours** — log work sessions with notes and see daily totals
-- **Goals** — set long-term goals and track progress with a visual bar
-- **Diet & Nutrition** *(v1.1.0)* — full fitness diet tracking:
-  - Set a daily nutrition plan: calories, protein, carbs, fat, fiber, sugar limit, sodium limit
-  - Animated macro rings (Calories / Protein / Carbs / Fat) showing % of daily goal
-  - Color-coded micro bars for Fiber, Sugar, Sodium (✅ on track / ⚠️ near limit / ❌ exceeded)
-  - Log meals across 7 slots: Breakfast, Morning Snack, Lunch, Pre-Workout, Post-Workout, Dinner, Evening Snack
-  - Each food entry stores calories, protein, carbs, fat, fiber, sugar, and sodium
-  - Per-meal subtotals in the meal list header
-- **Journal / Notes** — write journal entries, ideas, gratitude notes with mood, tags, and pin support
-- **Dashboard** — Chart.js charts for tasks, habits, work hours, and goals at a glance
-- **Weekly & Monthly Summary** — trend charts and aggregated stats across any week or month
-- **Excel Export** — one-click export to `.xlsx` with 8 styled sheets (including Journal)
-- **Dark Mode** — toggleable, persisted across sessions
-- **Mobile Responsive** — works on small screens too
+### ✅ Task Tracking
+- Add, complete, and delete daily to-dos with priority and category
+- Task completion rate shown on dashboard and weekly/monthly summaries
+
+### 💪 Habits
+- Define custom habits with target values and units
+- Daily logging with calendar heatmap showing streaks
+
+### ⏱ Work Hours
+- Log work sessions with project name and notes
+- Daily total and 7-day trend chart on dashboard
+
+### 🎯 Goals
+- Set long-term goals with progress bar tracking
+- Update progress percentage at any time
+
+### 🥗 Diet & Nutrition
+- **7 meal slots**: Breakfast, Morning Snack, Lunch, Pre-Workout, Post-Workout, Dinner, Evening Snack
+- Log **7 nutrients per meal**: Calories, Protein, Carbs, Fat, Fiber, Sugar, Sodium
+- **Animated macro rings** (Calories / Protein / Carbs / Fat) showing % of daily goal
+- **Color-coded micro bars** for Fiber, Sugar, Sodium (✅ on track / ⚠️ near limit / ❌ exceeded)
+- Per-meal subtotals in the meals list
+
+### 🏋️ AI Coaching System *(v1.2.0)*
+- **Body Profile** — enter age, gender, height, weight, activity level, and goal
+- **TDEE Calculator** — Mifflin-St Jeor formula → Total Daily Energy Expenditure
+- **Auto Macro Targets** — protein / carbs / fat calculated per goal (cut / maintain / bulk / athletic)
+- **Weight Log** — daily weigh-ins with 60-day trend line chart and ▼/▲ change indicator
+- **Weekly Nutrition Score** (0–100) with animated gauge ring and tracking streak
+- **Coaching Insights** — up to 6 personalised cards per week covering:
+  - Calorie surplus/deficit (goal-aware logic for cut vs bulk)
+  - Protein adequacy
+  - Sugar and sodium limit warnings
+  - Fiber deficit nudges
+  - Tracking consistency
+- **Diet Plans Library** — create unlimited named plans per month, switch active plan instantly
+- **Monthly Review & Plan Suggestion** — analyses last 30 days of adherence + weight change and recommends adjusted calorie/protein targets for next month with one-click plan creation
+
+### 📓 Journal / Notes
+- Write journal entries, ideas, gratitude notes with mood emoji, tags, and pin support
+- Search across all dates
+
+### 📊 Dashboard & Reports
+- Chart.js charts: task completion, habit heatmap, work hours, diet macros
+- **Weekly Summary** — 7-day trend charts + aggregated stats
+- **Monthly Summary** — full month breakdown with calendar view
+- **Excel Export** — one-click `.xlsx` with 8 styled sheets (Tasks, Habits, Work, Goals, Diet, Summary, Journal + Dashboard)
+
+### 🎨 UI & UX
+- **Dark mode** — toggleable, persisted across sessions
+- **Mobile responsive** — scrollable tab strip, stacked forms, touch-friendly
+- **Offline-first** — Chart.js bundled locally, no internet required
 
 ---
 
-## What's New in v1.1.0
+## What's New
 
-- **Fitness diet system** — set calorie and macro/micro targets, track progress with rings and bars
-- **7 meal slots** — Pre-Workout and Post-Workout slots added alongside the standard meals
-- **Fiber, Sugar & Sodium tracking** — log and monitor all key micro-nutrients per meal
-- **Linux desktop fix** — switched from pywebview to direct GTK+WebKit2 for reliable click handling
-- **Offline Chart.js** — bundled locally so the app works without internet access
+### v1.2.0 — AI Coaching & Smart Nutrition
+- Full coaching system: body profile, TDEE, auto-macros, weight log
+- Diet Plans Library with monthly plan management
+- Rule-based coaching insights with priority ranking and action steps
+- Monthly review engine: analyses adherence + weight change, suggests next plan
+
+### v1.1.0 — Fitness Diet Tracking
+- Macro progress rings + micro progress bars
+- Fiber, Sugar, Sodium tracking per meal
+- 7 meal slots including Pre/Post-Workout
+- Bundled Chart.js (offline support), direct GTK+WebKit2 launcher
+
+### v1.0.0 — Initial Release
+- Task, habit, work, goals, diet, journal tracking
+- Dashboard charts, weekly/monthly summaries
+- Excel export, dark mode, mobile responsive
+- Cross-platform installers (Linux, Windows, macOS)
 
 ---
 
@@ -98,8 +145,8 @@ Data is stored as JSON files in `~/.activity-tracker/data/` (desktop mode) or `d
 Or push a git tag to trigger the GitHub Actions release workflow:
 
 ```bash
-git tag v1.1.0
-git push origin v1.1.0
+git tag v1.2.0
+git push origin v1.2.0
 ```
 
 This automatically builds all three installers and creates a GitHub Release.
@@ -113,6 +160,8 @@ This automatically builds all three installers and creates a GitHub Release.
 | Backend | Python 3, Flask |
 | Frontend | Vanilla JS, Chart.js v4 (bundled), CSS custom properties |
 | Desktop window | GTK3 + WebKit2 on Linux; pywebview on Windows/macOS |
+| Nutrition engine | Mifflin-St Jeor BMR, goal-based macro calculation |
+| Coaching engine | Rule-based insights with priority ranking |
 | Data storage | JSON files |
 | Excel export | openpyxl |
 | Packaging | PyInstaller + dpkg / Inno Setup / create-dmg |
