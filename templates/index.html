@@ -978,6 +978,37 @@
       <div class="plans-list" id="plansList"></div>
     </div>
 
+    <!-- Body Measurements -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="card-title" style="margin:0">📏 Body Measurements</div>
+      </div>
+      <div class="profile-grid" id="measForm">
+        <div class="profile-field"><label>Date</label>
+          <input id="measDate" type="date"></div>
+        <div class="profile-field"><label>Weight (kg)</label>
+          <input id="measWeight" type="number" step="0.1" placeholder="72.5"></div>
+        <div class="profile-field"><label>Body Fat (%)</label>
+          <input id="measBodyFat" type="number" step="0.1" placeholder="18.0"></div>
+        <div class="profile-field"><label>Waist (cm)</label>
+          <input id="measWaist" type="number" step="0.1" placeholder="82"></div>
+        <div class="profile-field"><label>Chest (cm)</label>
+          <input id="measChest" type="number" step="0.1" placeholder="100"></div>
+        <div class="profile-field"><label>Hips (cm)</label>
+          <input id="measHips" type="number" step="0.1" placeholder="95"></div>
+        <div class="profile-field"><label>Neck (cm)</label>
+          <input id="measNeck" type="number" step="0.1" placeholder="38"></div>
+        <div class="profile-field"><label>Bicep (cm)</label>
+          <input id="measBicep" type="number" step="0.1" placeholder="34"></div>
+        <div class="profile-field"><label>Thigh (cm)</label>
+          <input id="measThigh" type="number" step="0.1" placeholder="55"></div>
+        <div class="profile-field"><label>Calf (cm)</label>
+          <input id="measCalf" type="number" step="0.1" placeholder="36"></div>
+      </div>
+      <button class="btn btn-primary" style="margin-top:10px" onclick="saveMeasurement()">💾 Save Measurements</button>
+      <div id="measHistory" style="margin-top:18px"></div>
+    </div>
+
     <!-- Monthly Review & Plan Suggestion -->
     <div class="card">
       <div class="card-title">📈 Monthly Review & AI Plan Suggestion</div>
@@ -1080,7 +1111,7 @@
       <button class="period-btn" onclick="shiftMonth(-1)">&#8592;</button>
       <span class="period-label" id="monthLabel">—</span>
       <button class="period-btn" onclick="shiftMonth(1)">&#8594;</button>
-      <button class="period-btn period-today" onclick="monthDate=todayStr();loadMonth()">Today</button>
+      <button class="period-btn period-today" onclick="monthDate=todayStr().slice(0,7);loadMonth()">Today</button>
     </div>
     <div class="stat-row" id="monthStats"></div>
     <div class="card">
@@ -1178,6 +1209,7 @@
         <span class="task-text">${escHtml(t.text)}</span>
         <span class="badge badge-cat">${escHtml(t.category||'General')}</span>
         <span class="badge badge-${(t.priority||'medium').toLowerCase()}">${t.priority||'Medium'}</span>
+        <button class="btn btn-sm" style="background:var(--blue);color:#fff" onclick="editTask(${t.id})">✏️</button>
         <button class="btn btn-danger btn-sm" onclick="deleteTask(${t.id})">✕</button>
       </div>`).join('');
   }
@@ -1201,6 +1233,17 @@
   async function deleteTask(id) {
     await fetch(`/api/tasks/${id}?date=${currentDate}`,{method:'DELETE'});
     await loadTasks(); toast('🗑️ Task removed');
+  }
+  function editTask(id) {
+    const t = tasks.find(t=>t.id===id);
+    if (!t) return;
+    const newText = prompt('Edit task:', t.text);
+    if (newText === null) return;
+    const newCat  = prompt('Category:', t.category||'General') || t.category || 'General';
+    const newPri  = prompt('Priority (High/Medium/Low):', t.priority||'Medium') || t.priority || 'Medium';
+    fetch(`/api/tasks/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({date:currentDate, text:newText, category:newCat, priority:newPri})
+    }).then(()=>{ loadTasks(); toast('✅ Task updated!'); });
   }
 
   // ── HABITS ─────────────────────────────────────────────────────────────
@@ -1288,7 +1331,10 @@
         <td>${escHtml(w.project)}</td>
         <td style="text-align:center;font-weight:700;color:var(--orange)">${w.hours.toFixed(2)}</td>
         <td style="color:var(--muted)">${escHtml(w.notes||'—')}</td>
-        <td><button class="btn btn-danger btn-sm" onclick="deleteWork(${w.id})">✕</button></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-sm" style="background:var(--blue);color:#fff;margin-right:4px" onclick="editWork(${w.id})">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteWork(${w.id})">✕</button>
+        </td>
       </tr>`).join('')}
     </table>`;
   }
@@ -1309,6 +1355,18 @@
   async function deleteWork(id) {
     await fetch(`/api/work/${id}?date=${currentDate}`,{method:'DELETE'});
     await loadWork(); toast('🗑️ Entry removed');
+  }
+  function editWork(id) {
+    const w = workItems.find(w=>w.id===id);
+    if (!w) return;
+    const project = prompt('Project / Task:', w.project);
+    if (project === null) return;
+    const hours = parseFloat(prompt('Hours:', w.hours));
+    if (isNaN(hours) || hours <= 0) return toast('⚠️ Invalid hours');
+    const notes = prompt('Notes:', w.notes||'') || '';
+    fetch(`/api/work/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({date:currentDate, project, hours, notes})
+    }).then(()=>{ loadWork(); toast('✅ Work entry updated!'); });
   }
 
   // ── GOALS ──────────────────────────────────────────────────────────────
@@ -1333,10 +1391,11 @@
             <div class="goal-title">${escHtml(g.title)}</div>
             <div class="goal-meta">${g.category} · Deadline: ${g.deadline||'—'}</div>
           </div>
-          <div style="display:flex;gap:8px;align-items:center">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <input type="number" value="${g.current}" min="0" step="any" class="goal-input"
               onchange="updateGoalProgress(${g.id},this.value)">
             <span style="color:var(--muted);font-size:.85rem">/ ${g.target} ${g.unit}</span>
+            <button class="btn btn-sm" style="background:var(--blue);color:#fff" onclick="editGoal(${g.id})">✏️</button>
             <button class="btn btn-danger btn-sm" onclick="deleteGoal(${g.id})">✕</button>
           </div>
         </div>
@@ -1377,6 +1436,20 @@
   async function deleteGoal(id) {
     await fetch(`/api/goals/${id}`,{method:'DELETE'});
     await loadGoals(); toast('🗑️ Goal removed');
+  }
+  function editGoal(id) {
+    const g = goals.find(g=>g.id===id);
+    if (!g) return;
+    const title = prompt('Goal title:', g.title);
+    if (title === null) return;
+    const target = parseFloat(prompt('Target:', g.target));
+    if (isNaN(target)) return;
+    const unit = prompt('Unit:', g.unit||'') || '';
+    const deadline = prompt('Deadline (YYYY-MM-DD):', g.deadline||'') || '';
+    const category = prompt('Category:', g.category||'Personal') || 'Personal';
+    fetch(`/api/goals/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({title, target, unit, deadline, category})
+    }).then(()=>{ loadGoals(); toast('✅ Goal updated!'); });
   }
 
   // ── DIET ───────────────────────────────────────────────────────────────
@@ -1555,6 +1628,7 @@
             </div>
           </div>
           <span class="diet-cal">${e.calories||0} kcal</span>
+          <button class="btn btn-sm" style="background:var(--blue);color:#fff;margin-right:4px" onclick="editDiet(${e.id})">✏️</button>
           <button class="btn btn-danger btn-sm" onclick="deleteDiet(${e.id})">✕</button>
         </div>`).join('')}
       </div>`;
@@ -1587,6 +1661,21 @@
     await loadDiet();
     toast('🗑️ Entry removed');
   }
+  function editDiet(id) {
+    const e = dietItems.find(e=>e.id===id);
+    if (!e) return;
+    const food = prompt('Food:', e.food); if (food===null) return;
+    const calories = parseInt(prompt('Calories (kcal):', e.calories||0))||0;
+    const protein  = parseFloat(prompt('Protein (g):', e.protein||0))||0;
+    const carbs    = parseFloat(prompt('Carbs (g):', e.carbs||0))||0;
+    const fat      = parseFloat(prompt('Fat (g):', e.fat||0))||0;
+    const fiber    = parseFloat(prompt('Fiber (g):', e.fiber||0))||0;
+    const sugar    = parseFloat(prompt('Sugar (g):', e.sugar||0))||0;
+    const sodium   = parseFloat(prompt('Sodium (mg):', e.sodium||0))||0;
+    fetch(`/api/diet/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({date:currentDate, food, calories, protein, carbs, fat, fiber, sugar, sodium})
+    }).then(()=>{ loadDiet(); toast('✅ Diet entry updated!'); });
+  }
 
   // ── Coach ─────────────────────────────────────────────────────────────
   let coachProfile = {}, weightLog = [], dietPlans = [], weightChart = null;
@@ -1602,6 +1691,101 @@
     renderWeightHistory();
     renderPlans();
     loadCoachingInsights();
+    loadMeasurements();
+  }
+
+  // ── Body Measurements ─────────────────────────────────────────────────
+  let measurements = [];
+  const measDate = () => document.getElementById('measDate');
+
+  async function loadMeasurements() {
+    measurements = await fetch('/api/measurements').then(r=>r.json());
+    measDate().value = todayStr();
+    // Pre-fill form with latest entry
+    if (measurements.length) {
+      const latest = measurements[measurements.length - 1];
+      const fieldMap = {measWeight:'weight',measBodyFat:'body_fat',measWaist:'waist',
+        measChest:'chest',measHips:'hips',measNeck:'neck',measBicep:'bicep',
+        measThigh:'thigh',measCalf:'calf'};
+      for (const [elId, key] of Object.entries(fieldMap)) {
+        const el = document.getElementById(elId);
+        if (latest[key] !== undefined) el.value = latest[key];
+      }
+    }
+    renderMeasHistory();
+  }
+
+  async function saveMeasurement() {
+    const body = {
+      date:     measDate().value || todayStr(),
+      weight:   document.getElementById('measWeight').value,
+      body_fat: document.getElementById('measBodyFat').value,
+      waist:    document.getElementById('measWaist').value,
+      chest:    document.getElementById('measChest').value,
+      hips:     document.getElementById('measHips').value,
+      neck:     document.getElementById('measNeck').value,
+      bicep:    document.getElementById('measBicep').value,
+      thigh:    document.getElementById('measThigh').value,
+      calf:     document.getElementById('measCalf').value,
+    };
+    // remove blank fields
+    Object.keys(body).forEach(k => { if (body[k]==='') delete body[k]; });
+    await fetch('/api/measurements',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    await loadMeasurements();
+    toast('✅ Measurements saved!');
+  }
+
+  async function deleteMeasurement(d) {
+    await fetch(`/api/measurements/${d}`,{method:'DELETE'});
+    await loadMeasurements();
+    toast('🗑️ Entry removed');
+  }
+
+  function renderMeasHistory() {
+    const el = document.getElementById('measHistory');
+    if (!measurements.length) {
+      el.innerHTML = '<div class="empty" style="margin-top:12px"><div class="empty-icon">📏</div>No measurements yet. Log your first entry above!</div>';
+      return;
+    }
+    const keys = ['weight','body_fat','waist','chest','hips','neck','bicep','thigh','calf'];
+    const labels = ['Weight(kg)','Fat%','Waist','Chest','Hips','Neck','Bicep','Thigh','Calf'];
+    const units  = ['kg','%','cm','cm','cm','cm','cm','cm','cm'];
+
+    const rows = [...measurements].reverse().map((m, idx) => {
+      const prev = measurements[measurements.length - 2 - idx];
+      const cells = keys.map((k, ki) => {
+        const v = m[k];
+        if (v === undefined || v === null) return '<td style="color:var(--muted);text-align:center">—</td>';
+        const prev_v = prev ? prev[k] : null;
+        let delta = '';
+        if (prev_v !== undefined && prev_v !== null) {
+          const d = (parseFloat(v) - parseFloat(prev_v)).toFixed(1);
+          const color = (d > 0) ? 'var(--red)' : 'var(--green)';
+          const sign  = d > 0 ? '+' : '';
+          delta = `<span style="font-size:.7rem;color:${color};margin-left:4px">(${sign}${d})</span>`;
+        }
+        return `<td style="text-align:center">${parseFloat(v).toFixed(1)}<span style="font-size:.7rem;color:var(--muted)">${units[ki]}</span>${delta}</td>`;
+      });
+      return `<tr>
+        <td style="font-weight:700;white-space:nowrap">${m.date}</td>
+        ${cells.join('')}
+        <td><button class="btn btn-danger btn-sm" onclick="deleteMeasurement('${m.date}')">✕</button></td>
+      </tr>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div style="overflow-x:auto;margin-top:8px">
+        <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+          <thead>
+            <tr style="background:var(--bg);font-size:.75rem;color:var(--muted)">
+              <th style="text-align:left;padding:6px 8px">Date</th>
+              ${labels.map(l=>`<th style="text-align:center;padding:6px 4px">${l}</th>`).join('')}
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
   }
 
   function updateGoalBadge() {
@@ -2491,12 +2675,12 @@
   }
 
   // ── MONTHLY ────────────────────────────────────────────────────────────
-  let monthDate = todayStr();
+  let monthDate = todayStr().slice(0,7);
 
   function shiftMonth(dir) {
-    const d = new Date(monthDate + '-01');
+    const d = new Date(monthDate.slice(0,7) + '-01');
     d.setMonth(d.getMonth() + dir);
-    monthDate = d.toISOString().split('T')[0];
+    monthDate = d.toISOString().slice(0,7);
     loadMonth();
   }
 

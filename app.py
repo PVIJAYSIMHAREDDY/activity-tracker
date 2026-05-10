@@ -168,6 +168,18 @@ def add_work():
     save_json("work", work)
     return jsonify(entry)
 
+@app.route("/api/work/<int:wid>", methods=["PATCH"])
+def update_work(wid):
+    d = request.json.get("date", today())
+    work = load_json("work", {})
+    for w in work.get(d, []):
+        if w["id"] == wid:
+            for k, v in request.json.items():
+                if k != "date":
+                    w[k] = v
+    save_json("work", work)
+    return jsonify({"ok": True})
+
 @app.route("/api/work/<int:wid>", methods=["DELETE"])
 def delete_work(wid):
     d = request.args.get("date", today())
@@ -242,6 +254,18 @@ def add_diet():
     diet.setdefault(d, []).append(entry)
     save_json("diet", diet)
     return jsonify(entry)
+
+@app.route("/api/diet/<int:did>", methods=["PATCH"])
+def update_diet(did):
+    d = request.json.get("date", today())
+    diet = load_json("diet", {})
+    for x in diet.get(d, []):
+        if x["id"] == did:
+            for k, v in request.json.items():
+                if k != "date":
+                    x[k] = v
+    save_json("diet", diet)
+    return jsonify({"ok": True})
 
 @app.route("/api/diet/<int:did>", methods=["DELETE"])
 def delete_diet(did):
@@ -960,6 +984,39 @@ def add_thick_border(ws, min_row, min_col, max_row, max_col):
             )
             cell.border = b
 
+# ── Body Measurements ────────────────────────────────────────────────────────
+
+MEASUREMENT_FIELDS = ["weight","body_fat","waist","chest","hips","neck","bicep","thigh","calf"]
+
+@app.route("/api/measurements", methods=["GET"])
+def get_measurements():
+    log = load_json("measurements", {})
+    entries = sorted(
+        [{"date": d, **v} for d, v in log.items()],
+        key=lambda x: x["date"]
+    )
+    return jsonify(entries)
+
+@app.route("/api/measurements", methods=["POST"])
+def save_measurement():
+    d = request.json.get("date", today())
+    log = load_json("measurements", {})
+    entry = {"logged": datetime.now().isoformat()}
+    for f in MEASUREMENT_FIELDS:
+        v = request.json.get(f)
+        if v is not None and v != "":
+            entry[f] = float(v)
+    log[d] = entry
+    save_json("measurements", log)
+    return jsonify({"date": d, **entry})
+
+@app.route("/api/measurements/<string:d>", methods=["DELETE"])
+def delete_measurement(d):
+    log = load_json("measurements", {})
+    log.pop(d, None)
+    save_json("measurements", log)
+    return jsonify({"ok": True})
+
 @app.route("/api/export")
 def export_excel():
     d = request.args.get("date", today())
@@ -970,6 +1027,10 @@ def export_excel():
     goals     = load_json("goals", [])
     diet_list = load_json("diet", {}).get(d, [])
     notes_list= load_json("notes", {}).get(d, [])
+    meas_log  = load_json("measurements", {})
+    meas_list = sorted([{"date": k, **v} for k, v in meas_log.items()], key=lambda x: x["date"])
+    profile   = load_json("profile", {})
+    weight_log= load_json("weight_log", {})
 
     wb = Workbook()
 
@@ -1507,6 +1568,138 @@ def export_excel():
         emp.font = Font(name="Calibri", italic=True, color="999999")
         emp.alignment = Alignment(horizontal="center", vertical="center")
         wn.row_dimensions[3].height = 30
+
+    # ── Body Measurements sheet ────────────────────────────────────────────
+    wm = wb.create_sheet("📏 Measurements")
+    wm.sheet_view.showGridLines = False
+    wm.column_dimensions["A"].width = 14
+    for col, w in zip("BCDEFGHIJ", [10,10,10,10,10,10,10,10,10]):
+        wm.column_dimensions[col].width = w
+    wm.row_dimensions[1].height = 36
+    wm.row_dimensions[2].height = 22
+
+    wm.merge_cells("A1:J1")
+    th = wm["A1"]
+    th.value = "📏 Body Measurements History"
+    th.font = Font(name="Calibri", bold=True, size=14, color="FFFFFF")
+    th.fill = PatternFill("solid", fgColor=C["teal"])
+    th.alignment = Alignment(horizontal="center", vertical="center")
+
+    meas_headers = ["Date","Weight(kg)","Body Fat%","Waist(cm)","Chest(cm)","Hips(cm)","Neck(cm)","Bicep(cm)","Thigh(cm)","Calf(cm)"]
+    meas_keys    = ["date","weight","body_fat","waist","chest","hips","neck","bicep","thigh","calf"]
+    for ci, h in enumerate(meas_headers, 1):
+        c = wm.cell(2, ci, h)
+        c.font = Font(name="Calibri", bold=True, color="FFFFFF", size=9)
+        c.fill = PatternFill("solid", fgColor=C["teal"])
+        c.alignment = Alignment(horizontal="center", vertical="center")
+        c.border = Border(bottom=Side(style="thin", color="FFFFFF"))
+
+    for ri, entry in enumerate(meas_list, 3):
+        prev = meas_list[ri-4] if ri > 3 else None
+        fill = PatternFill("solid", fgColor=("F2FDFB" if ri%2==1 else "FFFFFF"))
+        for ci, key in enumerate(meas_keys, 1):
+            val = entry.get(key, "")
+            if key == "date":
+                cell_val = val
+            elif val == "":
+                cell_val = "—"
+            else:
+                raw = float(val) if val != "" else None
+                prev_val = float(prev.get(key, 0)) if prev and prev.get(key) else None
+                if raw is not None and prev_val:
+                    delta = raw - prev_val
+                    sign = "+" if delta > 0 else ""
+                    cell_val = f"{raw:.1f} ({sign}{delta:.1f})"
+                else:
+                    cell_val = f"{raw:.1f}" if raw is not None else "—"
+            c = wm.cell(ri, ci, cell_val)
+            c.font = Font(name="Calibri", size=9, bold=(key=="date"))
+            c.fill = fill
+            c.alignment = Alignment(horizontal="center" if ci>1 else "left", vertical="center")
+        wm.row_dimensions[ri].height = 18
+
+    if not meas_list:
+        wm.merge_cells("A3:J3")
+        emp = wm["A3"]
+        emp.value = "No measurements recorded yet."
+        emp.font = Font(name="Calibri", italic=True, color="999999")
+        emp.alignment = Alignment(horizontal="center", vertical="center")
+        wm.row_dimensions[3].height = 30
+
+    # ── Progress Report sheet ──────────────────────────────────────────────
+    wp = wb.create_sheet("🚀 Progress Report")
+    wp.sheet_view.showGridLines = False
+    wp.column_dimensions["A"].width = 28
+    wp.column_dimensions["B"].width = 18
+    wp.column_dimensions["C"].width = 18
+    wp.column_dimensions["D"].width = 18
+    wp.row_dimensions[1].height = 36
+    wp.row_dimensions[2].height = 22
+
+    wp.merge_cells("A1:D1")
+    ph = wp["A1"]
+    ph.value = "🚀 Progress Report"
+    ph.font = Font(name="Calibri", bold=True, size=14, color="FFFFFF")
+    ph.fill = PatternFill("solid", fgColor=C["purple"])
+    ph.alignment = Alignment(horizontal="center", vertical="center")
+
+    p_headers = ["Metric", "First Recorded", "Latest", "Change"]
+    for ci, h in enumerate(p_headers, 1):
+        c = wp.cell(2, ci, h)
+        c.font = Font(name="Calibri", bold=True, color="FFFFFF", size=10)
+        c.fill = PatternFill("solid", fgColor=C["purple"])
+        c.alignment = Alignment(horizontal="center", vertical="center")
+
+    prog_rows = []
+    # Weight from weight log
+    wl_sorted = sorted(weight_log.items())
+    if wl_sorted:
+        first_w = wl_sorted[0][1]["weight"]
+        last_w  = wl_sorted[-1][1]["weight"]
+        prog_rows.append(("Weight (kg)", f"{first_w:.1f}", f"{last_w:.1f}", f"{last_w-first_w:+.1f}"))
+    # Measurements
+    if len(meas_list) >= 1:
+        first_m, last_m = meas_list[0], meas_list[-1]
+        for key, label, unit in [
+            ("body_fat","Body Fat","%"),("waist","Waist","cm"),
+            ("chest","Chest","cm"),("hips","Hips","cm"),("neck","Neck","cm"),
+            ("bicep","Bicep","cm"),("thigh","Thigh","cm"),("calf","Calf","cm"),
+        ]:
+            fv = first_m.get(key)
+            lv = last_m.get(key)
+            if fv is not None and lv is not None:
+                prog_rows.append((f"{label} ({unit})", f"{float(fv):.1f}", f"{float(lv):.1f}", f"{float(lv)-float(fv):+.1f}"))
+    # Goals
+    goals_data = load_json("goals", [])
+    for g in goals_data:
+        pct = min((g.get("current",0)/g["target"])*100,100) if g["target"] else 0
+        prog_rows.append((f"Goal: {g['title']}", f"Target: {g['target']} {g.get('unit','')}",
+                          f"{g.get('current',0)} {g.get('unit','')}", f"{pct:.1f}%"))
+
+    for ri, row in enumerate(prog_rows, 3):
+        fill = PatternFill("solid", fgColor=("F9F0FF" if ri%2==1 else "FFFFFF"))
+        for ci, val in enumerate(row, 1):
+            c = wp.cell(ri, ci, val)
+            c.font = Font(name="Calibri", size=10, bold=(ci==1))
+            c.fill = fill
+            c.alignment = Alignment(horizontal="center" if ci>1 else "left", vertical="center")
+            if ci == 4:
+                try:
+                    num = float(val.replace("+","").replace("%",""))
+                    c.font = Font(name="Calibri", size=10, bold=True,
+                                  color=(C["red"] if num > 0 and "fat" in row[0].lower() or
+                                         num < 0 and "fat" not in row[0].lower() and "%" not in val
+                                         else C["green"]))
+                except: pass
+        wp.row_dimensions[ri].height = 20
+
+    if not prog_rows:
+        wp.merge_cells("A3:D3")
+        emp = wp["A3"]
+        emp.value = "Log weight and measurements to see your progress here."
+        emp.font = Font(name="Calibri", italic=True, color="999999")
+        emp.alignment = Alignment(horizontal="center", vertical="center")
+        wp.row_dimensions[3].height = 30
 
     # ── freeze panes & save ────────────────────────────────────────────────
     for sheet in wb.worksheets:
