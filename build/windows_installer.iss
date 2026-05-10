@@ -15,7 +15,7 @@ AppPublisher={#AppPublisher}
 DefaultDirName={autopf}\ActivityTracker
 DefaultGroupName={#AppName}
 AllowNoIcons=yes
-OutputDir=build
+OutputDir=..\build
 OutputBaseFilename=ActivityTracker_Setup
 SetupIconFile=..\icon.ico
 Compression=lzma2/ultra64
@@ -35,7 +35,7 @@ Name: "startupicon";   Description: "Launch at Windows startup"; GroupDescriptio
 
 [Files]
 ; All PyInstaller output files
-Source: "dist\ActivityTracker\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\dist\ActivityTracker\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#AppName}";        Filename: "{app}\{#AppExeName}"
