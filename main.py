@@ -7,7 +7,7 @@ Launch strategy (Linux):
   2. GTK3 + WebKit2 direct            (lightweight, no browser needed)
   3. pywebview fallback               (Windows / macOS default)
 """
-import threading, time, sys, os, socket, signal, shutil, subprocess
+import threading, time, sys, os, socket, signal, shutil, subprocess, pwd
 
 PORT = 5050
 
@@ -42,6 +42,19 @@ def start_flask():
 
 
 # ── Strategy 1: Chromium / Chrome --app mode ─────────────────────────────────
+def _display_owner():
+    """Return (username, xauthority_path) of the user who owns the X display."""
+    display = os.environ.get('DISPLAY', ':0')
+    num = display.lstrip(':').split('.')[0]
+    try:
+        uid = os.stat(f'/tmp/.X11-unix/X{num}').st_uid
+        pw = pwd.getpwuid(uid)
+        xauth = os.path.join(pw.pw_dir, '.Xauthority')
+        return pw.pw_name, xauth
+    except Exception:
+        return None, None
+
+
 def run_chromium(url):
     """Open the app in Chrome/Chromium's --app mode for a native-like window."""
     candidates = [
@@ -52,19 +65,58 @@ def run_chromium(url):
     binary = next((b for b in candidates if shutil.which(b)), None)
     if not binary:
         return False
-    args = [
-        binary,
-        f'--app={url}',
-        '--window-size=1200,780',
-        '--user-data-dir=/tmp/activity-tracker-chrome',
-        '--disable-background-mode',
-        '--disable-extensions',
-        '--no-first-run',
-        '--disable-default-apps',
-    ]
+
+    env = os.environ.copy()
+
+    # If running as root but display is owned by another user, launch Chrome
+    # as that user so X11 input events are properly forwarded.
     if os.geteuid() == 0:
-        args.append('--no-sandbox')
-    proc = subprocess.Popen(args)
+        display_user, xauth = _display_owner()
+        if display_user and display_user != 'root':
+            user_data_dir = f'/home/{display_user}/.config/activity-tracker-chrome'
+            chrome_args = [
+                binary,
+                f'--app={url}',
+                '--window-size=1200,780',
+                f'--user-data-dir={user_data_dir}',
+                '--disable-background-mode',
+                '--disable-extensions',
+                '--no-first-run',
+                '--disable-default-apps',
+            ]
+            env['XAUTHORITY'] = xauth
+            cmd = ['sudo', '-u', display_user,
+                   'env',
+                   f'DISPLAY={env.get("DISPLAY", ":0")}',
+                   f'XAUTHORITY={xauth}',
+                   ] + chrome_args
+        else:
+            chrome_args = [
+                binary,
+                f'--app={url}',
+                '--window-size=1200,780',
+                '--user-data-dir=/tmp/activity-tracker-chrome',
+                '--disable-background-mode',
+                '--disable-extensions',
+                '--no-first-run',
+                '--disable-default-apps',
+                '--no-sandbox',
+            ]
+            cmd = chrome_args
+    else:
+        chrome_args = [
+            binary,
+            f'--app={url}',
+            '--window-size=1200,780',
+            '--user-data-dir=/tmp/activity-tracker-chrome',
+            '--disable-background-mode',
+            '--disable-extensions',
+            '--no-first-run',
+            '--disable-default-apps',
+        ]
+        cmd = chrome_args
+
+    proc = subprocess.Popen(cmd, env=env)
     proc.wait()
     os.kill(os.getpid(), signal.SIGTERM)
     return True
