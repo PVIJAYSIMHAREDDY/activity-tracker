@@ -2,23 +2,39 @@
 
 A cross-platform desktop app to track your daily tasks, habits, work hours, goals, diet, and journal — with Excel export and rich dashboard charts.
 
-Built with **Flask + PyWebView** (native window, no browser needed) and packaged as a one-click installer for Linux, Windows, and macOS.
+Built with **Flask + GTK/WebKit2** (native window, no browser needed) and packaged as a one-click installer for Linux, Windows, and macOS.
 
 ---
 
 ## Features
 
-- **Tasks** — add, complete, and delete daily to-dos
+- **Tasks** — add, complete, and delete daily to-dos with priority and category
 - **Habits** — define custom habits and log them daily with a calendar heatmap
 - **Work Hours** — log work sessions with notes and see daily totals
 - **Goals** — set long-term goals and track progress with a visual bar
-- **Diet** — log meals with calories, protein, carbs, and fat; see daily macro totals
+- **Diet & Nutrition** *(v1.1.0)* — full fitness diet tracking:
+  - Set a daily nutrition plan: calories, protein, carbs, fat, fiber, sugar limit, sodium limit
+  - Animated macro rings (Calories / Protein / Carbs / Fat) showing % of daily goal
+  - Color-coded micro bars for Fiber, Sugar, Sodium (✅ on track / ⚠️ near limit / ❌ exceeded)
+  - Log meals across 7 slots: Breakfast, Morning Snack, Lunch, Pre-Workout, Post-Workout, Dinner, Evening Snack
+  - Each food entry stores calories, protein, carbs, fat, fiber, sugar, and sodium
+  - Per-meal subtotals in the meal list header
 - **Journal / Notes** — write journal entries, ideas, gratitude notes with mood, tags, and pin support
 - **Dashboard** — Chart.js charts for tasks, habits, work hours, and goals at a glance
 - **Weekly & Monthly Summary** — trend charts and aggregated stats across any week or month
 - **Excel Export** — one-click export to `.xlsx` with 8 styled sheets (including Journal)
 - **Dark Mode** — toggleable, persisted across sessions
 - **Mobile Responsive** — works on small screens too
+
+---
+
+## What's New in v1.1.0
+
+- **Fitness diet system** — set calorie and macro/micro targets, track progress with rings and bars
+- **7 meal slots** — Pre-Workout and Post-Workout slots added alongside the standard meals
+- **Fiber, Sugar & Sodium tracking** — log and monitor all key micro-nutrients per meal
+- **Linux desktop fix** — switched from pywebview to direct GTK+WebKit2 for reliable click handling
+- **Offline Chart.js** — bundled locally so the app works without internet access
 
 ---
 
@@ -49,15 +65,16 @@ Download `ActivityTracker_macOS.dmg` from the [Releases](../../releases) page, o
 
 ## Run from Source
 
-**Requirements:** Python 3.8+, pip
+**Requirements:** Python 3.8+
 
 ```bash
 git clone https://github.com/PVIJAYSIMHAREDDY/activity-tracker.git
 cd activity-tracker
 
-# Install dependencies
-sudo apt-get install python3-flask python3-webview python3-openpyxl   # Linux (apt)
-# or: pip install flask pywebview openpyxl
+# Install dependencies (Linux)
+sudo apt-get install python3-flask python3-webview python3-openpyxl
+# or via pip (all platforms):
+pip install flask pywebview openpyxl
 
 # Run as desktop app
 python3 main.py
@@ -81,8 +98,8 @@ Data is stored as JSON files in `~/.activity-tracker/data/` (desktop mode) or `d
 Or push a git tag to trigger the GitHub Actions release workflow:
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
 This automatically builds all three installers and creates a GitHub Release.
@@ -94,8 +111,8 @@ This automatically builds all three installers and creates a GitHub Release.
 | Layer | Technology |
 |---|---|
 | Backend | Python 3, Flask |
-| Frontend | Vanilla JS, Chart.js v4, CSS custom properties |
-| Desktop window | PyWebView (GTK/WebKit2 on Linux, WinForms/Edge on Windows, Cocoa on macOS) |
+| Frontend | Vanilla JS, Chart.js v4 (bundled), CSS custom properties |
+| Desktop window | GTK3 + WebKit2 on Linux; pywebview on Windows/macOS |
 | Data storage | JSON files |
 | Excel export | openpyxl |
 | Packaging | PyInstaller + dpkg / Inno Setup / create-dmg |
