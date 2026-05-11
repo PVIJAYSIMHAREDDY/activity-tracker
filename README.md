@@ -1,32 +1,55 @@
 # Daily Activity Tracker
 
-A cross-platform desktop app to track your daily tasks, habits, work hours, goals, diet, and journal — with a personal nutrition calculator, AI coaching system, smart nutrition planning, and Excel export.
+A cross-platform desktop app to track your daily tasks, habits, work hours, goals, diet, and journal — with a **personal nutrition calculator**, AI coaching system, body measurements tracking, and Excel export.
 
-Built with **Flask + GTK/WebKit2** (native window, no browser needed) and packaged as a one-click installer for Linux, Windows, and macOS.
+Built with **Flask + Chrome app-mode** (native window, no browser needed) and packaged as a one-click installer for Linux, Windows, and macOS.
 
 ---
 
 ## Features
 
+### 📋 My Plan — Personal Nutrition Calculator *(v1.3.0)*
+- **Metric / Imperial toggle** — switch between kg·cm and lbs·ft with one click
+- **Visual activity cards** — select your level: Sedentary, Light, Moderate, Very Active, Athlete
+- **Goal cards** — Lose Weight / Maintain / Gain Muscle / Athletic Performance
+- **Real-time TDEE** — Mifflin-St Jeor BMR × activity multiplier, updates as you type
+- **Hero display** — daily calorie target with BMR, Maintenance, and Adjustment at a glance
+- **SVG macro rings** — Protein / Carbs / Fat with grams and % of total energy
+- **Micro-nutrient targets** — Fiber, Sugar, and Sodium limits
+- **Goal Timeline** — estimated weeks to target weight + projected completion date
+- **Save & Apply** — one click saves profile and pushes targets to active diet plan
+- **Create Plan** — save calculated targets as a named plan in the Plans Library
+
+### 📏 Body Measurements *(v1.3.0)*
+- Log **9 metrics** with date: weight, body fat %, waist, chest, hips, neck, bicep, thigh, calf
+- History table shows **+/− delta** vs previous entry for every metric
+- Form pre-fills from latest saved entry for quick updates
+- Full **Measurements sheet** in Excel export with delta columns
+
 ### ✅ Task Tracking
 - Add, complete, and delete daily to-dos with priority and category
-- Task completion rate shown on dashboard and weekly/monthly summaries
+- **Edit** any task inline (text, category, priority) with the ✏️ button
+- Task completion rate on dashboard and weekly/monthly summaries
 
 ### 💪 Habits
 - Define custom habits with target values and units
-- Daily logging with calendar heatmap showing streaks
+- Daily logging with progress bar and percentage indicator
+- Calendar heatmap showing streaks
 
 ### ⏱ Work Hours
 - Log work sessions with project name and notes
+- **Edit** any session inline (project, hours, notes) with the ✏️ button
 - Daily total and 7-day trend chart on dashboard
 
 ### 🎯 Goals
 - Set long-term goals with progress bar tracking
-- Update progress percentage at any time
+- **Edit** any goal inline (title, target, unit, deadline, category) with the ✏️ button
+- Update current progress at any time via the inline number input
 
 ### 🥗 Diet & Nutrition
 - **7 meal slots**: Breakfast, Morning Snack, Lunch, Pre-Workout, Post-Workout, Dinner, Evening Snack
 - Log **7 nutrients per meal**: Calories, Protein, Carbs, Fat, Fiber, Sugar, Sodium
+- **Edit** any food entry inline with the ✏️ button
 - **Animated macro rings** (Calories / Protein / Carbs / Fat) showing % of daily goal
 - **Color-coded micro bars** for Fiber, Sugar, Sodium (✅ on track / ⚠️ near limit / ❌ exceeded)
 - Per-meal subtotals in the meals list
@@ -50,50 +73,30 @@ Built with **Flask + GTK/WebKit2** (native window, no browser needed) and packag
 - Write journal entries, ideas, gratitude notes with mood emoji, tags, and pin support
 - Search across all dates
 
-### 📋 My Plan — Personal Nutrition Calculator *(v1.3.0)*
-- **Metric / Imperial toggle** — switch between kg·cm and lbs·ft instantly
-- **Visual activity cards** — tap your level (Sedentary → Athlete)
-- **Goal cards** — Lose Weight / Maintain / Gain Muscle / Athletic Performance
-- **Real-time TDEE** — Mifflin-St Jeor BMR × activity multiplier, updates as you type
-- **Hero display** — daily calorie target with BMR, Maintenance, and Adjustment breakdown
-- **SVG macro rings** — Protein / Carbs / Fat with grams and % of total energy
-- **Goal Timeline** — estimated weeks to target weight + projected completion date
-- **Save & Apply** — one click saves profile and pushes targets to active diet plan
-- **Auto-start on login** — launches automatically on every session
-
-### 📏 Body Measurements *(v1.3.0)*
-- Log weight, body fat %, waist, chest, hips, neck, bicep, thigh, calf with date
-- History table with **+/− delta** vs previous entry for every metric
-- Form pre-fills from latest saved entry
-
-### ✏️ Edit Any Entry *(v1.3.0)*
-- Edit button on every **task** (text, category, priority)
-- Edit button on every **work session** (project, hours, notes)
-- Edit button on every **diet entry** (food name + all 7 nutrients)
-- Edit button on every **goal** (title, target, unit, deadline, category)
-
 ### 📊 Dashboard & Reports
 - Chart.js charts: task completion, habit heatmap, work hours, diet macros
 - **Weekly Summary** — 7-day trend charts + aggregated stats
 - **Monthly Summary** — full month breakdown with calendar view
-- **Excel Export** — one-click `.xlsx` with 10 styled sheets (Tasks, Habits, Work, Goals, Diet, Summary, Journal, Dashboard, **Measurements**, **Progress Report**)
+- **Excel Export** — one-click `.xlsx` with 10 styled sheets:
+  Tasks, Habits, Work, Goals, Diet, 7-Day Summary, Journal, Dashboard, **Measurements**, **Progress Report**
 
 ### 🎨 UI & UX
 - **Dark mode** — toggleable, persisted across sessions
 - **Mobile responsive** — scrollable tab strip, stacked forms, touch-friendly
 - **Offline-first** — Chart.js bundled locally, no internet required
+- **Auto-start on login** — launches automatically on every session (Linux)
 
 ---
 
 ## What's New
 
 ### v1.3.0 — Personal Nutrition Calculator & Measurements
-- **My Plan tab** — dedicated nutrition calculator with real-time TDEE, visual goal/activity cards, macro rings, goal timeline, metric/imperial toggle, one-click apply to diet plan
-- **Body Measurements tracking** — log 9 metrics (weight, body fat %, waist, chest, hips, neck, bicep, thigh, calf) with delta history
-- **Edit any entry** — tasks, work sessions, diet entries, and goals all have inline edit buttons
-- **Excel: Measurements + Progress Report sheets** — full history with delta columns and first-vs-latest comparison
-- **Auto-start on login** — desktop autostart entry installed automatically
-- **Bug fixes** — resolved JS crash (duplicate `todayStr`), monthly tab date navigation, Chrome app-mode click handling
+- **My Plan tab** — dedicated nutrition calculator: real-time TDEE, visual activity/goal cards, SVG macro rings, goal timeline with projected date, metric/imperial toggle, one-click apply to diet plan
+- **Body Measurements** — log 9 body metrics with date; history table shows +/− deltas vs previous entry
+- **Edit any entry** — ✏️ buttons on every task, work session, diet entry, and goal
+- **Excel: 2 new sheets** — Measurements (delta columns) + Progress Report (first vs latest comparison for weight, body metrics, and all goals)
+- **Auto-start on login** — desktop autostart entry installed automatically on Linux
+- **Bug fixes** — resolved JS crash (duplicate identifier), monthly tab navigation, Chrome app-mode input handling
 
 ### v1.2.0 — AI Coaching & Smart Nutrition
 - Full coaching system: body profile, TDEE, auto-macros, weight log
@@ -119,14 +122,14 @@ Built with **Flask + GTK/WebKit2** (native window, no browser needed) and packag
 
 ### Linux (Ubuntu / Debian)
 
-Download `activity-tracker_*_all.deb` from the [Releases](../../releases) page, then:
+Download `activity-tracker_1.3.0_all.deb` from the [Releases](../../releases) page, then:
 
 ```bash
-sudo dpkg -i activity-tracker_*.deb
+sudo dpkg -i activity-tracker_1.3.0_all.deb
 sudo apt-get install -f
 ```
 
-Launch from your app menu or run `activity-tracker` in a terminal.
+Launch from your app menu or run `activity-tracker` in a terminal. The app auto-starts on login.
 
 ### Windows
 
@@ -189,11 +192,11 @@ This automatically builds all three installers and creates a GitHub Release.
 |---|---|
 | Backend | Python 3, Flask |
 | Frontend | Vanilla JS, Chart.js v4 (bundled), CSS custom properties |
-| Desktop window | GTK3 + WebKit2 on Linux; pywebview on Windows/macOS |
-| Nutrition engine | Mifflin-St Jeor BMR, goal-based macro calculation |
+| Desktop window | Chrome `--app` mode on Linux; pywebview on Windows/macOS |
+| Nutrition engine | Mifflin-St Jeor BMR, goal-based macro calculation, real-time client-side TDEE |
 | Coaching engine | Rule-based insights with priority ranking |
 | Data storage | JSON files |
-| Excel export | openpyxl |
+| Excel export | openpyxl (10 sheets) |
 | Packaging | PyInstaller + dpkg / Inno Setup / create-dmg |
 | CI/CD | GitHub Actions |
 
