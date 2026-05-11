@@ -2,7 +2,7 @@
 ; Run with: ISCC.exe build\windows_installer.iss
 
 #define AppName      "Daily Activity Tracker"
-#define AppVersion   "1.0.0"
+#define AppVersion   "1.3.0"
 #define AppPublisher "Activity Tracker"
 #define AppExeName   "ActivityTracker.exe"
 #define AppId        "{{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}"

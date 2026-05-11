@@ -6,7 +6,7 @@ set -e
 cd "$(dirname "$0")/.."
 
 APP="activity-tracker"
-VERSION="1.0.0"
+VERSION="1.3.0"
 DEB_ROOT="build/_deb"
 OUT="build/${APP}_${VERSION}_all.deb"
 
