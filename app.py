@@ -1722,5 +1722,387 @@ def export_excel():
                      download_name=filename,
                      mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
+# ── Wellness / Recovery Tracking ─────────────────────────────────────────────
+
+@app.route("/api/wellness", methods=["GET"])
+def get_wellness():
+    d = request.args.get("date", today())
+    return jsonify(load_json("wellness", {}).get(d, {}))
+
+@app.route("/api/wellness", methods=["POST"])
+def save_wellness():
+    d = request.json.get("date", today())
+    log = load_json("wellness", {})
+    entry = {
+        "sleep_hours":   float(request.json.get("sleep_hours", 0) or 0),
+        "sleep_quality": int(request.json.get("sleep_quality", 5) or 5),
+        "energy":        int(request.json.get("energy", 5) or 5),
+        "stress":        int(request.json.get("stress", 5) or 5),
+        "soreness":      int(request.json.get("soreness", 3) or 3),
+        "notes":         request.json.get("notes", ""),
+        "logged":        datetime.now().isoformat()
+    }
+    log[d] = entry
+    save_json("wellness", log)
+    return jsonify({"date": d, **entry})
+
+@app.route("/api/wellness/history", methods=["GET"])
+def get_wellness_history():
+    days = int(request.args.get("days", 14))
+    log  = load_json("wellness", {})
+    end  = date.today()
+    out  = []
+    for i in range(days-1, -1, -1):
+        d = (end - timedelta(days=i)).isoformat()
+        if d in log:
+            out.append({"date": d, **log[d]})
+    return jsonify(out)
+
+# ── Training / Workout Tracking ───────────────────────────────────────────────
+
+@app.route("/api/workouts", methods=["GET"])
+def get_workouts():
+    d = request.args.get("date", today())
+    return jsonify(load_json("workouts", {}).get(d, []))
+
+@app.route("/api/workouts", methods=["POST"])
+def add_workout():
+    d = request.json.get("date", today())
+    workouts = load_json("workouts", {})
+    entry = {
+        "id":           int(datetime.now().timestamp() * 1000),
+        "name":         request.json.get("name", "Workout"),
+        "type":         request.json.get("type", "strength"),
+        "duration_mins":int(request.json.get("duration_mins", 0) or 0),
+        "exercises":    request.json.get("exercises", []),
+        "notes":        request.json.get("notes", ""),
+        "logged":       datetime.now().isoformat()
+    }
+    workouts.setdefault(d, []).append(entry)
+    save_json("workouts", workouts)
+    return jsonify({"date": d, **entry})
+
+@app.route("/api/workouts/<int:wid>", methods=["DELETE"])
+def delete_workout(wid):
+    d = request.args.get("date", today())
+    workouts = load_json("workouts", {})
+    workouts[d] = [w for w in workouts.get(d, []) if w["id"] != wid]
+    save_json("workouts", workouts)
+    return jsonify({"ok": True})
+
+@app.route("/api/workouts/week", methods=["GET"])
+def get_workouts_week():
+    out = []
+    for i in range(6, -1, -1):
+        d = (date.today() - timedelta(days=i)).isoformat()
+        sessions = load_json("workouts", {}).get(d, [])
+        out.append({"date": d, "sessions": sessions, "count": len(sessions),
+                    "total_mins": sum(s.get("duration_mins", 0) for s in sessions)})
+    return jsonify(out)
+
+@app.route("/api/workouts/all", methods=["GET"])
+def get_all_workouts():
+    workouts = load_json("workouts", {})
+    result = []
+    for d in sorted(workouts.keys(), reverse=True):
+        for w in workouts[d]:
+            result.append({**w, "date": d})
+    return jsonify(result)
+
+# ── Elite AI Analysis Engine ──────────────────────────────────────────────────
+
+def _weight_trend_analysis(weight_log):
+    sorted_entries = sorted(weight_log.items())
+    if len(sorted_entries) < 2:
+        return {"status": "insufficient_data", "rate": 0, "trend": "unknown", "current": None}
+    cutoff = (date.today() - timedelta(days=14)).isoformat()
+    recent = [(d, v["weight"]) for d, v in sorted_entries if d >= cutoff]
+    if len(recent) < 2:
+        recent = sorted_entries[-min(7, len(sorted_entries)):]
+    n = len(recent)
+    xs = list(range(n)); ys = [r[1] for r in recent]
+    denom = n*sum(x*x for x in xs) - sum(xs)**2
+    slope = (n*sum(x*y for x,y in zip(xs,ys)) - sum(xs)*sum(ys)) / denom if denom else 0
+    weekly = slope * 7
+    return {
+        "rate":         round(weekly, 3),
+        "current":      recent[-1][1],
+        "start":        recent[0][1],
+        "total_change": round(recent[-1][1] - recent[0][1], 2),
+        "trend":        "losing" if weekly < -0.15 else "gaining" if weekly > 0.15 else "stable",
+        "entries":      n
+    }
+
+def _diet_adherence_analysis(diet, diet_plan, days=7):
+    plan_cal = diet_plan.get("calories", 2000)
+    plan_pro = diet_plan.get("protein", 150)
+    tracked, total_cal_pct, total_pro = 0, 0, 0
+    for i in range(days):
+        d = (date.today() - timedelta(days=i)).isoformat()
+        entries = diet.get(d, [])
+        if entries:
+            tracked += 1
+            day_cal = sum(e.get("calories", 0) for e in entries)
+            day_pro = sum(e.get("protein",  0) for e in entries)
+            total_cal_pct += day_cal / plan_cal if plan_cal else 0
+            total_pro += day_pro
+    avg_cal_pct = round(total_cal_pct / tracked * 100) if tracked else 0
+    avg_pro     = round(total_pro / tracked) if tracked else 0
+    return {"tracked": tracked, "days": days,
+            "adherence_pct": round(tracked/days*100),
+            "avg_cal_pct": avg_cal_pct, "avg_protein": avg_pro,
+            "plan_protein": plan_pro}
+
+def _recovery_analysis(wellness_log, days=7):
+    scores, sleep_hrs, energies, stresses = [], [], [], []
+    for i in range(days):
+        d = (date.today() - timedelta(days=i)).isoformat()
+        w = wellness_log.get(d, {})
+        if w:
+            sh = float(w.get("sleep_hours", 0) or 0)
+            sq = int(w.get("sleep_quality", 5) or 5)
+            en = int(w.get("energy",        5) or 5)
+            st = int(w.get("stress",        5) or 5)
+            so = int(w.get("soreness",      3) or 3)
+            sleep_score = min(sh / 8 * 10, 10)
+            day_score   = (sleep_score + sq + en + (10-st) + (10-so)) / 5
+            scores.append(day_score); sleep_hrs.append(sh)
+            energies.append(en); stresses.append(st)
+    if not scores:
+        return {"score": None, "status": "no_data", "tracked": 0}
+    avg = sum(scores)/len(scores)
+    status = "excellent" if avg>=8 else "good" if avg>=6.5 else "moderate" if avg>=5 else "poor"
+    return {"score": round(avg*10), "status": status, "tracked": len(scores),
+            "avg_sleep": round(sum(sleep_hrs)/len(sleep_hrs),1),
+            "avg_energy": round(sum(energies)/len(energies),1),
+            "avg_stress": round(sum(stresses)/len(stresses),1)}
+
+def _training_analysis(workouts_log, days=7):
+    sessions, total_mins, types = 0, 0, {}
+    for i in range(days):
+        d = (date.today() - timedelta(days=i)).isoformat()
+        for w in workouts_log.get(d, []):
+            sessions += 1
+            total_mins += w.get("duration_mins", 0)
+            t = w.get("type","strength")
+            types[t] = types.get(t,0) + 1
+    return {"sessions": sessions, "total_mins": total_mins,
+            "avg_session": round(total_mins/sessions) if sessions else 0,
+            "dominant_type": max(types, key=types.get) if types else None}
+
+def _bfpct_trend(measurements):
+    sorted_m = sorted(measurements.items())
+    entries = [(d, v.get("body_fat")) for d,v in sorted_m if v.get("body_fat") is not None]
+    if len(entries) < 2:
+        return None
+    return round(entries[-1][1] - entries[0][1], 1)
+
+@app.route("/api/ai/analysis")
+def ai_analysis():
+    profile       = load_json("profile", {})
+    weight_log    = load_json("weight_log", {})
+    measurements  = load_json("measurements", {})
+    diet          = load_json("diet", {})
+    diet_plan     = load_json("diet_plan", {"calories":2000,"protein":150,"carbs":250,"fat":65})
+    wellness_log  = load_json("wellness", {})
+    workouts_log  = load_json("workouts", {})
+    goals_list    = load_json("goals", [])
+
+    goal     = profile.get("goal", "maintain")
+    wt       = _weight_trend_analysis(weight_log)
+    adh      = _diet_adherence_analysis(diet, diet_plan)
+    rec      = _recovery_analysis(wellness_log)
+    training = _training_analysis(workouts_log)
+    bf_delta = _bfpct_trend(measurements)
+    plan_cal = diet_plan.get("calories", 2000)
+    plan_pro = diet_plan.get("protein", 150)
+    bw       = profile.get("weight", 75)
+
+    insights, alerts, adjustments, today_focus = [], [], {}, []
+
+    # ── Plateau detection ─────────────────────────────────────────
+    if wt["entries"] >= 4:
+        if goal == "lose_weight" and wt["trend"] == "stable":
+            insights.append({"type":"plateau","priority":1,"icon":"🔄",
+                "title":"Weight Loss Plateau",
+                "body":f"Weight has been stable ({wt['rate']:+.2f} kg/wk) for the past 2 weeks. Your body has adapted — time to break through.",
+                "actions":["Cut 150 kcal/day (remove one snack or reduce portion)", "Add 20 min walking after dinner 4×/week", "Audit hidden calories: sauces, drinks, cooking oils", "Consider a 24-hr refeed at maintenance calories to reset leptin"],
+                "badge":"warning"})
+            adjustments["calories"] = -150
+            alerts.append({"type":"warning","msg":"⚠️ Weight plateau — calorie adjustment recommended"})
+
+        elif goal == "gain_muscle" and wt["trend"] == "stable":
+            insights.append({"type":"plateau","priority":1,"icon":"💪",
+                "title":"Muscle Gain Stalled",
+                "body":"Scale hasn't moved in 2 weeks. You need a larger caloric surplus to drive muscle protein synthesis.",
+                "actions":["Add 200 kcal from carbs around training (rice, oats, banana)", "Increase training volume by 1 set per muscle group", "Confirm progressive overload — increase weight or reps weekly"],
+                "badge":"warning"})
+            adjustments["calories"] = 200; adjustments["protein"] = 10
+            alerts.append({"type":"info","msg":"ℹ️ Bulk plateau — increase surplus by 200 kcal"})
+
+        elif goal == "lose_weight" and wt["rate"] < -1.2:
+            insights.append({"type":"warning","priority":1,"icon":"⚡",
+                "title":"Losing Weight Too Fast",
+                "body":f"Current rate: {abs(wt['rate']):.1f} kg/week. Safe fat loss is 0.5–1.0 kg/week. Faster than this risks muscle loss and metabolic slowdown.",
+                "actions":["Increase calories by 200–250 kcal/day", "Hit minimum 2.0 g protein/kg bodyweight", "Add one resistance session per week to preserve muscle"],
+                "badge":"danger"})
+            adjustments["calories"] = 250
+            alerts.append({"type":"danger","msg":"🚨 Losing weight too fast — increase calories"})
+
+    # ── Poor adherence ────────────────────────────────────────────
+    if adh["adherence_pct"] < 50:
+        insights.append({"type":"adherence","priority":2,"icon":"📋",
+            "title":"Low Tracking Consistency",
+            "body":f"Only {adh['tracked']}/{adh['days']} days logged. Consistent tracking is the single highest-leverage habit for transformation.",
+            "actions":["Log meals immediately — not at end of day", "Meal prep Sunday to remove decision fatigue", "Set a 8pm phone reminder: 'Did you log today?'", "Start with just logging dinner to build the habit"],
+            "badge":"warning"})
+    elif adh["adherence_pct"] >= 85:
+        insights.append({"type":"success","priority":5,"icon":"🌟",
+            "title":"Excellent Tracking Consistency",
+            "body":f"You've logged {adh['tracked']}/{adh['days']} days — elite-level consistency. This is what separates people who get results from those who don't.",
+            "actions":["Keep this streak going","Review weekly trends to spot optimisation opportunities"],
+            "badge":"success"})
+
+    # ── Calorie target adherence ───────────────────────────────────
+    if adh["tracked"] >= 3:
+        if adh["avg_cal_pct"] < 80:
+            insights.append({"type":"nutrition","priority":2,"icon":"🍽️",
+                "title":"Chronic Undereating Detected",
+                "body":f"Averaging {adh['avg_cal_pct']}% of your {plan_cal} kcal target. Sustained undereating downregulates metabolism, increases cortisol, and breaks down muscle tissue.",
+                "actions":["Add a 300–400 kcal nutrient-dense snack (nuts, Greek yogurt, banana + PB)", "Front-load calories — eat more at breakfast and lunch", "Prepare meals in advance so food is ready when hunger hits"],
+                "badge":"warning"})
+        elif adh["avg_cal_pct"] > 120:
+            insights.append({"type":"nutrition","priority":2,"icon":"🍽️",
+                "title":"Consistently Overeating",
+                "body":f"Averaging {adh['avg_cal_pct']}% of your calorie target. Sustained surplus beyond goal will increase fat storage.",
+                "actions":["Use a food scale for calorie-dense foods (oils, nuts, cheese)", "Eat slowly — it takes 20 min for fullness signals to reach your brain", "Replace one high-calorie snack with a high-volume, low-calorie option"],
+                "badge":"warning"})
+
+    # ── Protein adequacy ─────────────────────────────────────────
+    if adh["tracked"] >= 3 and adh["avg_protein"] < plan_pro * 0.75:
+        insights.append({"type":"protein","priority":2,"icon":"💪",
+            "title":"Protein Target Missed",
+            "body":f"Averaging {adh['avg_protein']}g vs your {plan_pro}g target. Protein is the most critical macro — it drives muscle synthesis and keeps you full.",
+            "actions":[f"Add a protein source to every meal (target 30–40g per meal)", "Greek yogurt + whey shake = easy 50g boost", "Replace carb-heavy snacks with high-protein alternatives"],
+            "badge":"warning"})
+
+    # ── Recovery ─────────────────────────────────────────────────
+    if rec["score"] is not None:
+        if rec["score"] < 45:
+            insights.append({"type":"recovery","priority":1,"icon":"😴",
+                "title":"Recovery in Critical Zone",
+                "body":f"Recovery score: {rec['score']}/100. Training hard while under-recovered accelerates overtraining, injury risk, and hormonal disruption.",
+                "actions":["Take a full rest day or active recovery (walk/stretch only)", f"Target {max(7.5, rec.get('avg_sleep',6)+1):.0f}+ hours of sleep tonight", "Reduce training intensity by 30% this week", "Prioritise magnesium-rich foods and consider 400mg magnesium glycinate before bed"],
+                "badge":"danger"})
+            alerts.append({"type":"danger","msg":"🚨 Recovery critical — rest day strongly recommended"})
+        elif rec["score"] < 65:
+            insights.append({"type":"recovery","priority":2,"icon":"🔋",
+                "title":"Suboptimal Recovery",
+                "body":f"Recovery score: {rec['score']}/100. You're accumulating fatigue. Address sleep and stress before adding more training load.",
+                "actions":["Aim for 7.5–8.5 hours sleep", "Reduce high-stress activities", "Add 10 min stretching or foam rolling post-workout"],
+                "badge":"info"})
+        elif rec["score"] >= 80:
+            insights.append({"type":"success","priority":5,"icon":"⚡",
+                "title":"Recovery Excellent",
+                "body":f"Recovery score: {rec['score']}/100. You're well-rested and ready to train hard.",
+                "actions":["Capitalise with a high-intensity session today", "This is an ideal day to attempt personal records"],
+                "badge":"success"})
+
+    # ── Training frequency ────────────────────────────────────────
+    if training["sessions"] == 0:
+        insights.append({"type":"training","priority":3,"icon":"🏋️",
+            "title":"No Training Logged This Week",
+            "body":"Exercise is a non-negotiable pillar for body composition and metabolic health. Even 3 sessions per week produces significant results.",
+            "actions":["Schedule 3 training sessions right now — put them in your calendar", "Start with 30–45 min full-body sessions if time is limited", "Even 20 min of resistance training beats no training"],
+            "badge":"warning"})
+    elif training["sessions"] >= 5 and rec.get("score", 100) < 60:
+        insights.append({"type":"overtraining","priority":2,"icon":"⚠️",
+            "title":"High Training Volume + Poor Recovery",
+            "body":f"{training['sessions']} sessions this week but recovery is low. More is not always better — super-compensation requires adequate rest.",
+            "actions":["Replace one session with active recovery this week", "Ensure at least 48h between training the same muscle groups", "Increase sleep by 30–60 min to support adaptation"],
+            "badge":"warning"})
+
+    # ── Body composition (if measurements available) ──────────────
+    if bf_delta is not None:
+        if goal == "lose_weight" and bf_delta < -1.5:
+            insights.append({"type":"body_comp","priority":4,"icon":"📉",
+                "title":"Body Fat Trending Down",
+                "body":f"Body fat reduced by {abs(bf_delta):.1f}% — excellent progress. This suggests you're losing fat while managing muscle retention.",
+                "actions":["Maintain current protein intake to protect lean mass", "Continue current training stimulus"],
+                "badge":"success"})
+        elif goal == "gain_muscle" and bf_delta > 3:
+            insights.append({"type":"body_comp","priority":3,"icon":"📊",
+                "title":"Fat Gain Alongside Muscle",
+                "body":f"Body fat up {bf_delta:.1f}% during bulk. Some fat gain is normal, but consider a mini cut if this continues.",
+                "actions":["Tighten caloric surplus to +200 kcal (cleaner bulk)", "Prioritise compound lifts to maximise muscle stimulus per calorie", "Consider a 2-week mini cut if fat gain continues"],
+                "badge":"info"})
+
+    # ── Goal progress ─────────────────────────────────────────────
+    completed_goals = [g for g in goals_list if g.get("target",1)>0 and g.get("current",0)/g["target"]>=1]
+    if completed_goals:
+        for g in completed_goals[:2]:
+            insights.append({"type":"achievement","priority":4,"icon":"🏆",
+                "title":f"Goal Achieved: {g['title']}",
+                "body":f"You've hit {g['current']} {g.get('unit','')} — your target of {g['target']} {g.get('unit','')}. Outstanding.",
+                "actions":["Set your next progressive goal", "Celebrate this milestone — it matters"],
+                "badge":"success"})
+
+    # ── Overall score ─────────────────────────────────────────────
+    score = 50
+    score += (adh["adherence_pct"] / 100 - 0.5) * 30
+    if rec["score"] is not None:
+        score += (rec["score"] / 100 - 0.5) * 25
+    if wt["trend"] != "unknown":
+        on_track = (goal=="lose_weight" and wt["trend"]=="losing") or \
+                   (goal=="gain_muscle" and wt["trend"]=="gaining") or \
+                   (goal=="maintain"    and wt["trend"]=="stable")
+        score += 15 if on_track else -5
+    if training["sessions"] >= 3:
+        score += 10
+    overall = max(5, min(99, round(score)))
+
+    # ── Grade ─────────────────────────────────────────────────────
+    grade = "S" if overall>=90 else "A" if overall>=80 else "B" if overall>=70 else "C" if overall>=55 else "D"
+
+    # ── Today's Focus ─────────────────────────────────────────────
+    # Pull top-priority action from top-priority insights
+    critical = [i for i in insights if i.get("badge") in ("danger","warning") and i["priority"]<=2]
+    for ins in sorted(critical, key=lambda x: x["priority"])[:3]:
+        if ins.get("actions"):
+            today_focus.append({"icon":ins["icon"],"text":ins["actions"][0],"priority":ins["badge"]})
+    # Fill with goal-specific defaults if under 3
+    defaults = {
+        "lose_weight": [{"icon":"🔥","text":f"Hit your {plan_cal} kcal target — not under","priority":"info"},
+                        {"icon":"💧","text":"Drink 2.5–3L of water","priority":"info"},
+                        {"icon":"🚶","text":"Hit 8,000+ steps today","priority":"info"}],
+        "gain_muscle": [{"icon":"💪","text":f"Eat {plan_pro}g protein — prioritise this above everything","priority":"info"},
+                        {"icon":"🏋️","text":"Complete your training session with progressive overload","priority":"info"},
+                        {"icon":"😴","text":"Sleep 8+ hours — growth happens at rest","priority":"info"}],
+        "maintain":    [{"icon":"⚖️","text":"Log all meals to stay accountable","priority":"info"},
+                        {"icon":"🏃","text":"Complete today's planned activity","priority":"info"},
+                        {"icon":"💧","text":"Stay hydrated — minimum 2L water","priority":"info"}],
+        "athletic":    [{"icon":"⚡","text":"Fuel workouts with adequate carbohydrates","priority":"info"},
+                        {"icon":"🏋️","text":"Execute training with full intensity","priority":"info"},
+                        {"icon":"🔋","text":"Prioritise recovery — it's where adaptation happens","priority":"info"}],
+    }
+    for d in defaults.get(goal, defaults["maintain"]):
+        if len(today_focus) < 3:
+            today_focus.append(d)
+
+    return jsonify({
+        "overall_score":  overall,
+        "grade":          grade,
+        "insights":       sorted(insights, key=lambda x: x.get("priority",5)),
+        "alerts":         alerts,
+        "adjustments":    adjustments,
+        "today_focus":    today_focus[:3],
+        "weight_trend":   wt,
+        "adherence":      adh,
+        "recovery":       rec,
+        "training":       training,
+        "recommended_calories": plan_cal + adjustments.get("calories", 0),
+        "recommended_protein":  plan_pro + adjustments.get("protein",  0),
+    })
+
 if __name__ == "__main__":
     app.run(debug=True, port=5050)

@@ -1,6 +1,6 @@
 # Daily Activity Tracker
 
-A cross-platform desktop app to track your daily tasks, habits, work hours, goals, diet, and journal — with a **personal nutrition calculator**, AI coaching system, body measurements tracking, and Excel export.
+An elite AI-powered fitness and nutrition coaching app for tracking tasks, habits, work hours, goals, diet, workouts, and wellness — with a **real-time TDEE calculator**, **adaptive AI coaching system**, body measurements tracking, and Excel export.
 
 Built with **Flask + Chrome app-mode** (native window, no browser needed) and packaged as a one-click installer for Linux, Windows, and macOS.
 
@@ -54,6 +54,25 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 - **Color-coded micro bars** for Fiber, Sugar, Sodium (✅ on track / ⚠️ near limit / ❌ exceeded)
 - Per-meal subtotals in the meals list
 
+### 🏋️ Training Log *(v1.4.0)*
+- Log workouts with **6 types**: Strength, Cardio, HIIT, Yoga/Flex, Sport, Other
+- Track **exercises per session**: name, sets, reps, weight
+- **Weekly training summary** — total sessions, minutes, sets, types
+- Full workout history with per-session exercise breakdown and delete support
+
+### 🌟 Wellness Tracking *(v1.4.0)*
+- **Daily check-in** with 5 metrics via visual sliders: sleep hours, sleep quality, energy, stress, muscle soreness
+- Pre-fills with today's saved entry for quick updates
+- Recent 5-day history strip with mini progress bars
+
+### 🤖 AI Coaching Dashboard *(v1.4.0)*
+- **Overall fitness score** (0–99) with animated SVG ring and letter grade (S/A/B/C/D)
+- **6 key stats**: diet adherence, recovery score, training sessions, weight trend, target kcal, target protein
+- **Alert banners** — danger/warning/info for plateau, overeating, critical recovery, overtraining
+- **Today's Focus** — 3 personalised priority action cards based on your data
+- **Insight cards** with priority chips (High/Medium): plateau detection, protein gaps, recovery alerts, goal achievements
+- **AI adjustments panel** — calorie and protein delta recommendations
+
 ### 🏋️ AI Coaching System *(v1.2.0)*
 - **Body Profile** — enter age, gender, height, weight, activity level, and goal
 - **TDEE Calculator** — Mifflin-St Jeor formula → Total Daily Energy Expenditure
@@ -90,6 +109,15 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 
 ## What's New
 
+### v1.4.0 — Elite AI Coaching Platform
+- **AI Coaching Dashboard** — overall fitness score (0–99) with letter grade (S/A/B/C/D), animated score ring, 6 stats at a glance (diet adherence, recovery, sessions/week, weight trend, target kcal/protein)
+- **Training tab** — log workouts with type (Strength/Cardio/HIIT/Yoga/Sport/Other), duration, notes, and per-exercise sets/reps/weight tracking; weekly training summary with total sessions/minutes/sets
+- **Daily Wellness Check-in** — log sleep hours, sleep quality, energy, stress, and muscle soreness with visual sliders; pre-fills with today's entry; recent 5-day history strip
+- **AI Insight Engine** — plateau detection, adherence/undereating/overeating alerts, protein gap warnings, recovery analysis, overtraining detection, body composition tracking, goal achievement recognition
+- **Today's Focus** — 3 priority action cards generated from your personal data and goal
+- **Alert Banners** — danger/warning/info banners for critical issues requiring immediate attention
+- **AI Calorie/Protein Recommendations** — data-driven adjustments displayed on the dashboard and available as one-click apply
+
 ### v1.3.0 — Personal Nutrition Calculator & Measurements
 - **My Plan tab** — dedicated nutrition calculator: real-time TDEE, visual activity/goal cards, SVG macro rings, goal timeline with projected date, metric/imperial toggle, one-click apply to diet plan
 - **Body Measurements** — log 9 body metrics with date; history table shows +/− deltas vs previous entry
@@ -122,10 +150,10 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 
 ### Linux (Ubuntu / Debian)
 
-Download `activity-tracker_1.3.0_all.deb` from the [Releases](../../releases) page, then:
+Download `activity-tracker_1.4.0_all.deb` from the [Releases](../../releases) page, then:
 
 ```bash
-sudo dpkg -i activity-tracker_1.3.0_all.deb
+sudo dpkg -i activity-tracker_1.4.0_all.deb
 sudo apt-get install -f
 ```
 

@@ -747,6 +747,83 @@
   }
   .mp-save-btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(46,134,171,.45); }
   .mp-save-btn:active { transform:translateY(0); }
+
+  /* ── Training tab ──────────────────────────────────────────────────── */
+  .workout-type-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:12px; }
+  @media (max-width:500px) { .workout-type-grid { grid-template-columns:repeat(2,1fr); } }
+  .wt-card { text-align:center; padding:10px 6px; border-radius:10px; cursor:pointer;
+    border:2px solid var(--border); background:var(--bg); transition:.2s; font-size:.8rem; font-weight:700; }
+  .wt-card:hover { border-color:var(--blue); }
+  .wt-card.active { border-color:var(--blue); background:rgba(46,134,171,.15); color:var(--blue); }
+  .wt-card .wt-icon { font-size:1.4rem; display:block; margin-bottom:3px; }
+  .ex-list { display:flex; flex-direction:column; gap:6px; margin-bottom:10px; }
+  .ex-row { display:grid; grid-template-columns:2fr 56px 56px 70px 32px; gap:6px; align-items:center; }
+  .ex-row input { width:100%; padding:6px 8px; border-radius:7px; border:1.5px solid var(--border); background:var(--input-bg); color:var(--text); font-size:.82rem; }
+  .ex-row input:focus { border-color:var(--blue); outline:none; }
+  .ex-remove { width:28px; height:28px; border-radius:6px; border:none; background:var(--bg); color:var(--red); cursor:pointer; font-size:.95rem; display:flex; align-items:center; justify-content:center; }
+  .ex-header { display:grid; grid-template-columns:2fr 56px 56px 70px 32px; gap:6px; font-size:.7rem; font-weight:700; color:var(--muted); margin-bottom:4px; }
+  .workout-card { background:var(--bg); border-radius:12px; padding:14px; margin-bottom:10px; border:1.5px solid var(--border); }
+  .workout-card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px; }
+  .workout-type-badge { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:20px; font-size:.75rem; font-weight:700; }
+  .workout-meta { font-size:.78rem; color:var(--muted); display:flex; gap:12px; flex-wrap:wrap; margin-top:4px; }
+  .workout-exercises { margin-top:8px; border-top:1px solid var(--border); padding-top:8px; }
+  .workout-ex-row { display:flex; gap:10px; flex-wrap:wrap; font-size:.78rem; color:var(--text); padding:3px 0; }
+  .workout-ex-name { font-weight:600; min-width:100px; }
+  .workout-ex-stat { color:var(--muted); }
+  .train-week-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px; }
+  @media (max-width:500px) { .train-week-grid { grid-template-columns:repeat(2,1fr); } }
+  .train-week-stat { text-align:center; background:var(--bg); border-radius:10px; padding:12px 8px; border:1.5px solid var(--border); }
+  .train-week-val { font-size:1.5rem; font-weight:800; }
+  .train-week-lbl { font-size:.72rem; color:var(--muted); font-weight:600; }
+
+  /* ── Wellness check-in ──────────────────────────────────────────────── */
+  .wellness-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:14px; }
+  @media (max-width:500px) { .wellness-grid { grid-template-columns:1fr; } }
+  .wellness-field { display:flex; flex-direction:column; gap:6px; }
+  .wellness-field label { font-size:.75rem; font-weight:700; color:var(--muted); display:flex; justify-content:space-between; align-items:center; }
+  .wellness-field label span { font-weight:800; color:var(--text); font-size:.82rem; }
+  .wellness-slider { -webkit-appearance:none; appearance:none; width:100%; height:8px; border-radius:4px; background:var(--border); outline:none; cursor:pointer; }
+  .wellness-slider::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:20px; height:20px; border-radius:50%; background:var(--blue); cursor:pointer; box-shadow:0 2px 6px rgba(46,134,171,.4); }
+  .wellness-slider::-moz-range-thumb { width:20px; height:20px; border-radius:50%; background:var(--blue); cursor:pointer; border:none; }
+
+  /* ── AI Dashboard ───────────────────────────────────────────────────── */
+  .ai-dash-header { display:flex; gap:18px; align-items:center; margin-bottom:20px; flex-wrap:wrap; }
+  .ai-score-ring { position:relative; flex-shrink:0; }
+  .ai-score-ring svg { display:block; }
+  .ai-score-inner { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; }
+  .ai-score-num { font-size:2.2rem; font-weight:900; line-height:1; }
+  .ai-score-lbl { font-size:.62rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+  .ai-grade-badge { font-size:1.6rem; font-weight:900; width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .ai-dash-stats { flex:1; min-width:180px; }
+  .ai-stat-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  @media (max-width:500px) { .ai-stat-row { grid-template-columns:repeat(2,1fr); } }
+  .ai-stat { background:var(--bg); border-radius:10px; padding:10px 6px; text-align:center; border:1.5px solid var(--border); }
+  .ai-stat-val { font-size:1.05rem; font-weight:800; }
+  .ai-stat-lbl { font-size:.66rem; color:var(--muted); font-weight:600; margin-top:2px; }
+  .ai-alert { display:flex; align-items:center; gap:10px; padding:10px 14px; border-radius:10px; margin-bottom:8px; font-size:.84rem; font-weight:600; }
+  .ai-alert.danger  { background:rgba(231,76,60,.12);  color:#c0392b; border:1.5px solid rgba(231,76,60,.35); }
+  .ai-alert.warning { background:rgba(243,156,18,.12); color:#b7770d; border:1.5px solid rgba(243,156,18,.35); }
+  .ai-alert.info    { background:rgba(46,134,171,.12); color:var(--blue); border:1.5px solid rgba(46,134,171,.35); }
+  .focus-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+  @media (max-width:600px) { .focus-grid { grid-template-columns:1fr; } }
+  .focus-card { background:var(--bg); border-radius:12px; padding:14px; border:1.5px solid var(--border); transition:.2s; }
+  .focus-card:hover { border-color:var(--blue); transform:translateY(-2px); }
+  .focus-card-num { font-size:.68rem; font-weight:800; color:var(--blue); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .focus-card-title { font-size:.88rem; font-weight:700; margin-bottom:3px; }
+  .focus-card-msg { font-size:.75rem; color:var(--muted); line-height:1.4; }
+  .ai-insight-card { display:flex; gap:12px; padding:14px; border-radius:12px; margin-bottom:8px; border:1.5px solid var(--border); background:var(--card); transition:.15s; }
+  .ai-insight-card:hover { transform:translateX(3px); }
+  .ai-insight-card.danger  { border-left:4px solid var(--red); }
+  .ai-insight-card.warning { border-left:4px solid var(--orange); }
+  .ai-insight-card.success { border-left:4px solid var(--green); }
+  .ai-insight-icon { font-size:1.4rem; flex-shrink:0; line-height:1.2; }
+  .ai-insight-title { font-size:.88rem; font-weight:700; margin-bottom:3px; }
+  .ai-insight-body  { font-size:.78rem; color:var(--muted); line-height:1.45; }
+  .ai-insight-action { margin-top:5px; font-size:.74rem; font-weight:700; color:var(--green); }
+  .ai-priority-chip { display:inline-block; padding:1px 7px; border-radius:8px; font-size:.63rem; font-weight:800; text-transform:uppercase; letter-spacing:.3px; margin-left:5px; vertical-align:middle; }
+  .ai-priority-chip.high   { background:rgba(231,76,60,.15);  color:#c0392b; }
+  .ai-priority-chip.medium { background:rgba(243,156,18,.15); color:#b7770d; }
+  .ai-priority-chip.low    { background:rgba(39,174,96,.15);  color:#1a7a40; }
 </style>
 </head>
 <body>
@@ -773,7 +850,8 @@
     <button class="tab-btn" onclick="switchTab('goals')">🎯 Goals</button>
     <button class="tab-btn" onclick="switchTab('diet')">🥗 Diet</button>
     <button class="tab-btn" onclick="switchTab('myplan')">📋 My Plan</button>
-    <button class="tab-btn coach-tab-btn" onclick="switchTab('coach')">🏋️ Coach</button>
+    <button class="tab-btn" onclick="switchTab('training')">🏋️ Training</button>
+    <button class="tab-btn coach-tab-btn" onclick="switchTab('coach')">🤖 Coach</button>
     <button class="tab-btn" onclick="switchTab('journal')">📓 Journal</button>
     <button class="tab-btn" onclick="switchTab('weekly')">📅 Weekly</button>
     <button class="tab-btn" onclick="switchTab('monthly')">📆 Monthly</button>
@@ -1114,7 +1192,124 @@
   </div>
 
   <!-- COACH -->
+  <!-- TRAINING -->
+  <div class="tab-panel" id="panel-training">
+
+    <!-- Log Workout -->
+    <div class="card">
+      <div class="card-title">🏋️ Log Workout</div>
+
+      <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">Workout Type</div>
+      <div class="workout-type-grid" id="workoutTypeGrid">
+        <div class="wt-card active" data-type="strength" onclick="selectWorkoutType(this)"><span class="wt-icon">🏋️</span>Strength</div>
+        <div class="wt-card" data-type="cardio" onclick="selectWorkoutType(this)"><span class="wt-icon">🏃</span>Cardio</div>
+        <div class="wt-card" data-type="hiit" onclick="selectWorkoutType(this)"><span class="wt-icon">⚡</span>HIIT</div>
+        <div class="wt-card" data-type="yoga" onclick="selectWorkoutType(this)"><span class="wt-icon">🧘</span>Yoga/Flex</div>
+        <div class="wt-card" data-type="sport" onclick="selectWorkoutType(this)"><span class="wt-icon">⚽</span>Sport</div>
+        <div class="wt-card" data-type="other" onclick="selectWorkoutType(this)"><span class="wt-icon">🎯</span>Other</div>
+      </div>
+
+      <div class="form-row" style="margin-bottom:14px">
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:.75rem;font-weight:700;color:var(--muted)">Date</label>
+          <input type="date" id="workoutDate">
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:.75rem;font-weight:700;color:var(--muted)">Duration (mins)</label>
+          <input type="number" id="workoutDuration" min="5" max="360" placeholder="60">
+        </div>
+        <div style="flex:1.5;display:flex;flex-direction:column;gap:4px">
+          <label style="font-size:.75rem;font-weight:700;color:var(--muted)">Notes</label>
+          <input type="text" id="workoutNotes" placeholder="Felt great, new PR...">
+        </div>
+      </div>
+
+      <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Exercises (Optional)</div>
+      <div class="ex-header">
+        <span>Exercise Name</span><span>Sets</span><span>Reps</span><span>Weight (kg)</span><span></span>
+      </div>
+      <div class="ex-list" id="exList"></div>
+      <button onclick="addExercise()" style="background:var(--bg);border:1.5px dashed var(--border);color:var(--muted);font-size:.82rem;width:100%;padding:8px;border-radius:8px;cursor:pointer">+ Add Exercise</button>
+
+      <button class="btn btn-primary" style="width:100%;margin-top:14px;padding:12px;font-size:.95rem" onclick="logWorkout()">💾 Save Workout</button>
+    </div>
+
+    <!-- Weekly Summary -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="card-title" style="margin:0">📊 This Week's Training</div>
+        <button onclick="loadTraining()" style="font-size:.78rem;padding:5px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text)">↺ Refresh</button>
+      </div>
+      <div class="train-week-grid" id="trainWeekStats"></div>
+      <div id="trainWeekDays"></div>
+    </div>
+
+    <!-- Workout History -->
+    <div class="card">
+      <div class="card-title">📅 Recent Workouts</div>
+      <div id="workoutHistory"></div>
+    </div>
+
+  </div>
+
+  <!-- COACH -->
   <div class="tab-panel" id="panel-coach">
+
+    <!-- AI Coaching Dashboard -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div class="card-title" style="margin:0">🤖 AI Coaching Dashboard</div>
+        <button onclick="loadAIAnalysis()" style="font-size:.78rem;padding:5px 12px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text)">↺ Refresh</button>
+      </div>
+      <div class="ai-dash-header" id="aiScoreSection">
+        <div style="color:var(--muted);font-size:.85rem;padding:8px">Loading AI analysis…</div>
+      </div>
+      <div id="aiAlerts"></div>
+      <div id="aiTodayFocus"></div>
+      <div id="aiInsights"></div>
+      <div id="aiRecommendations"></div>
+    </div>
+
+    <!-- Wellness Check-in -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="card-title" style="margin:0">🌟 Daily Wellness Check-in</div>
+        <span id="wellnessSavedMsg" style="font-size:.78rem;color:var(--green)"></span>
+      </div>
+      <div class="wellness-grid">
+        <div class="wellness-field">
+          <label>😴 Sleep Hours <span id="lblSleepHours">7.0h</span></label>
+          <input type="range" class="wellness-slider" id="wSleepHours" min="3" max="12" step="0.5" value="7"
+            oninput="document.getElementById('lblSleepHours').textContent=parseFloat(this.value).toFixed(1)+'h'">
+        </div>
+        <div class="wellness-field">
+          <label>⭐ Sleep Quality <span id="lblSleepQuality">3/5</span></label>
+          <input type="range" class="wellness-slider" id="wSleepQuality" min="1" max="5" step="1" value="3"
+            oninput="document.getElementById('lblSleepQuality').textContent=this.value+'/5'">
+        </div>
+        <div class="wellness-field">
+          <label>⚡ Energy Level <span id="lblEnergy">3/5</span></label>
+          <input type="range" class="wellness-slider" id="wEnergy" min="1" max="5" step="1" value="3"
+            oninput="document.getElementById('lblEnergy').textContent=this.value+'/5'">
+        </div>
+        <div class="wellness-field">
+          <label>🧘 Stress Level <span id="lblStress">3/5</span></label>
+          <input type="range" class="wellness-slider" id="wStress" min="1" max="5" step="1" value="3"
+            oninput="document.getElementById('lblStress').textContent=this.value+'/5'">
+        </div>
+        <div class="wellness-field">
+          <label>💪 Muscle Soreness <span id="lblSoreness">2/5</span></label>
+          <input type="range" class="wellness-slider" id="wSoreness" min="1" max="5" step="1" value="2"
+            oninput="document.getElementById('lblSoreness').textContent=this.value+'/5'">
+        </div>
+        <div class="wellness-field" style="justify-content:flex-end;padding-top:4px">
+          <label style="margin-bottom:6px">📅 Date</label>
+          <input type="date" id="wDate" style="padding:7px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--input-bg);color:var(--text);font-size:.85rem">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="saveWellness()" style="margin-bottom:14px">💾 Save Today's Wellness</button>
+      <div id="wellnessHistory"></div>
+    </div>
 
     <!-- Body Profile -->
     <div class="card">
@@ -1178,12 +1373,8 @@
       <div class="weight-history" id="weightHistory"></div>
     </div>
 
-    <!-- Coaching Score + Insights -->
-    <div class="card">
-      <div class="card-title">🏋️ Coach's Playbook</div>
-      <div id="coachScore"></div>
-      <div id="coachInsights"></div>
-    </div>
+    <!-- Legacy coaching score (hidden — replaced by AI Dashboard above) -->
+    <div style="display:none"><div id="coachScore"></div><div id="coachInsights"></div></div>
 
     <!-- Diet Plans Library -->
     <div class="card">
@@ -1423,15 +1614,16 @@
     setTimeout(() => t.classList.remove('show'), dur);
   }
 
-  const TAB_NAMES = ['dashboard','tasks','habits','work','goals','diet','myplan','coach','journal','weekly','monthly'];
+  const TAB_NAMES = ['dashboard','tasks','habits','work','goals','diet','myplan','training','coach','journal','weekly','monthly'];
   function switchTab(name) {
     document.querySelectorAll('.tab-btn').forEach((b,i) =>
       b.classList.toggle('active', TAB_NAMES[i] === name));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel-'+name).classList.add('active');
     if (name === 'dashboard') Object.values(charts).forEach(c => c && c.resize());
-    if (name === 'myplan')   loadMyPlan();
-    if (name === 'coach')    loadCoach();
+    if (name === 'myplan')    loadMyPlan();
+    if (name === 'training')  loadTraining();
+    if (name === 'coach')     loadCoach();
     if (name === 'journal')  loadNotes();
     if (name === 'weekly')   loadWeek();
     if (name === 'monthly')  loadMonth();
@@ -2162,6 +2354,8 @@
     renderPlans();
     loadCoachingInsights();
     loadMeasurements();
+    loadWellness();
+    loadAIAnalysis();
   }
 
   // ── Body Measurements ─────────────────────────────────────────────────
@@ -2572,6 +2766,361 @@
     dietPlans = await fetch('/api/diet/plans').then(r=>r.json());
     renderPlans();
     toast('✅ Suggested plan created! Go to Diet Plans to activate it.');
+  }
+
+  // ── Training ────────────────────────────────────────────────────────────
+  let workouts = [], exercises = [], selectedWorkoutType = 'strength';
+
+  function selectWorkoutType(el) {
+    document.querySelectorAll('#workoutTypeGrid .wt-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedWorkoutType = el.dataset.type;
+  }
+
+  function addExercise() {
+    exercises.push({name:'', sets:0, reps:0, weight:0});
+    renderExerciseList();
+  }
+
+  function removeExercise(i) {
+    exercises.splice(i, 1);
+    renderExerciseList();
+  }
+
+  function renderExerciseList() {
+    const el = document.getElementById('exList');
+    if (!exercises.length) { el.innerHTML = ''; return; }
+    el.innerHTML = exercises.map((_, i) => `
+      <div class="ex-row">
+        <input type="text" placeholder="e.g. Bench Press" id="exName_${i}"
+          oninput="exercises[${i}].name=this.value">
+        <input type="number" placeholder="3" id="exSets_${i}" min="1" max="20"
+          oninput="exercises[${i}].sets=parseInt(this.value)||0">
+        <input type="number" placeholder="10" id="exReps_${i}" min="1" max="200"
+          oninput="exercises[${i}].reps=parseInt(this.value)||0">
+        <input type="number" placeholder="60" id="exWeight_${i}" step="0.5" min="0"
+          oninput="exercises[${i}].weight=parseFloat(this.value)||0">
+        <button class="ex-remove" onclick="removeExercise(${i})">✕</button>
+      </div>`).join('');
+  }
+
+  async function logWorkout() {
+    const date = document.getElementById('workoutDate').value || todayStr();
+    const duration = parseInt(document.getElementById('workoutDuration').value) || 0;
+    if (!duration) return toast('⚠️ Enter workout duration in minutes');
+    const body = {
+      date, type: selectedWorkoutType,
+      duration_mins: duration,
+      notes: document.getElementById('workoutNotes').value.trim(),
+      exercises: exercises.filter(e => e.name.trim()),
+    };
+    await fetch('/api/workouts', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    exercises = [];
+    renderExerciseList();
+    document.getElementById('workoutDuration').value = '';
+    document.getElementById('workoutNotes').value = '';
+    await loadTraining();
+    toast('✅ Workout logged!');
+    loadAIAnalysis();
+  }
+
+  async function deleteWorkout(id) {
+    const d = workouts.find(w => w.id === id)?.date || todayStr();
+    await fetch(`/api/workouts/${id}?date=${d}`, {method:'DELETE'});
+    await loadTraining();
+    toast('🗑️ Workout removed');
+  }
+
+  async function loadTraining() {
+    const [weekData, allW] = await Promise.all([
+      fetch('/api/workouts/week').then(r=>r.json()),
+      fetch('/api/workouts/all').then(r=>r.json()),
+    ]);
+    workouts = allW;
+    document.getElementById('workoutDate').value = todayStr();
+    renderTrainingWeek(weekData);
+    renderWorkoutHistory();
+  }
+
+  function renderTrainingWeek(weekData) {
+    const totalSessions = weekData.reduce((s, d) => s + d.count, 0);
+    const totalMins     = weekData.reduce((s, d) => s + d.total_mins, 0);
+    let totalSets = 0, typeSet = new Set();
+    weekData.forEach(d => d.sessions.forEach(s => {
+      typeSet.add(s.type);
+      totalSets += (s.exercises || []).reduce((a, e) => a + (e.sets || 0), 0);
+    }));
+
+    document.getElementById('trainWeekStats').innerHTML = `
+      <div class="train-week-stat">
+        <div class="train-week-val" style="color:var(--blue)">${totalSessions}</div>
+        <div class="train-week-lbl">Sessions</div>
+      </div>
+      <div class="train-week-stat">
+        <div class="train-week-val" style="color:var(--green)">${totalMins}</div>
+        <div class="train-week-lbl">Total Mins</div>
+      </div>
+      <div class="train-week-stat">
+        <div class="train-week-val" style="color:var(--orange)">${totalSets}</div>
+        <div class="train-week-lbl">Total Sets</div>
+      </div>
+      <div class="train-week-stat">
+        <div class="train-week-val" style="color:var(--purple)">${typeSet.size}</div>
+        <div class="train-week-lbl">Types</div>
+      </div>`;
+
+    const TYPE_ICONS = {strength:'🏋️',cardio:'🏃',hiit:'⚡',yoga:'🧘',sport:'⚽',other:'🎯'};
+    const allSessions = [];
+    weekData.forEach(d => d.sessions.forEach(s => allSessions.push({...s, date: d.date})));
+    const daysEl = document.getElementById('trainWeekDays');
+    if (!allSessions.length) { daysEl.innerHTML = ''; return; }
+    daysEl.innerHTML = allSessions.map(s => `
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:.82rem;flex-wrap:wrap">
+        <span style="font-size:1.1rem">${TYPE_ICONS[s.type]||'🎯'}</span>
+        <span style="font-weight:700;min-width:78px">${s.date}</span>
+        <span style="text-transform:capitalize;color:var(--blue);font-weight:600">${s.type}</span>
+        <span style="color:var(--muted)">${s.duration_mins} min</span>
+        ${(s.exercises||[]).length ? `<span style="color:var(--muted)">${s.exercises.length} exercises</span>` : ''}
+        ${s.notes ? `<span style="color:var(--muted);font-style:italic">${escHtml(s.notes)}</span>` : ''}
+      </div>`).join('');
+  }
+
+  const TYPE_ICONS_W = {strength:'🏋️',cardio:'🏃',hiit:'⚡',yoga:'🧘',sport:'⚽',other:'🎯'};
+  const TYPE_COLORS = {strength:'var(--blue)',cardio:'var(--green)',hiit:'var(--red)',yoga:'var(--teal)',sport:'var(--orange)',other:'var(--muted)'};
+
+  function renderWorkoutHistory() {
+    const el = document.getElementById('workoutHistory');
+    if (!workouts.length) {
+      el.innerHTML = '<div class="empty"><div class="empty-icon">🏋️</div>No workouts yet. Log your first session above!</div>';
+      return;
+    }
+    el.innerHTML = workouts.slice(0, 20).map(w => {
+      const exRows = (w.exercises||[]).map(e => `
+        <div class="workout-ex-row">
+          <span class="workout-ex-name">${escHtml(e.name||'')}</span>
+          ${e.sets  ? `<span class="workout-ex-stat">${e.sets} sets</span>` : ''}
+          ${e.reps  ? `<span class="workout-ex-stat">× ${e.reps} reps</span>` : ''}
+          ${e.weight? `<span class="workout-ex-stat">@ ${e.weight} kg</span>` : ''}
+        </div>`).join('');
+      const col = TYPE_COLORS[w.type] || 'var(--muted)';
+      return `
+      <div class="workout-card">
+        <div class="workout-card-header">
+          <div>
+            <span class="workout-type-badge" style="background:${col}22;color:${col}">
+              ${TYPE_ICONS_W[w.type]||'🎯'} ${(w.type||'').charAt(0).toUpperCase()+(w.type||'').slice(1)}
+            </span>
+            <div class="workout-meta">
+              <span>📅 ${w.date}</span>
+              <span>⏱ ${w.duration_mins} min</span>
+              ${(w.exercises||[]).length ? `<span>💪 ${w.exercises.length} exercises</span>` : ''}
+              ${w.notes ? `<span style="font-style:italic">${escHtml(w.notes)}</span>` : ''}
+            </div>
+          </div>
+          <button class="btn btn-danger btn-sm" onclick="deleteWorkout(${w.id})">✕</button>
+        </div>
+        ${exRows ? `<div class="workout-exercises">${exRows}</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+
+  // ── Wellness ────────────────────────────────────────────────────────────
+  let wellnessLog = [];
+
+  async function loadWellness() {
+    wellnessLog = await fetch('/api/wellness/history').then(r=>r.json());
+    const wDate = document.getElementById('wDate');
+    if (wDate) wDate.value = todayStr();
+    const today = wellnessLog.find(w => w.date === todayStr());
+    if (today) {
+      const fieldMap = {wSleepHours:'sleep_hours',wSleepQuality:'sleep_quality',wEnergy:'energy',wStress:'stress',wSoreness:'soreness'};
+      const lblMap   = {wSleepHours:'lblSleepHours',wSleepQuality:'lblSleepQuality',wEnergy:'lblEnergy',wStress:'lblStress',wSoreness:'lblSoreness'};
+      const fmt      = {wSleepHours: v => parseFloat(v).toFixed(1)+'h', wSleepQuality: v => v+'/5', wEnergy: v => v+'/5', wStress: v => v+'/5', wSoreness: v => v+'/5'};
+      for (const [id, key] of Object.entries(fieldMap)) {
+        if (today[key] !== undefined) {
+          document.getElementById(id).value = today[key];
+          document.getElementById(lblMap[id]).textContent = fmt[id](today[key]);
+        }
+      }
+      document.getElementById('wellnessSavedMsg').textContent = '✅ Today logged';
+    } else {
+      document.getElementById('wellnessSavedMsg').textContent = '';
+    }
+    renderWellnessHistory();
+  }
+
+  async function saveWellness() {
+    const body = {
+      date:          document.getElementById('wDate').value || todayStr(),
+      sleep_hours:   parseFloat(document.getElementById('wSleepHours').value),
+      sleep_quality: parseInt(document.getElementById('wSleepQuality').value),
+      energy:        parseInt(document.getElementById('wEnergy').value),
+      stress:        parseInt(document.getElementById('wStress').value),
+      soreness:      parseInt(document.getElementById('wSoreness').value),
+    };
+    await fetch('/api/wellness', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    wellnessLog = await fetch('/api/wellness/history').then(r=>r.json());
+    document.getElementById('wellnessSavedMsg').textContent = '✅ Saved!';
+    renderWellnessHistory();
+    toast('✅ Wellness logged!');
+    loadAIAnalysis();
+  }
+
+  function renderWellnessHistory() {
+    const el = document.getElementById('wellnessHistory');
+    if (!wellnessLog.length) { el.innerHTML = ''; return; }
+    const miniBar = (v, max, col) =>
+      `<div style="display:inline-block;width:${Math.round((v||0)/max*36)}px;height:5px;border-radius:3px;background:${col};vertical-align:middle;margin-left:3px;opacity:.8"></div>`;
+    const last5 = [...wellnessLog].reverse().slice(0, 5);
+    el.innerHTML = `
+      <div style="font-size:.73rem;font-weight:700;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px">Recent Check-ins</div>
+      ${last5.map(w => `
+      <div style="display:flex;gap:12px;padding:7px 0;border-bottom:1px solid var(--border);align-items:center;flex-wrap:wrap;font-size:.78rem">
+        <span style="font-weight:700;min-width:80px">${w.date}</span>
+        <span>😴 ${w.sleep_hours}h${miniBar(w.sleep_quality,5,'var(--blue)')}</span>
+        <span>⚡ ${w.energy||'—'}/5${miniBar(w.energy,5,'var(--green)')}</span>
+        <span>🧘 ${w.stress||'—'}/5${miniBar(w.stress,5,'var(--orange)')}</span>
+        <span>💪 ${w.soreness||'—'}/5${miniBar(w.soreness,5,'var(--red)')}</span>
+      </div>`).join('')}`;
+  }
+
+  // ── AI Analysis Dashboard ───────────────────────────────────────────────
+  async function loadAIAnalysis() {
+    const scoreEl = document.getElementById('aiScoreSection');
+    if (!scoreEl) return;
+    scoreEl.innerHTML = '<div style="color:var(--muted);font-size:.85rem;padding:8px">Loading AI analysis…</div>';
+    ['aiAlerts','aiTodayFocus','aiInsights','aiRecommendations'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.innerHTML = '';
+    });
+    try {
+      const data = await fetch('/api/ai/analysis').then(r=>r.json());
+      renderAIScore(data);
+      renderAIAlerts(data.alerts || []);
+      renderAITodayFocus(data.today_focus || []);
+      renderAIInsights(data.insights || []);
+      renderAIRecommendations(data);
+    } catch(e) {
+      scoreEl.innerHTML = `<div class="insight-card info"><div class="insight-icon">🤖</div><div>
+        <div class="insight-title">Analysis Unavailable</div>
+        <div class="insight-msg">Start tracking meals, weight, and wellness to unlock AI coaching.</div>
+      </div></div>`;
+    }
+  }
+
+  function renderAIScore(data) {
+    const el = document.getElementById('aiScoreSection');
+    const s = data.overall_score || 0;
+    const grade = data.grade || 'C';
+    const col = s >= 80 ? '#27AE60' : s >= 60 ? '#2E86AB' : s >= 40 ? '#F39C12' : '#E74C3C';
+    const gradeCols = {S:'#F39C12',A:'#27AE60',B:'#2E86AB',C:'#8E44AD',D:'#E74C3C'};
+    const gc = gradeCols[grade] || '#718096';
+    const r = 44, circ = 2 * Math.PI * r, filled = (s / 100) * circ;
+    const wt  = data.weight_trend || {};
+    const adh = data.adherence    || {};
+    const rec = data.recovery     || {};
+    const trn = data.training     || {};
+    const recCol = (rec.score||0) >= 70 ? 'var(--green)' : (rec.score||0) >= 50 ? 'var(--orange)' : 'var(--red)';
+    const wRate = wt.rate !== undefined ? ((wt.rate > 0 ? '+' : '') + wt.rate.toFixed(2) + ' kg/wk') : '—';
+
+    el.innerHTML = `
+      <div class="ai-score-ring">
+        <svg width="126" height="126" viewBox="0 0 100 100">
+          <circle fill="none" stroke="var(--border)" stroke-width="8" cx="50" cy="50" r="${r}"/>
+          <circle fill="none" stroke="${col}" stroke-width="8" stroke-linecap="round"
+            cx="50" cy="50" r="${r}"
+            stroke-dasharray="${filled.toFixed(1)} ${circ.toFixed(1)}"
+            transform="rotate(-90 50 50)"/>
+        </svg>
+        <div class="ai-score-inner">
+          <div class="ai-score-num" style="color:${col}">${s}</div>
+          <div class="ai-score-lbl">Score</div>
+        </div>
+      </div>
+      <div class="ai-grade-badge" style="background:${gc}22;color:${gc}">${grade}</div>
+      <div class="ai-dash-stats">
+        <div style="font-size:.85rem;font-weight:700;margin-bottom:8px">Fitness Overview</div>
+        <div class="ai-stat-row">
+          <div class="ai-stat"><div class="ai-stat-val" style="color:var(--blue)">${adh.adherence_pct !== undefined ? adh.adherence_pct+'%' : '—'}</div><div class="ai-stat-lbl">Diet Adherence</div></div>
+          <div class="ai-stat"><div class="ai-stat-val" style="color:${recCol}">${rec.score !== undefined ? rec.score : '—'}</div><div class="ai-stat-lbl">Recovery</div></div>
+          <div class="ai-stat"><div class="ai-stat-val" style="color:var(--purple)">${trn.sessions !== undefined ? trn.sessions : '—'}</div><div class="ai-stat-lbl">Sessions/Wk</div></div>
+          <div class="ai-stat"><div class="ai-stat-val" style="color:var(--orange)">${wRate}</div><div class="ai-stat-lbl">Weight Trend</div></div>
+          <div class="ai-stat"><div class="ai-stat-val" style="color:var(--teal)">${data.recommended_calories || '—'}</div><div class="ai-stat-lbl">Target kcal</div></div>
+          <div class="ai-stat"><div class="ai-stat-val" style="color:var(--green)">${data.recommended_protein ? data.recommended_protein+'g' : '—'}</div><div class="ai-stat-lbl">Target Protein</div></div>
+        </div>
+      </div>`;
+  }
+
+  function renderAIAlerts(alerts) {
+    const el = document.getElementById('aiAlerts');
+    if (!alerts.length) { el.innerHTML = ''; return; }
+    el.innerHTML = '<div style="margin-bottom:4px"></div>' +
+      alerts.map(a => `
+      <div class="ai-alert ${a.type || 'info'}">
+        <span style="font-size:1rem;flex-shrink:0">⚠️</span>
+        <span>${a.msg || ''}</span>
+      </div>`).join('');
+  }
+
+  function renderAITodayFocus(focus) {
+    const el = document.getElementById('aiTodayFocus');
+    if (!focus.length) { el.innerHTML = ''; return; }
+    el.innerHTML = `
+      <div style="font-size:.73rem;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin:14px 0 10px">Today's Focus</div>
+      <div class="focus-grid">
+        ${focus.map((f, i) => `
+        <div class="focus-card">
+          <div class="focus-card-num">${f.icon || ''} Priority ${i+1}</div>
+          <div class="focus-card-msg">${f.text || ''}</div>
+        </div>`).join('')}
+      </div>`;
+  }
+
+  function renderAIInsights(insights) {
+    const el = document.getElementById('aiInsights');
+    if (!insights.length) {
+      el.innerHTML = '<div class="empty" style="padding:16px 0"><div class="empty-icon">🤖</div>Track data for 3+ days to unlock personalised coaching insights.</div>';
+      return;
+    }
+    const badgeClass = {danger:'danger', warning:'warning', success:'success', info:''};
+    const priorityChip = p => {
+      if (p <= 1) return '<span class="ai-priority-chip high">High</span>';
+      if (p <= 2) return '<span class="ai-priority-chip medium">Medium</span>';
+      return '';
+    };
+    el.innerHTML = `
+      <div style="font-size:.73rem;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin:14px 0 10px">Coaching Insights</div>
+      ${insights.map(ins => `
+      <div class="ai-insight-card ${badgeClass[ins.badge] || ''}">
+        <div class="ai-insight-icon">${ins.icon || '💡'}</div>
+        <div style="flex:1">
+          <div class="ai-insight-title">${ins.title || ''}${priorityChip(ins.priority||5)}</div>
+          <div class="ai-insight-body">${ins.body || ''}</div>
+          ${(ins.actions||[]).length ? `<div class="ai-insight-action">→ ${ins.actions[0]}</div>` : ''}
+        </div>
+      </div>`).join('')}`;
+  }
+
+  function renderAIRecommendations(data) {
+    const el = document.getElementById('aiRecommendations');
+    const adj = data.adjustments || {};
+    if (!adj.calories && !adj.protein) { el.innerHTML = ''; return; }
+    const calDelta = adj.calories || 0;
+    const proDelta = adj.protein  || 0;
+    el.innerHTML = `
+      <div style="background:linear-gradient(135deg,var(--navy) 0%,#2a5298 100%);border-radius:14px;padding:16px;color:#fff;margin-top:8px">
+        <div style="font-size:.78rem;font-weight:800;margin-bottom:10px;opacity:.8;letter-spacing:.5px">📊 AI ADJUSTMENT RECOMMENDATION</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+          ${calDelta ? `<div style="background:rgba(255,255,255,.12);padding:10px 16px;border-radius:10px;text-align:center">
+            <div style="font-size:1.3rem;font-weight:900">${calDelta>0?'+':''}${calDelta} kcal</div>
+            <div style="font-size:.68rem;opacity:.75">Calorie Adjustment</div>
+          </div>` : ''}
+          ${proDelta ? `<div style="background:rgba(255,255,255,.12);padding:10px 16px;border-radius:10px;text-align:center">
+            <div style="font-size:1.3rem;font-weight:900">${proDelta>0?'+':''}${proDelta}g</div>
+            <div style="font-size:.68rem;opacity:.75">Protein Adjustment</div>
+          </div>` : ''}
+          <div style="flex:1;font-size:.8rem;opacity:.75;min-width:120px;line-height:1.4">Apply these to your next diet plan to stay on track.</div>
+        </div>
+      </div>`;
   }
 
   // ── Summary Cards ──────────────────────────────────────────────────────
