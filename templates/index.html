@@ -651,6 +651,102 @@
     .header-right { gap: 6px; }
     .date-picker { max-width: 108px; font-size: .78rem; }
   }
+
+  /* ── My Plan tab ──────────────────────────────────────────────────────── */
+  .myplan-layout {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  @media (max-width: 900px) { .myplan-layout { grid-template-columns: 1fr; } }
+
+  /* Unit toggle */
+  .unit-toggle { display:flex; gap:0; border-radius:8px; overflow:hidden; border:1.5px solid var(--border); margin-bottom:16px; width:fit-content; }
+  .unit-btn { padding:7px 18px; font-size:.82rem; font-weight:600; background:var(--bg); color:var(--muted); border:none; cursor:pointer; transition:.2s; }
+  .unit-btn.active { background:var(--blue); color:#fff; }
+
+  /* Gender toggle */
+  .gender-row { display:flex; gap:8px; }
+  .gender-btn { flex:1; padding:9px; font-size:.88rem; font-weight:600; border-radius:8px; border:2px solid var(--border); background:var(--bg); color:var(--muted); cursor:pointer; transition:.2s; }
+  .gender-btn.active { border-color:var(--blue); background:var(--blue); color:#fff; }
+
+  /* Activity cards */
+  .activity-cards { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+  @media (max-width:600px) { .activity-cards { grid-template-columns:repeat(3,1fr); } }
+  .activity-card {
+    text-align:center; padding:12px 6px; border-radius:12px; cursor:pointer;
+    border:2px solid var(--border); background:var(--bg); transition:.2s;
+  }
+  .activity-card:hover { border-color:var(--blue); }
+  .activity-card.active { border-color:var(--blue); background:rgba(46,134,171,.12); }
+  .activity-card .ac-icon { font-size:1.6rem; margin-bottom:4px; }
+  .activity-card .ac-name { font-size:.75rem; font-weight:700; color:var(--text); }
+  .activity-card .ac-desc { font-size:.65rem; color:var(--muted); margin-top:2px; }
+
+  /* Goal cards */
+  .goal-cards { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+  .goal-card {
+    padding:16px; border-radius:14px; cursor:pointer; text-align:center;
+    border:2px solid var(--border); background:var(--bg); transition:.25s;
+    position:relative; overflow:hidden;
+  }
+  .goal-card:hover { border-color:var(--orange); transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,.1); }
+  .goal-card.active { border-color:var(--orange); background:rgba(243,156,18,.1); }
+  .goal-card .gc-icon { font-size:2rem; margin-bottom:6px; }
+  .goal-card .gc-name { font-size:.9rem; font-weight:700; color:var(--text); }
+  .goal-card .gc-desc { font-size:.72rem; color:var(--muted); margin-top:4px; line-height:1.4; }
+
+  /* Results column */
+  .mp-hero {
+    text-align:center; padding:28px 20px;
+    background:linear-gradient(135deg,var(--navy) 0%,#2a5298 100%);
+    border-radius:16px; color:#fff; margin-bottom:14px;
+  }
+  .mp-hero-label { font-size:.8rem; font-weight:600; opacity:.75; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
+  .mp-hero-kcal { font-size:3.2rem; font-weight:800; line-height:1; }
+  .mp-hero-unit { font-size:1rem; opacity:.75; margin-top:4px; }
+  .mp-hero-sub  { margin-top:14px; display:flex; justify-content:center; gap:24px; flex-wrap:wrap; }
+  .mp-hero-stat { text-align:center; }
+  .mp-hero-stat .val { font-size:1.2rem; font-weight:700; }
+  .mp-hero-stat .lbl { font-size:.68rem; opacity:.65; text-transform:uppercase; }
+
+  /* Macro rings row */
+  .mp-macro-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:14px; }
+  @media (max-width:500px) { .mp-macro-grid { grid-template-columns:repeat(2,1fr); } }
+  .mp-macro-tile {
+    border-radius:12px; padding:14px 10px; text-align:center;
+    background:var(--bg); border:1.5px solid var(--border);
+  }
+  .mp-macro-tile svg { display:block; margin:0 auto 6px; }
+  .mp-macro-tile .mt-val { font-size:1.25rem; font-weight:800; }
+  .mp-macro-tile .mt-label { font-size:.7rem; color:var(--muted); font-weight:600; }
+  .mp-macro-tile .mt-kcal { font-size:.68rem; color:var(--muted); margin-top:2px; }
+
+  /* Micro bar */
+  .mp-micro-row { display:flex; flex-direction:column; gap:7px; }
+  .mp-micro-item { display:flex; align-items:center; gap:8px; font-size:.82rem; }
+  .mp-micro-item .mi-label { width:100px; color:var(--muted); font-weight:600; }
+  .mp-micro-item .mi-bar { flex:1; height:8px; background:var(--border); border-radius:4px; overflow:hidden; }
+  .mp-micro-item .mi-fill { height:100%; border-radius:4px; background:var(--green); }
+  .mp-micro-item .mi-val { font-size:.75rem; font-weight:700; min-width:60px; text-align:right; }
+
+  /* Timeline */
+  .mp-timeline { display:flex; flex-direction:column; gap:10px; }
+  .mp-tl-item { display:flex; align-items:center; gap:12px; }
+  .mp-tl-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+  .mp-tl-text .tl-title { font-size:.85rem; font-weight:700; }
+  .mp-tl-text .tl-sub   { font-size:.75rem; color:var(--muted); }
+
+  /* Save button */
+  .mp-save-btn {
+    width:100%; padding:16px; font-size:1rem; font-weight:700; border-radius:12px;
+    background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);
+    color:#fff; border:none; cursor:pointer; transition:.2s; margin-top:4px;
+    box-shadow:0 4px 14px rgba(46,134,171,.35);
+  }
+  .mp-save-btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(46,134,171,.45); }
+  .mp-save-btn:active { transform:translateY(0); }
 </style>
 </head>
 <body>
@@ -676,6 +772,7 @@
     <button class="tab-btn" onclick="switchTab('work')">⏱ Work</button>
     <button class="tab-btn" onclick="switchTab('goals')">🎯 Goals</button>
     <button class="tab-btn" onclick="switchTab('diet')">🥗 Diet</button>
+    <button class="tab-btn" onclick="switchTab('myplan')">📋 My Plan</button>
     <button class="tab-btn coach-tab-btn" onclick="switchTab('coach')">🏋️ Coach</button>
     <button class="tab-btn" onclick="switchTab('journal')">📓 Journal</button>
     <button class="tab-btn" onclick="switchTab('weekly')">📅 Weekly</button>
@@ -852,6 +949,167 @@
     <div class="card">
       <div class="card-title" id="dietTitle">🍽️ Today's Meals</div>
       <div id="dietList"></div>
+    </div>
+  </div>
+
+  <!-- MY PLAN -->
+  <div class="tab-panel" id="panel-myplan">
+    <div class="myplan-layout">
+
+      <!-- ── LEFT: INPUT FORM ──────────────────────────────────────── -->
+      <div>
+
+        <!-- Personal Details -->
+        <div class="card">
+          <div class="card-title" style="font-size:1rem;margin-bottom:14px">👤 Personal Details</div>
+
+          <div class="unit-toggle" style="margin-bottom:16px">
+            <button class="unit-btn active" id="btnMetric" onclick="setUnit('metric')">Metric (kg / cm)</button>
+            <button class="unit-btn" id="btnImperial" onclick="setUnit('imperial')">Imperial (lbs / ft)</button>
+          </div>
+
+          <div class="profile-grid">
+            <div class="profile-field" style="grid-column:1/-1">
+              <label>Full Name</label>
+              <input id="mpName" type="text" placeholder="Your name">
+            </div>
+            <div class="profile-field">
+              <label>Age</label>
+              <input id="mpAge" type="number" min="10" max="100" placeholder="25" oninput="calcLive()">
+            </div>
+            <div class="profile-field">
+              <label>Gender</label>
+              <div class="gender-row">
+                <button class="gender-btn active" id="mpGenderMale" onclick="selectGender('male')">♂ Male</button>
+                <button class="gender-btn" id="mpGenderFemale" onclick="selectGender('female')">♀ Female</button>
+              </div>
+            </div>
+            <div class="profile-field">
+              <label id="mpHeightLabel">Height (cm)</label>
+              <input id="mpHeight" type="number" placeholder="175" oninput="calcLive()">
+            </div>
+            <div class="profile-field">
+              <label id="mpWeightLabel">Current Weight (kg)</label>
+              <input id="mpWeight" type="number" step="0.1" placeholder="70" oninput="calcLive()">
+            </div>
+            <div class="profile-field">
+              <label id="mpTargetLabel">Target Weight (kg)</label>
+              <input id="mpTarget" type="number" step="0.1" placeholder="65" oninput="calcLive()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Level -->
+        <div class="card">
+          <div class="card-title" style="font-size:1rem;margin-bottom:14px">🏃 Activity Level</div>
+          <div class="activity-cards" id="mpActivityCards">
+            <div class="activity-card" data-level="sedentary" onclick="selectActivity('sedentary',this)">
+              <div class="ac-icon">🪑</div>
+              <div class="ac-name">Sedentary</div>
+              <div class="ac-desc">Desk job, little or no exercise</div>
+            </div>
+            <div class="activity-card" data-level="light" onclick="selectActivity('light',this)">
+              <div class="ac-icon">🚶</div>
+              <div class="ac-name">Light</div>
+              <div class="ac-desc">Light exercise 1–3×/week</div>
+            </div>
+            <div class="activity-card active" data-level="moderate" onclick="selectActivity('moderate',this)">
+              <div class="ac-icon">🏃</div>
+              <div class="ac-name">Moderate</div>
+              <div class="ac-desc">Exercise 3–5×/week</div>
+            </div>
+            <div class="activity-card" data-level="active" onclick="selectActivity('active',this)">
+              <div class="ac-icon">🏋️</div>
+              <div class="ac-name">Very Active</div>
+              <div class="ac-desc">Hard training 6–7×/week</div>
+            </div>
+            <div class="activity-card" data-level="extra" onclick="selectActivity('extra',this)">
+              <div class="ac-icon">⚡</div>
+              <div class="ac-name">Athlete</div>
+              <div class="ac-desc">Physical job or 2× daily</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Goal -->
+        <div class="card">
+          <div class="card-title" style="font-size:1rem;margin-bottom:14px">🎯 Your Goal</div>
+          <div class="goal-cards" id="mpGoalCards">
+            <div class="goal-card" data-goal="lose_weight" onclick="selectGoalCard('lose_weight',this)">
+              <div class="gc-icon">🔥</div>
+              <div class="gc-name">Lose Weight</div>
+              <div class="gc-desc">−500 kcal deficit<br>~0.5 kg/week fat loss</div>
+            </div>
+            <div class="goal-card active" data-goal="maintain" onclick="selectGoalCard('maintain',this)">
+              <div class="gc-icon">⚖️</div>
+              <div class="gc-name">Maintain</div>
+              <div class="gc-desc">Eat at TDEE<br>Body recomposition</div>
+            </div>
+            <div class="goal-card" data-goal="gain_muscle" onclick="selectGoalCard('gain_muscle',this)">
+              <div class="gc-icon">💪</div>
+              <div class="gc-name">Gain Muscle</div>
+              <div class="gc-desc">+300 kcal surplus<br>~0.3 kg/week lean gain</div>
+            </div>
+            <div class="goal-card" data-goal="athletic" onclick="selectGoalCard('athletic',this)">
+              <div class="gc-icon">🏆</div>
+              <div class="gc-name">Athletic Performance</div>
+              <div class="gc-desc">+200 kcal surplus<br>High protein focus</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="mp-save-btn" onclick="saveMyPlan()">💾 Save &amp; Apply Plan</button>
+      </div>
+
+      <!-- ── RIGHT: LIVE RESULTS ────────────────────────────────────── -->
+      <div id="mpResultsCol">
+
+        <!-- Hero TDEE card -->
+        <div class="mp-hero" id="mpHero">
+          <div class="mp-hero-label">Daily Calorie Target</div>
+          <div class="mp-hero-kcal" id="mpHeroKcal">—</div>
+          <div class="mp-hero-unit">kcal / day</div>
+          <div class="mp-hero-sub">
+            <div class="mp-hero-stat"><div class="val" id="mpBmr">—</div><div class="lbl">BMR</div></div>
+            <div class="mp-hero-stat"><div class="val" id="mpMaint">—</div><div class="lbl">Maintenance</div></div>
+            <div class="mp-hero-stat"><div class="val" id="mpDeficit">—</div><div class="lbl">Adjustment</div></div>
+          </div>
+        </div>
+
+        <!-- Macro rings -->
+        <div class="card">
+          <div class="card-title" style="margin-bottom:14px">🥗 Daily Macro Targets</div>
+          <div class="mp-macro-grid" id="mpMacroGrid">
+            <div style="text-align:center;color:var(--muted);padding:20px;grid-column:1/-1">Enter your details to see targets</div>
+          </div>
+          <!-- Micro targets -->
+          <div style="margin-top:14px;border-top:1px solid var(--border);padding-top:14px">
+            <div style="font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Micro-nutrients</div>
+            <div class="mp-micro-row" id="mpMicroRow">
+              <div class="mp-micro-item"><span class="mi-label">🌿 Fiber</span><div class="mi-bar"><div class="mi-fill" style="width:100%;background:var(--green)"></div></div><span class="mi-val" id="mpFiber">30 g/day</span></div>
+              <div class="mp-micro-item"><span class="mi-label">🍬 Sugar</span><div class="mi-bar"><div class="mi-fill" style="width:60%;background:var(--orange)"></div></div><span class="mi-val" id="mpSugar">&lt;45 g/day</span></div>
+              <div class="mp-micro-item"><span class="mi-label">🧂 Sodium</span><div class="mi-bar"><div class="mi-fill" style="width:50%;background:var(--red)"></div></div><span class="mi-val" id="mpSodium">&lt;2300 mg/day</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Goal Timeline -->
+        <div class="card" id="mpTimelineCard" style="display:none">
+          <div class="card-title" style="margin-bottom:14px">📅 Goal Timeline</div>
+          <div class="mp-timeline" id="mpTimeline"></div>
+        </div>
+
+        <!-- Apply buttons -->
+        <div class="card" style="text-align:center">
+          <div class="card-title" style="margin-bottom:6px">🎯 Apply to Diet Tracker</div>
+          <p style="font-size:.82rem;color:var(--muted);margin-bottom:14px">Push calculated targets to your active daily nutrition tracker</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="mpApplyActive()">✅ Update Active Plan</button>
+            <button class="btn" style="background:var(--purple);color:#fff" onclick="mpCreateNewPlan()">📋 Create New Plan</button>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -1165,13 +1423,14 @@
     setTimeout(() => t.classList.remove('show'), dur);
   }
 
-  const TAB_NAMES = ['dashboard','tasks','habits','work','goals','diet','coach','journal','weekly','monthly'];
+  const TAB_NAMES = ['dashboard','tasks','habits','work','goals','diet','myplan','coach','journal','weekly','monthly'];
   function switchTab(name) {
     document.querySelectorAll('.tab-btn').forEach((b,i) =>
       b.classList.toggle('active', TAB_NAMES[i] === name));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel-'+name).classList.add('active');
     if (name === 'dashboard') Object.values(charts).forEach(c => c && c.resize());
+    if (name === 'myplan')   loadMyPlan();
     if (name === 'coach')    loadCoach();
     if (name === 'journal')  loadNotes();
     if (name === 'weekly')   loadWeek();
@@ -1675,6 +1934,217 @@
     fetch(`/api/diet/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({date:currentDate, food, calories, protein, carbs, fat, fiber, sugar, sodium})
     }).then(()=>{ loadDiet(); toast('✅ Diet entry updated!'); });
+  }
+
+  // ── MY PLAN ────────────────────────────────────────────────────────────
+  let mpGender   = 'male';
+  let mpActivity = 'moderate';
+  let mpGoal     = 'maintain';
+  let mpUnits    = 'metric';
+  let mpCalc     = null; // last calculated result
+
+  const ACT_MULT = {sedentary:1.2, light:1.375, moderate:1.55, active:1.725, extra:1.9};
+  const GOAL_ADJ = {lose_weight:-500, maintain:0, gain_muscle:300, athletic:200};
+  const GOAL_PRO = {lose_weight:2.2, maintain:1.8, gain_muscle:2.5, athletic:2.0};
+  const GOAL_FAT = {lose_weight:0.9, maintain:1.0, gain_muscle:1.0, athletic:1.2};
+
+  async function loadMyPlan() {
+    const p = await fetch('/api/profile').then(r=>r.json());
+    mpGender   = p.gender   || 'male';
+    mpActivity = p.activity || 'moderate';
+    mpGoal     = p.goal     || 'maintain';
+    mpUnits    = p.unit_system || 'metric';
+
+    document.getElementById('mpName').value   = p.name   || '';
+    document.getElementById('mpAge').value    = p.age    || '';
+    document.getElementById('mpHeight').value = p.height || '';
+    document.getElementById('mpWeight').value = p.weight || '';
+    document.getElementById('mpTarget').value = p.target_weight || p.weight || '';
+
+    setUnit(mpUnits, false);
+    selectGender(mpGender, false);
+    document.querySelectorAll('#mpActivityCards .activity-card').forEach(c => {
+      c.classList.toggle('active', c.dataset.level === mpActivity);
+    });
+    document.querySelectorAll('#mpGoalCards .goal-card').forEach(c => {
+      c.classList.toggle('active', c.dataset.goal === mpGoal);
+    });
+    calcLive();
+  }
+
+  function setUnit(u, recalc=true) {
+    mpUnits = u;
+    document.getElementById('btnMetric').classList.toggle('active', u==='metric');
+    document.getElementById('btnImperial').classList.toggle('active', u==='imperial');
+    document.getElementById('mpHeightLabel').textContent = u==='metric' ? 'Height (cm)' : 'Height (ft)';
+    document.getElementById('mpWeightLabel').textContent = u==='metric' ? 'Current Weight (kg)' : 'Current Weight (lbs)';
+    document.getElementById('mpTargetLabel').textContent = u==='metric' ? 'Target Weight (kg)' : 'Target Weight (lbs)';
+    if (recalc) calcLive();
+  }
+
+  function selectGender(g, recalc=true) {
+    mpGender = g;
+    document.getElementById('mpGenderMale').classList.toggle('active', g==='male');
+    document.getElementById('mpGenderFemale').classList.toggle('active', g==='female');
+    if (recalc) calcLive();
+  }
+
+  function selectActivity(a, el) {
+    mpActivity = a;
+    document.querySelectorAll('#mpActivityCards .activity-card').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active');
+    calcLive();
+  }
+
+  function selectGoalCard(g, el) {
+    mpGoal = g;
+    document.querySelectorAll('#mpGoalCards .goal-card').forEach(c=>c.classList.remove('active'));
+    el.classList.add('active');
+    calcLive();
+  }
+
+  function mpToKg(v)  { return mpUnits==='imperial' ? v/2.20462 : v; }
+  function mpToCm(v)  { return mpUnits==='imperial' ? v*30.48   : v; }
+
+  function calcLive() {
+    const age    = parseInt(document.getElementById('mpAge').value);
+    const height = parseFloat(document.getElementById('mpHeight').value);
+    const weight = parseFloat(document.getElementById('mpWeight').value);
+    const target = parseFloat(document.getElementById('mpTarget').value);
+    if (!age || !height || !weight) return;
+
+    const wKg = mpToKg(weight);
+    const hCm = mpToCm(height);
+    const tKg = mpToKg(target || weight);
+
+    const bmr  = Math.round(10*wKg + 6.25*hCm - 5*age + (mpGender==='male' ? 5 : -161));
+    const maint = Math.round(bmr * ACT_MULT[mpActivity]);
+    const adj   = GOAL_ADJ[mpGoal];
+    const cals  = maint + adj;
+    const prot  = Math.round(GOAL_PRO[mpGoal] * wKg);
+    const fat   = Math.round(GOAL_FAT[mpGoal] * wKg);
+    const carb  = Math.max(0, Math.round((cals - prot*4 - fat*9) / 4));
+    const fiber = 30, sugar = 45, sodium = 2300;
+
+    mpCalc = {bmr, maint, cals, prot, fat, carb, fiber, sugar, sodium, wKg, tKg, adj};
+
+    // Hero
+    document.getElementById('mpHeroKcal').textContent = cals.toLocaleString();
+    document.getElementById('mpBmr').textContent   = bmr.toLocaleString();
+    document.getElementById('mpMaint').textContent = maint.toLocaleString();
+    const adjLabel = adj===0 ? 'Maintenance' : (adj>0 ? `+${adj} surplus` : `${adj} deficit`);
+    document.getElementById('mpDeficit').textContent = adjLabel;
+
+    // Macros
+    const totalCals = prot*4 + carb*4 + fat*9;
+    const ringColors = {Calories:['#E74C3C','#FF6B6B'], Protein:['#27AE60','#52D68A'], Carbs:['#2E86AB','#5BBCD4'], Fat:['#F39C12','#F7BC5C']};
+    const macros = [
+      {name:'Calories', val:cals,  unit:'kcal', sub:'Total daily energy', color:'#E74C3C', pct:100},
+      {name:'Protein',  val:prot,  unit:'g',    sub:`${Math.round(prot*4/totalCals*100)}% · ${prot*4} kcal`, color:'#27AE60', pct:Math.round(prot*4/totalCals*100)},
+      {name:'Carbs',    val:carb,  unit:'g',    sub:`${Math.round(carb*4/totalCals*100)}% · ${carb*4} kcal`, color:'#2E86AB', pct:Math.round(carb*4/totalCals*100)},
+      {name:'Fat',      val:fat,   unit:'g',    sub:`${Math.round(fat*9/totalCals*100)}% · ${fat*9} kcal`,   color:'#F39C12', pct:Math.round(fat*9/totalCals*100)},
+    ];
+
+    document.getElementById('mpMacroGrid').innerHTML = macros.map(m => {
+      const r=15.9, circ=2*Math.PI*r, dash=circ*(m.pct/100), gap=circ-dash;
+      return `<div class="mp-macro-tile">
+        <svg width="72" height="72" viewBox="0 0 40 40">
+          <circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--border)" stroke-width="4"/>
+          <circle cx="20" cy="20" r="${r}" fill="none" stroke="${m.color}" stroke-width="4"
+            stroke-dasharray="${dash.toFixed(1)} ${gap.toFixed(1)}"
+            stroke-linecap="round" transform="rotate(-90 20 20)"/>
+          <text x="20" y="24" text-anchor="middle" font-size="7" font-weight="700" fill="var(--text)">${m.pct}%</text>
+        </svg>
+        <div class="mt-val" style="color:${m.color}">${m.val.toLocaleString()}</div>
+        <div class="mt-label">${m.name} <span style="color:var(--muted)">${m.unit}</span></div>
+        <div class="mt-kcal">${m.sub}</div>
+      </div>`;
+    }).join('');
+
+    // Micros
+    document.getElementById('mpFiber').textContent  = `${fiber} g/day`;
+    document.getElementById('mpSugar').textContent  = `<${sugar} g/day`;
+    document.getElementById('mpSodium').textContent = `<${sodium} mg/day`;
+
+    // Timeline
+    const diff = tKg - wKg;
+    const tlCard = document.getElementById('mpTimelineCard');
+    if (Math.abs(diff) > 0.5 && mpGoal !== 'maintain') {
+      tlCard.style.display = '';
+      const rateKg = Math.abs(adj) / 7700;
+      const weeks  = Math.abs(diff) / rateKg;
+      const wksInt = Math.round(weeks);
+      const eta    = new Date(); eta.setDate(eta.getDate() + wksInt*7);
+      const etaStr = eta.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+      const arrow  = diff < 0 ? '↓ losing' : '↑ gaining';
+      const kgLabel = mpUnits==='imperial' ? `${(Math.abs(diff)*2.20462).toFixed(1)} lbs` : `${Math.abs(diff).toFixed(1)} kg`;
+      document.getElementById('mpTimeline').innerHTML = `
+        <div class="mp-timeline">
+          <div class="mp-tl-item">
+            <div class="mp-tl-dot" style="background:var(--blue)"></div>
+            <div class="mp-tl-text"><div class="tl-title">Current: ${(mpUnits==='imperial'?wKg*2.20462:wKg).toFixed(1)} ${mpUnits==='imperial'?'lbs':'kg'}</div><div class="tl-sub">Starting point</div></div>
+          </div>
+          <div class="mp-tl-item">
+            <div class="mp-tl-dot" style="background:var(--orange)"></div>
+            <div class="mp-tl-text"><div class="tl-title">${arrow} ~${kgLabel} total</div><div class="tl-sub">${Math.abs(adj)} kcal/day ${adj<0?'deficit':'surplus'}</div></div>
+          </div>
+          <div class="mp-tl-item">
+            <div class="mp-tl-dot" style="background:var(--green)"></div>
+            <div class="mp-tl-text"><div class="tl-title">Goal: ${(mpUnits==='imperial'?tKg*2.20462:tKg).toFixed(1)} ${mpUnits==='imperial'?'lbs':'kg'} in ~${wksInt} weeks</div><div class="tl-sub">Est. date: ${etaStr}</div></div>
+          </div>
+        </div>`;
+    } else {
+      tlCard.style.display = 'none';
+    }
+  }
+
+  async function saveMyPlan() {
+    const age    = parseInt(document.getElementById('mpAge').value);
+    const height = parseFloat(document.getElementById('mpHeight').value);
+    const weight = parseFloat(document.getElementById('mpWeight').value);
+    const target = parseFloat(document.getElementById('mpTarget').value) || weight;
+    if (!age || !height || !weight) return toast('⚠️ Fill in age, height and weight first');
+
+    const body = {
+      name:          document.getElementById('mpName').value.trim(),
+      age, gender:   mpGender,
+      height:        mpToCm(height),
+      weight:        mpToKg(weight),
+      target_weight: mpToKg(target),
+      activity:      mpActivity,
+      goal:          mpGoal,
+      unit_system:   mpUnits,
+    };
+    const res = await fetch('/api/profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());
+
+    if (mpCalc) {
+      await fetch('/api/diet/plan',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({calories:mpCalc.cals,protein:mpCalc.prot,carbs:mpCalc.carb,fat:mpCalc.fat,fiber:mpCalc.fiber,sugar:mpCalc.sugar,sodium:mpCalc.sodium})
+      });
+    }
+    toast('✅ Plan saved & diet targets updated!');
+    calcLive();
+  }
+
+  async function mpApplyActive() {
+    if (!mpCalc) return toast('⚠️ Calculate your plan first');
+    await fetch('/api/diet/plan',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({calories:mpCalc.cals,protein:mpCalc.prot,carbs:mpCalc.carb,fat:mpCalc.fat,fiber:mpCalc.fiber,sugar:mpCalc.sugar,sodium:mpCalc.sodium})
+    });
+    toast('✅ Active diet plan updated!');
+  }
+
+  async function mpCreateNewPlan() {
+    if (!mpCalc) return toast('⚠️ Calculate your plan first');
+    const goalLabels = {lose_weight:'Weight Loss',maintain:'Maintenance',gain_muscle:'Muscle Gain',athletic:'Athletic'};
+    const name = prompt('Plan name:', `${goalLabels[mpGoal]} Plan — ${new Date().toLocaleDateString('en-US',{month:'short',year:'numeric'})}`);
+    if (!name) return;
+    const month = new Date().toISOString().slice(0,7);
+    await fetch('/api/diet/plans',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({name,month,goal:mpGoal,calories:mpCalc.cals,protein:mpCalc.prot,carbs:mpCalc.carb,fat:mpCalc.fat,fiber:mpCalc.fiber,sugar:mpCalc.sugar,sodium:mpCalc.sodium})
+    });
+    toast('✅ New plan created & activated!');
+    switchTab('coach');
   }
 
   // ── Coach ─────────────────────────────────────────────────────────────

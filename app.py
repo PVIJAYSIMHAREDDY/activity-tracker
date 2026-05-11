@@ -302,28 +302,37 @@ def save_diet_plan():
 def get_profile():
     return jsonify(load_json("profile", {
         "name": "", "age": 25, "gender": "male",
-        "height": 175, "weight": 70, "activity": "moderate", "goal": "maintain"
+        "height": 175, "weight": 70, "target_weight": 70,
+        "activity": "moderate", "goal": "maintain", "unit_system": "metric"
     }))
 
 @app.route("/api/profile", methods=["POST"])
 def save_profile():
     p = {
-        "name":     request.json.get("name", ""),
-        "age":      int(request.json.get("age", 25)),
-        "gender":   request.json.get("gender", "male"),
-        "height":   float(request.json.get("height", 175)),
-        "weight":   float(request.json.get("weight", 70)),
-        "activity": request.json.get("activity", "moderate"),
-        "goal":     request.json.get("goal", "maintain"),
+        "name":          request.json.get("name", ""),
+        "age":           int(request.json.get("age", 25)),
+        "gender":        request.json.get("gender", "male"),
+        "height":        float(request.json.get("height", 175)),
+        "weight":        float(request.json.get("weight", 70)),
+        "target_weight": float(request.json.get("target_weight", request.json.get("weight", 70))),
+        "activity":      request.json.get("activity", "moderate"),
+        "goal":          request.json.get("goal", "maintain"),
+        "unit_system":   request.json.get("unit_system", "metric"),
     }
     save_json("profile", p)
-    return jsonify({**p, "tdee": _tdee(p), "macros": _suggest_macros(p)})
+    tdee_val  = _tdee(p)
+    macros    = _suggest_macros(p)
+    bmr       = _bmr(p)
+    return jsonify({**p, "tdee": tdee_val, "bmr": bmr, "macros": macros,
+                    "maintenance": round(bmr * {"sedentary":1.2,"light":1.375,"moderate":1.55,"active":1.725,"extra":1.9}.get(p["activity"],1.55))})
+
+def _bmr(p):
+    w, h, a, g = p["weight"], p["height"], p["age"], p["gender"]
+    return round(10*w + 6.25*h - 5*a + (5 if g == "male" else -161))
 
 def _tdee(p):
-    w, h, a, g = p["weight"], p["height"], p["age"], p["gender"]
-    bmr = (10*w + 6.25*h - 5*a + (5 if g == "male" else -161))
     mult = {"sedentary":1.2,"light":1.375,"moderate":1.55,"active":1.725,"extra":1.9}
-    return round(bmr * mult.get(p["activity"], 1.55))
+    return round(_bmr(p) * mult.get(p["activity"], 1.55))
 
 def _suggest_macros(p):
     tdee = _tdee(p)
