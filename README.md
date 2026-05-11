@@ -1,6 +1,6 @@
 # Daily Activity Tracker
 
-An elite AI-powered fitness and nutrition coaching app for tracking tasks, habits, work hours, goals, diet, workouts, and wellness — with a **real-time TDEE calculator**, **adaptive AI coaching system**, body measurements tracking, and Excel export.
+An elite AI-powered fitness and nutrition coaching app — track tasks, habits, work hours, goals, diet, workouts, and wellness with a **real-time TDEE calculator**, **adaptive AI coaching dashboard**, body measurements tracking, and Excel export.
 
 Built with **Flask + Chrome app-mode** (native window, no browser needed) and packaged as a one-click installer for Linux, Windows, and macOS.
 
@@ -8,16 +8,38 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 
 ## Features
 
+### 🤖 AI Coaching Dashboard *(v1.4.0)*
+- **Overall fitness score** (0–99) with animated SVG ring and letter grade (S / A / B / C / D)
+- **6-stat overview** — diet adherence %, recovery score, sessions/week, weight trend (kg/wk), target kcal, target protein
+- **Alert banners** — danger / warning / info for plateaus, overeating, critical recovery, overtraining
+- **Today's Focus** — 3 personalised priority action cards generated from your live data and goal
+- **Insight cards** with High / Medium priority chips: plateau detection, protein gaps, undereating, recovery alerts, goal achievements
+- **AI adjustment panel** — recommended calorie and protein deltas with one-click context
+- Refreshes automatically when you log a workout or save wellness; manual refresh button
+
+### 🏋️ Training Log *(v1.4.0)*
+- **6 workout types**: Strength, Cardio, HIIT, Yoga/Flex, Sport, Other — select with visual type cards
+- Per-session **exercise tracker**: name, sets, reps, weight (kg) with add/remove rows
+- Duration, date, and free-text notes per session
+- **Weekly training summary** — total sessions, total minutes, total sets, distinct types
+- Full scrollable **workout history** with exercise breakdown and delete support
+
+### 🌟 Wellness Tracking *(v1.4.0)*
+- **Daily check-in** with 5 metrics via visual sliders: sleep hours (3–12 h), sleep quality, energy, stress, muscle soreness
+- Pre-fills sliders from today's saved entry for frictionless updates
+- Recent **5-day history strip** with colour-coded mini progress bars
+- Wellness data feeds directly into the AI recovery score and coaching insights
+
 ### 📋 My Plan — Personal Nutrition Calculator *(v1.3.0)*
 - **Metric / Imperial toggle** — switch between kg·cm and lbs·ft with one click
-- **Visual activity cards** — select your level: Sedentary, Light, Moderate, Very Active, Athlete
+- **Visual activity cards** — Sedentary, Light, Moderate, Very Active, Athlete
 - **Goal cards** — Lose Weight / Maintain / Gain Muscle / Athletic Performance
 - **Real-time TDEE** — Mifflin-St Jeor BMR × activity multiplier, updates as you type
 - **Hero display** — daily calorie target with BMR, Maintenance, and Adjustment at a glance
 - **SVG macro rings** — Protein / Carbs / Fat with grams and % of total energy
 - **Micro-nutrient targets** — Fiber, Sugar, and Sodium limits
 - **Goal Timeline** — estimated weeks to target weight + projected completion date
-- **Save & Apply** — one click saves profile and pushes targets to active diet plan
+- **Save & Apply** — one click saves profile and pushes targets to the active diet plan
 - **Create Plan** — save calculated targets as a named plan in the Plans Library
 
 ### 📏 Body Measurements *(v1.3.0)*
@@ -25,6 +47,22 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 - History table shows **+/− delta** vs previous entry for every metric
 - Form pre-fills from latest saved entry for quick updates
 - Full **Measurements sheet** in Excel export with delta columns
+
+### 🥗 Diet & Nutrition
+- **7 meal slots**: Breakfast, Morning Snack, Lunch, Pre-Workout, Post-Workout, Dinner, Evening Snack
+- Log **7 nutrients per meal**: Calories, Protein, Carbs, Fat, Fiber, Sugar, Sodium
+- **Edit** any food entry inline with the ✏️ button
+- **Animated macro rings** (Calories / Protein / Carbs / Fat) showing % of daily goal
+- **Colour-coded micro bars** for Fiber, Sugar, Sodium (✅ on track / ⚠️ near limit / ❌ exceeded)
+- Per-meal subtotals in the meals list
+
+### 📊 Coach Tab — Body Profile & Plans *(v1.2.0)*
+- **Body Profile** — age, gender, height, weight, activity level, goal
+- **TDEE Calculator** — Mifflin-St Jeor formula → Total Daily Energy Expenditure
+- **Auto Macro Targets** — protein / carbs / fat per goal (cut / maintain / bulk / athletic)
+- **Weight Log** — daily weigh-ins with 60-day trend line chart
+- **Diet Plans Library** — create unlimited named plans per month, switch active plan instantly
+- **Monthly Review & Plan Suggestion** — analyses 30-day adherence + weight change, suggests next month's plan with one-click creation
 
 ### ✅ Task Tracking
 - Add, complete, and delete daily to-dos with priority and category
@@ -46,48 +84,6 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 - **Edit** any goal inline (title, target, unit, deadline, category) with the ✏️ button
 - Update current progress at any time via the inline number input
 
-### 🥗 Diet & Nutrition
-- **7 meal slots**: Breakfast, Morning Snack, Lunch, Pre-Workout, Post-Workout, Dinner, Evening Snack
-- Log **7 nutrients per meal**: Calories, Protein, Carbs, Fat, Fiber, Sugar, Sodium
-- **Edit** any food entry inline with the ✏️ button
-- **Animated macro rings** (Calories / Protein / Carbs / Fat) showing % of daily goal
-- **Color-coded micro bars** for Fiber, Sugar, Sodium (✅ on track / ⚠️ near limit / ❌ exceeded)
-- Per-meal subtotals in the meals list
-
-### 🏋️ Training Log *(v1.4.0)*
-- Log workouts with **6 types**: Strength, Cardio, HIIT, Yoga/Flex, Sport, Other
-- Track **exercises per session**: name, sets, reps, weight
-- **Weekly training summary** — total sessions, minutes, sets, types
-- Full workout history with per-session exercise breakdown and delete support
-
-### 🌟 Wellness Tracking *(v1.4.0)*
-- **Daily check-in** with 5 metrics via visual sliders: sleep hours, sleep quality, energy, stress, muscle soreness
-- Pre-fills with today's saved entry for quick updates
-- Recent 5-day history strip with mini progress bars
-
-### 🤖 AI Coaching Dashboard *(v1.4.0)*
-- **Overall fitness score** (0–99) with animated SVG ring and letter grade (S/A/B/C/D)
-- **6 key stats**: diet adherence, recovery score, training sessions, weight trend, target kcal, target protein
-- **Alert banners** — danger/warning/info for plateau, overeating, critical recovery, overtraining
-- **Today's Focus** — 3 personalised priority action cards based on your data
-- **Insight cards** with priority chips (High/Medium): plateau detection, protein gaps, recovery alerts, goal achievements
-- **AI adjustments panel** — calorie and protein delta recommendations
-
-### 🏋️ AI Coaching System *(v1.2.0)*
-- **Body Profile** — enter age, gender, height, weight, activity level, and goal
-- **TDEE Calculator** — Mifflin-St Jeor formula → Total Daily Energy Expenditure
-- **Auto Macro Targets** — protein / carbs / fat calculated per goal (cut / maintain / bulk / athletic)
-- **Weight Log** — daily weigh-ins with 60-day trend line chart and ▼/▲ change indicator
-- **Weekly Nutrition Score** (0–100) with animated gauge ring and tracking streak
-- **Coaching Insights** — up to 6 personalised cards per week covering:
-  - Calorie surplus/deficit (goal-aware logic for cut vs bulk)
-  - Protein adequacy
-  - Sugar and sodium limit warnings
-  - Fiber deficit nudges
-  - Tracking consistency
-- **Diet Plans Library** — create unlimited named plans per month, switch active plan instantly
-- **Monthly Review & Plan Suggestion** — analyses last 30 days of adherence + weight change and recommends adjusted calorie/protein targets for next month with one-click plan creation
-
 ### 📓 Journal / Notes
 - Write journal entries, ideas, gratitude notes with mood emoji, tags, and pin support
 - Search across all dates
@@ -97,7 +93,7 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 - **Weekly Summary** — 7-day trend charts + aggregated stats
 - **Monthly Summary** — full month breakdown with calendar view
 - **Excel Export** — one-click `.xlsx` with 10 styled sheets:
-  Tasks, Habits, Work, Goals, Diet, 7-Day Summary, Journal, Dashboard, **Measurements**, **Progress Report**
+  Tasks, Habits, Work, Goals, Diet, 7-Day Summary, Journal, Dashboard, Measurements, Progress Report
 
 ### 🎨 UI & UX
 - **Dark mode** — toggleable, persisted across sessions
@@ -110,21 +106,21 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 ## What's New
 
 ### v1.4.0 — Elite AI Coaching Platform
-- **AI Coaching Dashboard** — overall fitness score (0–99) with letter grade (S/A/B/C/D), animated score ring, 6 stats at a glance (diet adherence, recovery, sessions/week, weight trend, target kcal/protein)
-- **Training tab** — log workouts with type (Strength/Cardio/HIIT/Yoga/Sport/Other), duration, notes, and per-exercise sets/reps/weight tracking; weekly training summary with total sessions/minutes/sets
-- **Daily Wellness Check-in** — log sleep hours, sleep quality, energy, stress, and muscle soreness with visual sliders; pre-fills with today's entry; recent 5-day history strip
-- **AI Insight Engine** — plateau detection, adherence/undereating/overeating alerts, protein gap warnings, recovery analysis, overtraining detection, body composition tracking, goal achievement recognition
-- **Today's Focus** — 3 priority action cards generated from your personal data and goal
-- **Alert Banners** — danger/warning/info banners for critical issues requiring immediate attention
-- **AI Calorie/Protein Recommendations** — data-driven adjustments displayed on the dashboard and available as one-click apply
+- **AI Coaching Dashboard** — animated score ring (0–99), letter grade (S–D), 6-stat overview, refresh on data change
+- **Training tab** — workout logging with 6 type cards, exercise tracker (sets/reps/weight), weekly summary stats
+- **Daily Wellness Check-in** — 5 slider metrics, pre-fills from saved entry, 5-day history strip; feeds AI recovery score
+- **AI Insight Engine** — plateau detection, adherence/undereating/overeating alerts, protein gap warnings, overtraining detection, body composition tracking, goal achievement recognition
+- **Today's Focus** — 3 priority action cards generated live from your personal data and goal
+- **Alert Banners** — danger/warning/info for critical issues requiring immediate attention
+- **AI Calorie/Protein Adjustment Panel** — data-driven deltas recommended on the dashboard
+- New backend route: `GET /api/workouts/all`, `GET /api/wellness/history`, `GET /api/ai/analysis`
 
 ### v1.3.0 — Personal Nutrition Calculator & Measurements
-- **My Plan tab** — dedicated nutrition calculator: real-time TDEE, visual activity/goal cards, SVG macro rings, goal timeline with projected date, metric/imperial toggle, one-click apply to diet plan
-- **Body Measurements** — log 9 body metrics with date; history table shows +/− deltas vs previous entry
+- **My Plan tab** — real-time TDEE, visual activity/goal cards, SVG macro rings, goal timeline, metric/imperial toggle, one-click apply to diet plan
+- **Body Measurements** — log 9 body metrics with date; history table shows +/− deltas
 - **Edit any entry** — ✏️ buttons on every task, work session, diet entry, and goal
-- **Excel: 2 new sheets** — Measurements (delta columns) + Progress Report (first vs latest comparison for weight, body metrics, and all goals)
+- **Excel: 2 new sheets** — Measurements (delta columns) + Progress Report (first vs latest comparison)
 - **Auto-start on login** — desktop autostart entry installed automatically on Linux
-- **Bug fixes** — resolved JS crash (duplicate identifier), monthly tab navigation, Chrome app-mode input handling
 
 ### v1.2.0 — AI Coaching & Smart Nutrition
 - Full coaching system: body profile, TDEE, auto-macros, weight log
@@ -136,7 +132,7 @@ Built with **Flask + Chrome app-mode** (native window, no browser needed) and pa
 - Macro progress rings + micro progress bars
 - Fiber, Sugar, Sodium tracking per meal
 - 7 meal slots including Pre/Post-Workout
-- Bundled Chart.js (offline support), direct GTK+WebKit2 launcher
+- Bundled Chart.js (offline support)
 
 ### v1.0.0 — Initial Release
 - Task, habit, work, goals, diet, journal tracking
@@ -206,8 +202,8 @@ Data is stored as JSON files in `~/.activity-tracker/data/` (desktop mode) or `d
 Or push a git tag to trigger the GitHub Actions release workflow:
 
 ```bash
-git tag v1.3.0
-git push origin v1.3.0
+git tag v1.4.0
+git push origin v1.4.0
 ```
 
 This automatically builds all three installers and creates a GitHub Release.
@@ -222,7 +218,8 @@ This automatically builds all three installers and creates a GitHub Release.
 | Frontend | Vanilla JS, Chart.js v4 (bundled), CSS custom properties |
 | Desktop window | Chrome `--app` mode on Linux; pywebview on Windows/macOS |
 | Nutrition engine | Mifflin-St Jeor BMR, goal-based macro calculation, real-time client-side TDEE |
-| Coaching engine | Rule-based insights with priority ranking |
+| AI coaching engine | Linear regression weight trend, rule-based insight system with priority ranking |
+| Wellness engine | Composite recovery score from sleep / energy / stress / soreness |
 | Data storage | JSON files |
 | Excel export | openpyxl (10 sheets) |
 | Packaging | PyInstaller + dpkg / Inno Setup / create-dmg |
